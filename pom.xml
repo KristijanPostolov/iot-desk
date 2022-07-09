@@ -20,7 +20,8 @@
     <description>Iot-desk - iot device management service</description>
 
     <modules>
-        <module>iot-server</module>
+        <module>iot-desk-server</module>
+        <module>iot-desk-device-domain</module>
     </modules>
 
     <properties>

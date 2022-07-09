@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/iot-desk.iml" filepath="$PROJECT_DIR$/.idea/iot-desk.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iot-server/iot-server.iml" filepath="$PROJECT_DIR$/iot-server/iot-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iot-desk-device-domain/iot-desk-device-domain.iml" filepath="$PROJECT_DIR$/iot-desk-device-domain/iot-desk-device-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iot-desk-server/iot-desk-server.iml" filepath="$PROJECT_DIR$/iot-desk-server/iot-desk-server.iml" />
     </modules>
   </component>
 </project>

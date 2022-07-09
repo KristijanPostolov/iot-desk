@@ -9,10 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>iot-server</artifactId>
+    <artifactId>iot-desk-server</artifactId>
     <packaging>jar</packaging>
 
-    <name>Iot Server</name>
     <description>Web Application for iot device management</description>
 
     <properties>

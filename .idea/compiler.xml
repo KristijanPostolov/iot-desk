@@ -7,16 +7,21 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="iot-server" />
+        <module name="iot-desk-device-domain" />
+        <module name="iot-desk-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="iot-desk" target="11" />
+      <module name="iot-desk-device-domain" target="11" />
+      <module name="iot-desk-server" target="11" />
       <module name="iot-server" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="iot-desk-device-domain" options="-parameters" />
+      <module name="iot-desk-server" options="-parameters" />
       <module name="iot-server" options="-parameters" />
     </option>
   </component>
