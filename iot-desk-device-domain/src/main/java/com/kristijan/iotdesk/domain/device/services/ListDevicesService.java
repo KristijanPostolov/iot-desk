@@ -16,5 +16,4 @@ public class ListDevicesService {
       .orElse(Collections.emptyList());
   }
 
-
 }

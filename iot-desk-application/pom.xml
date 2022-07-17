@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>iot-desk-server</artifactId>
+    <artifactId>iot-desk-application</artifactId>
     <packaging>jar</packaging>
 
-    <description>Web Application for iot device management</description>
+    <description>Rest API for iot device management</description>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -22,12 +22,7 @@
     <dependencies>
         <dependency>
             <groupId>com.kristijan.iot.desk</groupId>
-            <artifactId>iot-desk-application</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>iot-desk-device-domain</artifactId>
         </dependency>
 
         <dependency>
@@ -35,28 +30,17 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

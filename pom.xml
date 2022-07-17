@@ -22,11 +22,27 @@
     <modules>
         <module>iot-desk-server</module>
         <module>iot-desk-device-domain</module>
+        <module>iot-desk-application</module>
     </modules>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.kristijan.iot.desk</groupId>
+                <artifactId>iot-desk-device-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kristijan.iot.desk</groupId>
+                <artifactId>iot-desk-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>
