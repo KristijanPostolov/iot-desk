@@ -45,13 +45,14 @@
     <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-el:9.0.60" level="project" />
     <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-websocket:9.0.60" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:5.3.18" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.18" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.18" level="project" />
+    <orderEntry type="module" module-name="iot-desk-persistence-mock" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.18" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.18" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.18" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.3.18" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.6.6" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.6.6" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.18" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:2.6.6" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-logging:2.6.6" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.2.11" level="project" />
