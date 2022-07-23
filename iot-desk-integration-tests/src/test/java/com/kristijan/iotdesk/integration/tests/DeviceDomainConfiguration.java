@@ -1,4 +1,4 @@
-package com.kristijan.iotdesk.application.config;
+package com.kristijan.iotdesk.integration.tests;
 
 import com.kristijan.iotdesk.domain.device.repositories.DevicesRepository;
 import com.kristijan.iotdesk.domain.device.services.CreateDeviceService;
@@ -6,9 +6,6 @@ import com.kristijan.iotdesk.domain.device.services.ListDevicesService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * Spring java configuration for device domain module.
- */
 @Configuration
 public class DeviceDomainConfiguration {
 

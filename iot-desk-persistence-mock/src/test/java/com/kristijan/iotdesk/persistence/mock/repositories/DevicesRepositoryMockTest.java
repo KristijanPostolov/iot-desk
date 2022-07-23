@@ -1,6 +1,7 @@
 package com.kristijan.iotdesk.persistence.mock.repositories;
 
 import com.kristijan.iotdesk.domain.device.models.Device;
+import com.kristijan.iotdesk.domain.device.models.DeviceState;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
@@ -9,9 +10,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class ListDevicesRepositoryMockTest {
+public class DevicesRepositoryMockTest {
 
-  private ListDevicesRepositoryMock listDevicesRepositoryMock = new ListDevicesRepositoryMock();
+  private DevicesRepositoryMock listDevicesRepositoryMock = new DevicesRepositoryMock();
 
   @Test
   void shouldReturnEmpty() {
@@ -24,7 +25,9 @@ public class ListDevicesRepositoryMockTest {
 
   @Test
   void shouldReturnMultipleDevices() {
-    listDevicesRepositoryMock.setDevices(List.of(new Device("d1"), new Device("d2")));
+    listDevicesRepositoryMock.setDevices(List.of(
+      new Device("d1", DeviceState.NEW),
+      new Device("d2", DeviceState.NEW)));
     List<Device> result = listDevicesRepositoryMock.findAll();
 
     assertNotNull(result);

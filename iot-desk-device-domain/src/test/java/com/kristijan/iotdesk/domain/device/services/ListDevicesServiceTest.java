@@ -1,7 +1,8 @@
 package com.kristijan.iotdesk.domain.device.services;
 
 import com.kristijan.iotdesk.domain.device.models.Device;
-import com.kristijan.iotdesk.domain.device.repositories.ListDevicesRepository;
+import com.kristijan.iotdesk.domain.device.models.DeviceState;
+import com.kristijan.iotdesk.domain.device.repositories.DevicesRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,11 +23,11 @@ public class ListDevicesServiceTest {
   private ListDevicesService listDevicesService;
 
   @Mock
-  private ListDevicesRepository listDevicesRepositoryMock;
+  private DevicesRepository devicesRepositoryMock;
 
   @Test
   void shouldReturnEmptyWhenRepositoryReturnsNullList() {
-    when(listDevicesRepositoryMock.findAll())
+    when(devicesRepositoryMock.findAll())
       .thenReturn(null);
     List<Device> devices = listDevicesService.getAllDevices();
 
@@ -35,7 +36,7 @@ public class ListDevicesServiceTest {
 
   @Test
   void shouldReturnEmptyDeviceList() {
-    when(listDevicesRepositoryMock.findAll())
+    when(devicesRepositoryMock.findAll())
       .thenReturn(Collections.emptyList());
     List<Device> devices = listDevicesService.getAllDevices();
 
@@ -45,15 +46,20 @@ public class ListDevicesServiceTest {
   @Test
   void shouldReturnMultipleDevices() {
     List<Device> existingDevices =
-      List.of(new Device("d1"), new Device("d2"), new Device("d3"));
-    when(listDevicesRepositoryMock.findAll())
+      List.of(new Device("d1", DeviceState.NEW),
+        new Device("d2", DeviceState.NEW),
+        new Device("d3", DeviceState.NEW));
+    when(devicesRepositoryMock.findAll())
       .thenReturn(existingDevices);
     List<Device> devices = listDevicesService.getAllDevices();
 
     assertEquals(3, devices.size());
     assertEquals("d1", devices.get(0).getName());
+    assertEquals(DeviceState.NEW, devices.get(0).getState());
     assertEquals("d2", devices.get(1).getName());
+    assertEquals(DeviceState.NEW, devices.get(1).getState());
     assertEquals("d3", devices.get(2).getName());
+    assertEquals(DeviceState.NEW, devices.get(2).getState());
   }
 
 }

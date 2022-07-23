@@ -9,10 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>iot-desk-device-domain</artifactId>
-    <packaging>jar</packaging>
-
-    <description>Web Application for iot device management</description>
+    <artifactId>iot-desk-integration-tests</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -21,24 +18,24 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
 
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
+            <groupId>com.kristijan.iot.desk</groupId>
+            <artifactId>iot-desk-device-domain</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
+            <groupId>com.kristijan.iot.desk</groupId>
+            <artifactId>iot-desk-persistence-mock</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

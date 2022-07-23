@@ -16,7 +16,6 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <name>Iot Desk</name>
     <description>Iot-desk - iot device management service</description>
 
     <modules>
@@ -24,6 +23,7 @@
         <module>iot-desk-device-domain</module>
         <module>iot-desk-application</module>
         <module>iot-desk-persistence-mock</module>
+        <module>iot-desk-integration-tests</module>
     </modules>
 
     <properties>

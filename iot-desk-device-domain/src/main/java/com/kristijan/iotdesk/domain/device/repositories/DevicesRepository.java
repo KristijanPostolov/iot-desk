@@ -4,6 +4,8 @@ import com.kristijan.iotdesk.domain.device.models.Device;
 
 import java.util.List;
 
-public interface ListDevicesRepository {
+public interface DevicesRepository {
   List<Device> findAll();
+
+  long save(Device device);
 }
