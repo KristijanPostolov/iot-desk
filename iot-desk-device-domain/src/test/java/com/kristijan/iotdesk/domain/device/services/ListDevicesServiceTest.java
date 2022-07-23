@@ -46,21 +46,31 @@ public class ListDevicesServiceTest {
   @Test
   void shouldReturnMultipleDevices() {
     List<Device> existingDevices =
-      List.of(new Device("d1", DeviceState.NEW),
-        new Device("d2", DeviceState.NEW),
-        new Device("d3", DeviceState.NEW));
+      List.of(createDevice(1L, "d1"),
+        createDevice(2L, "d2"),
+        createDevice(3L, "d3"));
     when(devicesRepositoryMock.findAll())
       .thenReturn(existingDevices);
     List<Device> devices = listDevicesService.getAllDevices();
 
     assertEquals(3, devices.size());
-    assertEquals("d1", devices.get(0).getName());
-    assertEquals(DeviceState.NEW, devices.get(0).getState());
-    assertEquals("d2", devices.get(1).getName());
-    assertEquals(DeviceState.NEW, devices.get(1).getState());
-    assertEquals("d3", devices.get(2).getName());
-    assertEquals(DeviceState.NEW, devices.get(2).getState());
+    assertDeviceDto(devices.get(0), 1L, "d1");
+    assertDeviceDto(devices.get(1), 2L, "d2");
+    assertDeviceDto(devices.get(2), 3L, "d3");
   }
+
+  void assertDeviceDto(Device device, Long id, String name) {
+    assertEquals(id, device.getId());
+    assertEquals(name, device.getName());
+    assertEquals(DeviceState.NEW, device.getState());
+  }
+
+  private Device createDevice(Long id, String name) {
+    Device device = new Device(name, DeviceState.NEW);
+    device.setId(id);
+    return device;
+  }
+
 
 }
 

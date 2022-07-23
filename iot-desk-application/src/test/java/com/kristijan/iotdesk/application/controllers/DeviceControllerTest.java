@@ -2,6 +2,7 @@ package com.kristijan.iotdesk.application.controllers;
 
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.services.DevicesApplicationService;
+import com.kristijan.iotdesk.domain.device.models.DeviceState;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,7 +25,7 @@ public class DeviceControllerTest {
 
   @Test
   void shouldListAllDevices() {
-    List<DeviceDto> allDevices = List.of(new DeviceDto("d1"));
+    List<DeviceDto> allDevices = List.of(new DeviceDto(1L, "d1", DeviceState.NEW));
     when(devicesApplicationServiceMock.getAllDevices()).thenReturn(allDevices);
 
     List<DeviceDto> result = deviceController.getAllDevices();

@@ -19,7 +19,7 @@ public class DevicesApplicationService {
 
   public List<DeviceDto> getAllDevices() {
     return listDevicesService.getAllDevices().stream()
-      .map(device -> new DeviceDto(device.getName()))
+      .map(device -> new DeviceDto(device.getId(), device.getName(), device.getState()))
       .collect(Collectors.toList());
   }
 

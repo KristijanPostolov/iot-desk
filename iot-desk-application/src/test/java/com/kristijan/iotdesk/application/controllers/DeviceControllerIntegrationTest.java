@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.services.DevicesApplicationService;
+import com.kristijan.iotdesk.domain.device.models.DeviceState;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,12 +50,18 @@ public class DeviceControllerIntegrationTest {
   @SneakyThrows
   void shouldReturnListOfDevices() {
     when(devicesApplicationService.getAllDevices())
-      .thenReturn(List.of(new DeviceDto("d1"), new DeviceDto("d2")));
+      .thenReturn(List.of(new DeviceDto(1L, "d1", DeviceState.NEW),
+        new DeviceDto(2L, "d2", DeviceState.NEW)));
     MockHttpServletRequestBuilder request = get(DEVICES_API);
 
+
+    String expectedJson = "[" +
+      "{\"id\": 1, \"name\": \"d1\", \"state\": \"NEW\"}," +
+      "{\"id\": 2, \"name\": \"d2\", \"state\": \"NEW\"}" +
+      "]";
     mockMvc.perform(request)
       .andExpect(status().isOk())
-      .andExpect(content().json("[{\"name\": \"d1\"},{\"name\": \"d2\"}]"));
+      .andExpect(content().json(expectedJson));
   }
 
   @Test

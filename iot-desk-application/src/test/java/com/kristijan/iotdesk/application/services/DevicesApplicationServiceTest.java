@@ -36,30 +36,18 @@ public class DevicesApplicationServiceTest {
   }
 
   @Test
-  void shouldReturnMultipleDevices() {
-    List<Device> existingDevices =
-      List.of(new Device("d1", DeviceState.NEW),
-        new Device("d2", DeviceState.NEW),
-        new Device("d3", DeviceState.NEW));
-    when(listDevicesServiceMock.getAllDevices()).thenReturn(existingDevices);
-    List<DeviceDto> result = devicesApplicationService.getAllDevices();
-
-    assertEquals(3, result.size());
-  }
-
-  @Test
   void shouldMapDevicesToDeviceDtos() {
     List<Device> existingDevices =
-      List.of(new Device("d1", DeviceState.NEW),
-        new Device("d2", DeviceState.NEW),
-        new Device("d3", DeviceState.NEW));
+      List.of(createDevice(1L, "d1"),
+        createDevice(2L, "d2"),
+        createDevice(3L, "d3"));
     when(listDevicesServiceMock.getAllDevices()).thenReturn(existingDevices);
     List<DeviceDto> result = devicesApplicationService.getAllDevices();
 
     assertEquals(3, result.size());
-    assertEquals("d1", result.get(0).getName());
-    assertEquals("d2", result.get(1).getName());
-    assertEquals("d3", result.get(2).getName());
+    assertDeviceDto(result.get(0), 1, "d1", DeviceState.NEW);
+    assertDeviceDto(result.get(1), 2, "d2", DeviceState.NEW);
+    assertDeviceDto(result.get(2), 3, "d3", DeviceState.NEW);
   }
 
   @Test
@@ -74,5 +62,17 @@ public class DevicesApplicationServiceTest {
 
     assertEquals(5L, result1);
     assertEquals(6L, result2);
+  }
+
+  void assertDeviceDto(DeviceDto dto, long id, String name, DeviceState state) {
+    assertEquals(id, dto.getId());
+    assertEquals(name, dto.getName());
+    assertEquals(state, dto.getState());
+  }
+
+  private Device createDevice(Long id, String d1) {
+    Device device = new Device(d1, DeviceState.NEW);
+    device.setId(id);
+    return device;
   }
 }
