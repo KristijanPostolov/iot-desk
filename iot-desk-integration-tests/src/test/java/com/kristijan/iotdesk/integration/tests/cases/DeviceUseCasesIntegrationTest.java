@@ -12,8 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @SpringBootTest(classes = IntegrationTestConfiguration.class)
@@ -65,6 +69,29 @@ public class DeviceUseCasesIntegrationTest {
 
     Device device2 = devices.stream().filter(device -> device.getId() == deviceId2).findFirst().orElse(null);
     assertNewDevice(device2, "Device B");
+  }
+
+  @Test
+  void shouldReturnEmptyWhenDeviceWithGivenIdDoesNotExist() {
+    long deviceId = createDeviceService.createNewDevice("Device A");
+
+    long nonExistingId = deviceId + 1;
+    Optional<Device> result = listDevicesService.findById(nonExistingId);
+
+    assertTrue(result.isEmpty());
+  }
+
+  @Test
+  void shouldReturnDeviceById() {
+    createDeviceService.createNewDevice("Device A");
+    long id = createDeviceService.createNewDevice("Device B");
+    createDeviceService.createNewDevice("Device C");
+
+    Optional<Device> result = listDevicesService.findById(id);
+
+    assertTrue(result.isPresent());
+    assertEquals(id, result.get().getId());
+    assertEquals("Device B", result.get().getName());
   }
 
   private void assertNewDevice(Device device, String expectedName) {

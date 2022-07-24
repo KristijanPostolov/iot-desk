@@ -2,6 +2,7 @@ package com.kristijan.iotdesk.application.services;
 
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
+import com.kristijan.iotdesk.application.exceptions.NotFoundException;
 import com.kristijan.iotdesk.domain.device.models.Device;
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
 import com.kristijan.iotdesk.domain.device.services.CreateDeviceService;
@@ -13,8 +14,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -62,6 +66,23 @@ public class DevicesApplicationServiceTest {
 
     assertEquals(5L, result1);
     assertEquals(6L, result2);
+  }
+
+  @Test
+  void shouldThrowWhenThereIsNoDeviceForGivenId() {
+    assertThrows(NotFoundException.class, () -> devicesApplicationService.getDeviceById(1));
+  }
+
+  @Test
+  void shouldFindDeviceByIdAndConvertToDto() {
+    when(listDevicesServiceMock.findById(1)).thenReturn(Optional.of(createDevice(1L, "d1")));
+    when(listDevicesServiceMock.findById(2)).thenReturn(Optional.of(createDevice(2L, "d2")));
+
+    DeviceDto result1 = devicesApplicationService.getDeviceById(1);
+    assertDeviceDto(result1, 1, "d1", DeviceState.NEW);
+
+    DeviceDto result2 = devicesApplicationService.getDeviceById(2);
+    assertDeviceDto(result2, 2, "d2", DeviceState.NEW);
   }
 
   void assertDeviceDto(DeviceDto dto, long id, String name, DeviceState state) {

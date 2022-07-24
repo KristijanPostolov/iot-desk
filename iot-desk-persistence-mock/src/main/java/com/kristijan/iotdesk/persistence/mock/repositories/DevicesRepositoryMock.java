@@ -5,32 +5,37 @@ import com.kristijan.iotdesk.domain.device.repositories.DevicesRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class DevicesRepositoryMock implements DevicesRepository {
 
   private static long idSequence = 1L;
-  private List<Device> devices = new ArrayList<>();
+  private final Map<Long, Device> devices = new LinkedHashMap<>();
 
   @Override
   public List<Device> findAll() {
-    return devices;
+    return new ArrayList<>(devices.values());
   }
 
   @Override
   public long save(Device device) {
-    device.setId(idSequence++);
-    devices.add(device);
-    return device.getId();
+    long id = idSequence++;
+    device.setId(id);
+    devices.put(id, device);
+    return id;
   }
 
-  void setDevices(List<Device> devices) {
-    this.devices = devices;
+  @Override
+  public Optional<Device> findById(long id) {
+    return Optional.ofNullable(devices.get(id));
   }
 
   public void reset() {
-    setDevices(new ArrayList<>());
+    this.devices.clear();
     idSequence = 1L;
   }
 }

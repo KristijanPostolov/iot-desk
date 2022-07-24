@@ -1,5 +1,6 @@
 package com.kristijan.iotdesk.application.controllers;
 
+import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.services.DevicesApplicationService;
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
@@ -12,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,5 +33,25 @@ public class DeviceControllerTest {
     List<DeviceDto> result = deviceController.getAllDevices();
 
     assertEquals(allDevices, result);
+  }
+
+  @Test
+  void shouldCreateDevice() {
+    CreateDeviceDto request = new CreateDeviceDto("New device");
+
+    deviceController.createDevice(request);
+
+    verify(devicesApplicationServiceMock).createNewDevice(request);
+  }
+
+  @Test
+  void shouldFindDeviceById() {
+    DeviceDto dto = new DeviceDto(1L, "d1", DeviceState.NEW);
+    when(devicesApplicationServiceMock.getDeviceById(1)).thenReturn(dto);
+
+    DeviceDto result = deviceController.getDeviceById(1L);
+
+    assertEquals(dto, result);
+    verify(devicesApplicationServiceMock).getDeviceById(1);
   }
 }

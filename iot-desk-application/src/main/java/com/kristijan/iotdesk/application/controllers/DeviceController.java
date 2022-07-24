@@ -27,4 +27,9 @@ public class DeviceController {
     long id = devicesApplicationService.createNewDevice(createDeviceDto);
     return ResponseEntity.created(URI.create("/api/v1/devices/" + id)).build();
   }
+
+  @GetMapping("/{id}")
+  public DeviceDto getDeviceById(@PathVariable Long id) {
+    return devicesApplicationService.getDeviceById(id);
+  }
 }

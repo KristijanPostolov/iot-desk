@@ -18,4 +18,7 @@ public class ListDevicesService {
       .orElse(Collections.emptyList());
   }
 
+  public Optional<Device> findById(long id) {
+    return devicesRepository.findById(id);
+  }
 }

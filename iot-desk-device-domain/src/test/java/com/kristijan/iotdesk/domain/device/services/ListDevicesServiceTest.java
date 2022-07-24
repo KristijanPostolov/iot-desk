@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -54,12 +55,44 @@ public class ListDevicesServiceTest {
     List<Device> devices = listDevicesService.getAllDevices();
 
     assertEquals(3, devices.size());
-    assertDeviceDto(devices.get(0), 1L, "d1");
-    assertDeviceDto(devices.get(1), 2L, "d2");
-    assertDeviceDto(devices.get(2), 3L, "d3");
+    assertDeviceModel(devices.get(0), 1L, "d1");
+    assertDeviceModel(devices.get(1), 2L, "d2");
+    assertDeviceModel(devices.get(2), 3L, "d3");
   }
 
-  void assertDeviceDto(Device device, Long id, String name) {
+  @Test
+  void shouldReturnEmptyWhenDeviceWithGivenIdDoesNotExist() {
+    Optional<Device> result = listDevicesService.findById(1);
+    assertTrue(result.isEmpty());
+  }
+
+  @Test
+  void shouldReturnDeviceForGivenId() {
+    Device existingDevice = createDevice(2L, "d2");
+    when(devicesRepositoryMock.findById(2)).thenReturn(Optional.of(existingDevice));
+
+    Optional<Device> result = listDevicesService.findById(2);
+
+    assertTrue(result.isPresent());
+    assertDeviceModel(result.get(), 2L, "d2");
+  }
+
+  @Test
+  void shouldFetchCorrectDeviceFromRepository() {
+    Device existingDevice1 = createDevice(1L, "d1");
+    when(devicesRepositoryMock.findById(1)).thenReturn(Optional.of(existingDevice1));
+    Device existingDevice2 = createDevice(2L, "d2");
+    when(devicesRepositoryMock.findById(2)).thenReturn(Optional.of(existingDevice2));
+
+    Optional<Device> result = listDevicesService.findById(1);
+    assertTrue(result.isPresent());
+    assertEquals("d1", result.get().getName());
+    result = listDevicesService.findById(2L);
+    assertTrue(result.isPresent());
+    assertEquals("d2", result.get().getName());
+  }
+
+  void assertDeviceModel(Device device, Long id, String name) {
     assertEquals(id, device.getId());
     assertEquals(name, device.getName());
     assertEquals(DeviceState.NEW, device.getState());
@@ -70,7 +103,6 @@ public class ListDevicesServiceTest {
     device.setId(id);
     return device;
   }
-
 
 }
 
