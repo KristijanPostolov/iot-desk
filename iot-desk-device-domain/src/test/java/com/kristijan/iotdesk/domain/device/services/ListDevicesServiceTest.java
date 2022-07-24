@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -68,13 +69,14 @@ public class ListDevicesServiceTest {
 
   @Test
   void shouldReturnDeviceForGivenId() {
-    Device existingDevice = createDevice(2L, "d2");
+    Device existingDevice = createDevice(2L, "d2", LocalDateTime.MIN);
     when(devicesRepositoryMock.findById(2)).thenReturn(Optional.of(existingDevice));
 
     Optional<Device> result = listDevicesService.findById(2);
 
     assertTrue(result.isPresent());
     assertDeviceModel(result.get(), 2L, "d2");
+    assertEquals(LocalDateTime.MIN, result.get().getCreatedAt());
   }
 
   @Test
@@ -99,8 +101,13 @@ public class ListDevicesServiceTest {
   }
 
   private Device createDevice(Long id, String name) {
+    return createDevice(id, name, null);
+  }
+
+  private Device createDevice(Long id, String name, LocalDateTime createdAt) {
     Device device = new Device(name, DeviceState.NEW);
     device.setId(id);
+    device.setCreatedAt(createdAt);
     return device;
   }
 

@@ -3,6 +3,8 @@ package com.kristijan.iotdesk.domain.device.models;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 public class Device {
 
@@ -11,6 +13,9 @@ public class Device {
 
   private String name;
   private DeviceState state;
+
+  @Setter
+  private LocalDateTime createdAt;
 
   public Device(String name, DeviceState state) {
     this.name = name;

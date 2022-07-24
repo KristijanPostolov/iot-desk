@@ -1,6 +1,7 @@
 package com.kristijan.iotdesk.application.controllers;
 
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
+import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.services.DevicesApplicationService;
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
@@ -10,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,7 +48,7 @@ public class DeviceControllerTest {
 
   @Test
   void shouldFindDeviceById() {
-    DeviceDto dto = new DeviceDto(1L, "d1", DeviceState.NEW);
+    DeviceDetailsDto dto = new DeviceDetailsDto(1L, "d1", DeviceState.NEW, ZonedDateTime.now());
     when(devicesApplicationServiceMock.getDeviceById(1)).thenReturn(dto);
 
     DeviceDto result = deviceController.getDeviceById(1L);

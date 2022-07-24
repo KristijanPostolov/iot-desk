@@ -1,6 +1,7 @@
 package com.kristijan.iotdesk.application.services;
 
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
+import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.exceptions.NotFoundException;
 import com.kristijan.iotdesk.domain.device.models.Device;
@@ -9,6 +10,8 @@ import com.kristijan.iotdesk.domain.device.services.ListDevicesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,10 +21,11 @@ public class DevicesApplicationService {
 
   private final ListDevicesService listDevicesService;
   private final CreateDeviceService createDeviceService;
+  private final Clock clock;
 
   public List<DeviceDto> getAllDevices() {
     return listDevicesService.getAllDevices().stream()
-      .map(this::mapDeviceToDto)
+      .map(device -> new DeviceDto(device.getId(), device.getName(), device.getState()))
       .collect(Collectors.toList());
   }
 
@@ -29,13 +33,14 @@ public class DevicesApplicationService {
     return createDeviceService.createNewDevice(createDeviceDto.getName());
   }
 
-  public DeviceDto getDeviceById(long id) {
+  public DeviceDetailsDto getDeviceById(long id) {
     return listDevicesService.findById(id)
-      .map(this::mapDeviceToDto)
+      .map(this::mapToDeviceDetailsDto)
       .orElseThrow(() -> new NotFoundException("Device with the given id does not exist"));
   }
 
-  private DeviceDto mapDeviceToDto(Device device) {
-    return new DeviceDto(device.getId(), device.getName(), device.getState());
+  private DeviceDetailsDto mapToDeviceDetailsDto(Device device) {
+    ZonedDateTime zonedCreatedAt = ZonedDateTime.of(device.getCreatedAt(), clock.getZone());
+    return new DeviceDetailsDto(device.getId(), device.getName(), device.getState(), zonedCreatedAt);
   }
 }

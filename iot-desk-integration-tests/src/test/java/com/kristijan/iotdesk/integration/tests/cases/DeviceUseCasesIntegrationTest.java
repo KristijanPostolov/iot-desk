@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +33,9 @@ public class DeviceUseCasesIntegrationTest {
 
   @Autowired
   private DevicesRepositoryMock devicesRepository;
+
+  @Autowired
+  private Clock clock;
 
   @AfterEach
   void tearDown() {
@@ -53,6 +58,7 @@ public class DeviceUseCasesIntegrationTest {
     assertEquals(deviceId, device.getId());
     assertEquals("Device A", device.getName());
     assertEquals(DeviceState.NEW, device.getState());
+    assertEquals(LocalDateTime.now(clock), device.getCreatedAt());
   }
 
   @Test

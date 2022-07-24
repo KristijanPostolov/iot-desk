@@ -2,6 +2,7 @@ package com.kristijan.iotdesk.application.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
+import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.exceptions.NotFoundException;
 import com.kristijan.iotdesk.application.services.DevicesApplicationService;
@@ -15,13 +16,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
 public class DeviceControllerIntegrationTest {
@@ -95,12 +99,12 @@ public class DeviceControllerIntegrationTest {
   @Test
   @SneakyThrows
   void shouldFindDeviceById() {
-    when(devicesApplicationService.getDeviceById(1))
-      .thenReturn(new DeviceDto(1L, "d1", DeviceState.NEW));
+    when(devicesApplicationService.getDeviceById(1)).thenReturn(
+      new DeviceDetailsDto(1L, "d1", DeviceState.NEW, ZonedDateTime.parse("2022-07-24T16:00:00Z")));
 
     MockHttpServletRequestBuilder request = get(DEVICES_API + "/1");
 
-    String expectedJson = "{\"id\": 1, \"name\": \"d1\", \"state\": \"NEW\"}";
+    String expectedJson = "{\"id\": 1, \"name\": \"d1\", \"state\": \"NEW\", \"createdAt\": \"2022-07-24T16:00:00Z\"}";
     mockMvc.perform(request)
       .andExpect(status().isOk())
       .andExpect(content().json(expectedJson));

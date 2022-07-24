@@ -1,31 +1,33 @@
 package com.kristijan.iotdesk.application.services;
 
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
+import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.exceptions.NotFoundException;
 import com.kristijan.iotdesk.domain.device.models.Device;
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
 import com.kristijan.iotdesk.domain.device.services.CreateDeviceService;
 import com.kristijan.iotdesk.domain.device.services.ListDevicesService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class DevicesApplicationServiceTest {
 
-  @InjectMocks
   private DevicesApplicationService devicesApplicationService;
 
   @Mock
@@ -33,6 +35,13 @@ public class DevicesApplicationServiceTest {
 
   @Mock
   private CreateDeviceService createDeviceServiceMock;
+
+  private final Clock clock = Clock.systemUTC();
+
+  @BeforeEach
+  void setUp() {
+    devicesApplicationService = new DevicesApplicationService(listDevicesServiceMock, createDeviceServiceMock, clock);
+  }
 
   @Test
   void shouldReturnEmpty() {
@@ -74,15 +83,18 @@ public class DevicesApplicationServiceTest {
   }
 
   @Test
-  void shouldFindDeviceByIdAndConvertToDto() {
-    when(listDevicesServiceMock.findById(1)).thenReturn(Optional.of(createDevice(1L, "d1")));
-    when(listDevicesServiceMock.findById(2)).thenReturn(Optional.of(createDevice(2L, "d2")));
+  void shouldFindDeviceByIdAndConvertToDeviceDetailsDto() {
+    LocalDateTime now = LocalDateTime.now(clock);
+    when(listDevicesServiceMock.findById(1))
+      .thenReturn(Optional.of(createDevice(1L, "d1", now)));
+    when(listDevicesServiceMock.findById(2))
+      .thenReturn(Optional.of(createDevice(2L, "d2", now)));
 
-    DeviceDto result1 = devicesApplicationService.getDeviceById(1);
-    assertDeviceDto(result1, 1, "d1", DeviceState.NEW);
+    DeviceDetailsDto result1 = devicesApplicationService.getDeviceById(1);
+    assertDeviceDetailsDto(result1, 1, "d1", DeviceState.NEW, ZonedDateTime.of(now, clock.getZone()));
 
-    DeviceDto result2 = devicesApplicationService.getDeviceById(2);
-    assertDeviceDto(result2, 2, "d2", DeviceState.NEW);
+    DeviceDetailsDto result2 = devicesApplicationService.getDeviceById(2);
+    assertDeviceDetailsDto(result2, 2, "d2", DeviceState.NEW, ZonedDateTime.of(now, clock.getZone()));
   }
 
   void assertDeviceDto(DeviceDto dto, long id, String name, DeviceState state) {
@@ -91,9 +103,19 @@ public class DevicesApplicationServiceTest {
     assertEquals(state, dto.getState());
   }
 
-  private Device createDevice(Long id, String d1) {
+  void assertDeviceDetailsDto(DeviceDetailsDto dto, long id, String name, DeviceState state, ZonedDateTime createdAt) {
+    assertDeviceDto(dto, id, name, state);
+    assertEquals(createdAt, dto.getCreatedAt());
+  }
+
+  private Device createDevice(Long id, String d1, LocalDateTime createdAt) {
     Device device = new Device(d1, DeviceState.NEW);
     device.setId(id);
+    device.setCreatedAt(createdAt);
     return device;
+  }
+
+  private Device createDevice(Long id, String name) {
+    return createDevice(id, name, null);
   }
 }
