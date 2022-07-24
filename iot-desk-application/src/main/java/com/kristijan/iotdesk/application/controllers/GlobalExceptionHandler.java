@@ -1,4 +1,4 @@
-package com.kristijan.iotdesk.application;
+package com.kristijan.iotdesk.application.controllers;
 
 import com.kristijan.iotdesk.application.exceptions.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 @Slf4j
-public class GlobalErrorHandler {
+public class GlobalExceptionHandler {
 
   @ExceptionHandler(NotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
