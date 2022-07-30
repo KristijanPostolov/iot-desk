@@ -5,6 +5,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/**
+ * Device domain model.
+ */
 @Getter
 public class Device {
 
