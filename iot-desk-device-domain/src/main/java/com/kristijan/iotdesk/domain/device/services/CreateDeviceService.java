@@ -5,6 +5,7 @@ import com.kristijan.iotdesk.domain.device.models.Device;
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
 import com.kristijan.iotdesk.domain.device.repositories.DevicesRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.Clock;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
  * Service that provides methods for creating new devices.
  */
 @RequiredArgsConstructor
+@Slf4j
 public class CreateDeviceService {
 
   private final DevicesRepository devicesRepository;
@@ -32,6 +34,7 @@ public class CreateDeviceService {
     }
     Device newDevice = new Device(name, DeviceState.NEW);
     newDevice.setCreatedAt(LocalDateTime.now(clock));
+    log.info("Creating new device with name: {}", name);
     return devicesRepository.save(newDevice);
   }
 }
