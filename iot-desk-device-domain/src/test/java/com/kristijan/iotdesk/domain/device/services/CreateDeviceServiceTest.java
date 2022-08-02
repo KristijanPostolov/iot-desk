@@ -31,11 +31,14 @@ public class CreateDeviceServiceTest {
   @Mock
   private DevicesRepository devicesRepository;
 
+  @Mock
+  private ChannelIdService channelIdService;
+
   private final Clock fixedClock = Clock.fixed(Instant.parse("2022-07-24T16:00:00Z"), ZoneOffset.UTC);
 
   @BeforeEach
   void setUp() {
-    createDeviceService = new CreateDeviceService(devicesRepository, fixedClock);
+    createDeviceService = new CreateDeviceService(devicesRepository, channelIdService, fixedClock);
   }
 
   @Test
@@ -62,6 +65,7 @@ public class CreateDeviceServiceTest {
     assertEquals("device1", newDevice.getName());
     assertEquals(DeviceState.NEW, newDevice.getState());
     assertEquals(LocalDateTime.now(fixedClock), newDevice.getCreatedAt());
+    verify(channelIdService).generateNewDeviceChannelId(1L);
   }
 
 }

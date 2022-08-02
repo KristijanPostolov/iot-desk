@@ -1,6 +1,9 @@
 package com.kristijan.iotdesk.integration.tests;
 
+import com.kristijan.iotdesk.domain.device.ports.ChannelIdGenerator;
+import com.kristijan.iotdesk.domain.device.repositories.DeviceChannelIdRepository;
 import com.kristijan.iotdesk.domain.device.repositories.DevicesRepository;
+import com.kristijan.iotdesk.domain.device.services.ChannelIdService;
 import com.kristijan.iotdesk.domain.device.services.CreateDeviceService;
 import com.kristijan.iotdesk.domain.device.services.ListDevicesService;
 import org.springframework.context.annotation.Bean;
@@ -17,8 +20,15 @@ public class DeviceDomainConfiguration {
   }
 
   @Bean
-  public CreateDeviceService createDeviceService(DevicesRepository devicesRepository, Clock clock) {
-    return new CreateDeviceService(devicesRepository, clock);
+  public CreateDeviceService createDeviceService(DevicesRepository devicesRepository, ChannelIdService channelIdService,
+                                                 Clock clock) {
+    return new CreateDeviceService(devicesRepository, channelIdService, clock);
+  }
+
+  @Bean
+  public ChannelIdService channelIdService(DeviceChannelIdRepository deviceChannelIdRepository,
+                                           ChannelIdGenerator channelIdGenerator) {
+    return new ChannelIdService(deviceChannelIdRepository, channelIdGenerator);
   }
 
 }

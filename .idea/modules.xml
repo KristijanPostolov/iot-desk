@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/iot-desk-application/iot-desk-application.iml" filepath="$PROJECT_DIR$/iot-desk-application/iot-desk-application.iml" />
       <module fileurl="file://$PROJECT_DIR$/iot-desk-device-domain/iot-desk-device-domain.iml" filepath="$PROJECT_DIR$/iot-desk-device-domain/iot-desk-device-domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/iot-desk-integration-tests/iot-desk-integration-tests.iml" filepath="$PROJECT_DIR$/iot-desk-integration-tests/iot-desk-integration-tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iot-desk-messaging-client-mqtt/iot-desk-messaging-client-mqtt.iml" filepath="$PROJECT_DIR$/iot-desk-messaging-client-mqtt/iot-desk-messaging-client-mqtt.iml" />
       <module fileurl="file://$PROJECT_DIR$/iot-desk-persistence-mock/iot-desk-persistence-mock.iml" filepath="$PROJECT_DIR$/iot-desk-persistence-mock/iot-desk-persistence-mock.iml" />
       <module fileurl="file://$PROJECT_DIR$/iot-desk-server/iot-desk-server.iml" filepath="$PROJECT_DIR$/iot-desk-server/iot-desk-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/iot-desk-user-domain/iot-desk-user-domain.iml" filepath="$PROJECT_DIR$/iot-desk-user-domain/iot-desk-user-domain.iml" />

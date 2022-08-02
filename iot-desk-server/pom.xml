@@ -27,6 +27,11 @@
 
         <dependency>
             <groupId>com.kristijan.iot.desk</groupId>
+            <artifactId>iot-desk-messaging-client-mqtt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.kristijan.iot.desk</groupId>
             <artifactId>iot-desk-persistence-mock</artifactId>
         </dependency>
 

@@ -25,6 +25,7 @@
         <module>iot-desk-persistence-mock</module>
         <module>iot-desk-integration-tests</module>
         <module>iot-desk-user-domain</module>
+        <module>iot-desk-messaging-client-mqtt</module>
     </modules>
 
     <properties>
@@ -47,6 +48,11 @@
             <dependency>
                 <groupId>com.kristijan.iot.desk</groupId>
                 <artifactId>iot-desk-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kristijan.iot.desk</groupId>
+                <artifactId>iot-desk-messaging-client-mqtt</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

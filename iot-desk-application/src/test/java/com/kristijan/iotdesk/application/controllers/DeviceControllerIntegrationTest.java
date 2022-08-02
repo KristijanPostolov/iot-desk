@@ -1,6 +1,7 @@
 package com.kristijan.iotdesk.application.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kristijan.iotdesk.application.dtos.ChannelIdDto;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
@@ -108,6 +109,31 @@ public class DeviceControllerIntegrationTest {
     mockMvc.perform(request)
       .andExpect(status().isOk())
       .andExpect(content().json(expectedJson));
+  }
+
+  @Test
+  @SneakyThrows
+  void shouldChannelIdForDevice() {
+    when(devicesApplicationService.getChannelIdForDevice(2L)).thenReturn(new ChannelIdDto("exampleChannelId-123"));
+
+    MockHttpServletRequestBuilder request = get(DEVICES_API + "/2/channelId");
+
+    String expectedJson = "{\"channelId\": \"exampleChannelId-123\"}";
+    mockMvc.perform(request)
+      .andExpect(status().isOk())
+      .andExpect(content().json(expectedJson));
+  }
+
+  @Test
+  @SneakyThrows
+  void shouldReturnNotFoundIfChannelIdDoesNotExist() {
+    when(devicesApplicationService.getChannelIdForDevice(2L))
+      .thenThrow(new NotFoundException("Device with id not found"));
+
+    MockHttpServletRequestBuilder request = get(DEVICES_API + "/2/channelId");
+
+    mockMvc.perform(request)
+      .andExpect(status().isNotFound());
   }
 
   @SneakyThrows

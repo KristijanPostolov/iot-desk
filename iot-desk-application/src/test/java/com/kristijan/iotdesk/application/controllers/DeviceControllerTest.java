@@ -1,5 +1,6 @@
 package com.kristijan.iotdesk.application.controllers;
 
+import com.kristijan.iotdesk.application.dtos.ChannelIdDto;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
@@ -51,9 +52,20 @@ public class DeviceControllerTest {
     DeviceDetailsDto dto = new DeviceDetailsDto(1L, "d1", DeviceState.NEW, ZonedDateTime.now());
     when(devicesApplicationServiceMock.getDeviceById(1)).thenReturn(dto);
 
-    DeviceDto result = deviceController.getDeviceById(1L);
+    DeviceDetailsDto result = deviceController.getDeviceById(1L);
 
     assertEquals(dto, result);
     verify(devicesApplicationServiceMock).getDeviceById(1);
+  }
+
+  @Test
+  void shouldGetChannelIdForDevice() {
+    ChannelIdDto dto = new ChannelIdDto("channelId2");
+    when(devicesApplicationServiceMock.getChannelIdForDevice(2L)).thenReturn(dto);
+
+    ChannelIdDto result = deviceController.getChannelIdForDevice(2L);
+
+    assertEquals(dto, result);
+    verify(devicesApplicationServiceMock).getChannelIdForDevice(2L);
   }
 }

@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="iot-desk-device-domain" />
+        <module name="iot-desk-messaging-client-mqtt" />
         <module name="iot-desk-integration-tests" />
         <module name="iot-desk-user-domain" />
         <module name="iot-desk-application" />
@@ -20,6 +21,7 @@
       <module name="iot-desk-application" target="11" />
       <module name="iot-desk-device-domain" target="11" />
       <module name="iot-desk-integration-tests" target="11" />
+      <module name="iot-desk-messaging-client-mqtt" target="11" />
       <module name="iot-desk-persistence-mock" target="11" />
       <module name="iot-desk-server" target="11" />
       <module name="iot-desk-user-domain" target="11" />
@@ -31,6 +33,7 @@
       <module name="iot-desk-application" options="-parameters" />
       <module name="iot-desk-device-domain" options="-parameters" />
       <module name="iot-desk-integration-tests" options="-parameters" />
+      <module name="iot-desk-messaging-client-mqtt" options="-parameters" />
       <module name="iot-desk-persistence-mock" options="-parameters" />
       <module name="iot-desk-server" options="-parameters" />
       <module name="iot-desk-user-domain" options="-parameters" />

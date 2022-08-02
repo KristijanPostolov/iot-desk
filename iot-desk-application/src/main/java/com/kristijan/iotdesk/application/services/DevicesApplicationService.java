@@ -1,10 +1,12 @@
 package com.kristijan.iotdesk.application.services;
 
+import com.kristijan.iotdesk.application.dtos.ChannelIdDto;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.exceptions.NotFoundException;
 import com.kristijan.iotdesk.domain.device.models.Device;
+import com.kristijan.iotdesk.domain.device.services.ChannelIdService;
 import com.kristijan.iotdesk.domain.device.services.CreateDeviceService;
 import com.kristijan.iotdesk.domain.device.services.ListDevicesService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class DevicesApplicationService {
 
   private final ListDevicesService listDevicesService;
   private final CreateDeviceService createDeviceService;
+  private final ChannelIdService channelIdService;
   private final Clock clock;
 
   public List<DeviceDto> getAllDevices() {
@@ -42,5 +45,11 @@ public class DevicesApplicationService {
   private DeviceDetailsDto mapToDeviceDetailsDto(Device device) {
     ZonedDateTime zonedCreatedAt = ZonedDateTime.of(device.getCreatedAt(), clock.getZone());
     return new DeviceDetailsDto(device.getId(), device.getName(), device.getState(), zonedCreatedAt);
+  }
+
+  public ChannelIdDto getChannelIdForDevice(long id) {
+    return channelIdService.findByDeviceId(id)
+      .map(deviceChannelId -> new ChannelIdDto(deviceChannelId.getChannelId()))
+      .orElseThrow(() -> new NotFoundException("Channel id was not found for the device id"));
   }
 }

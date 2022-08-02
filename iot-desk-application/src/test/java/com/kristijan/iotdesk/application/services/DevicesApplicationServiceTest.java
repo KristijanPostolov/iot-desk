@@ -1,11 +1,14 @@
 package com.kristijan.iotdesk.application.services;
 
+import com.kristijan.iotdesk.application.dtos.ChannelIdDto;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.exceptions.NotFoundException;
 import com.kristijan.iotdesk.domain.device.models.Device;
+import com.kristijan.iotdesk.domain.device.models.DeviceChannelId;
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
+import com.kristijan.iotdesk.domain.device.services.ChannelIdService;
 import com.kristijan.iotdesk.domain.device.services.CreateDeviceService;
 import com.kristijan.iotdesk.domain.device.services.ListDevicesService;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,11 +39,15 @@ public class DevicesApplicationServiceTest {
   @Mock
   private CreateDeviceService createDeviceServiceMock;
 
+  @Mock
+  private ChannelIdService channelIdServiceMock;
+
   private final Clock clock = Clock.systemUTC();
 
   @BeforeEach
   void setUp() {
-    devicesApplicationService = new DevicesApplicationService(listDevicesServiceMock, createDeviceServiceMock, clock);
+    devicesApplicationService = new DevicesApplicationService(listDevicesServiceMock, createDeviceServiceMock,
+      channelIdServiceMock, clock);
   }
 
   @Test
@@ -117,5 +124,20 @@ public class DevicesApplicationServiceTest {
 
   private Device createDevice(Long id, String name) {
     return createDevice(id, name, null);
+  }
+
+  @Test
+  void shouldConvertDeviceChannelIdToDto() {
+    DeviceChannelId deviceChannelId = new DeviceChannelId(2L, "channelId2");
+    when(channelIdServiceMock.findByDeviceId(2L)).thenReturn(Optional.of(deviceChannelId));
+
+    ChannelIdDto result = devicesApplicationService.getChannelIdForDevice(2L);
+
+    assertEquals(deviceChannelId.getChannelId(), result.getChannelId());
+  }
+
+  @Test
+  void shouldThrowIfChannelIdIsNotFound() {
+    assertThrows(NotFoundException.class, () -> devicesApplicationService.getChannelIdForDevice(2L));
   }
 }

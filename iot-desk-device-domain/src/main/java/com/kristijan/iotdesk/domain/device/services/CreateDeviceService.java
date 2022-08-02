@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 public class CreateDeviceService {
 
   private final DevicesRepository devicesRepository;
+  private final ChannelIdService channelIdService;
   private final Clock clock;
 
   /**
@@ -35,6 +36,8 @@ public class CreateDeviceService {
     Device newDevice = new Device(name, DeviceState.NEW);
     newDevice.setCreatedAt(LocalDateTime.now(clock));
     log.info("Creating new device with name: {}", name);
-    return devicesRepository.save(newDevice);
+    long deviceId = devicesRepository.save(newDevice);
+    channelIdService.generateNewDeviceChannelId(deviceId);
+    return deviceId;
   }
 }

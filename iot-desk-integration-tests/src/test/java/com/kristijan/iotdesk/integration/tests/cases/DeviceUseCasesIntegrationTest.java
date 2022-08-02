@@ -2,9 +2,11 @@ package com.kristijan.iotdesk.integration.tests.cases;
 
 import com.kristijan.iotdesk.domain.device.models.Device;
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
+import com.kristijan.iotdesk.domain.device.services.ChannelIdService;
 import com.kristijan.iotdesk.domain.device.services.CreateDeviceService;
 import com.kristijan.iotdesk.domain.device.services.ListDevicesService;
 import com.kristijan.iotdesk.integration.tests.IntegrationTestConfiguration;
+import com.kristijan.iotdesk.persistence.mock.repositories.DeviceChannelIdRepositoryMock;
 import com.kristijan.iotdesk.persistence.mock.repositories.DevicesRepositoryMock;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +34,13 @@ public class DeviceUseCasesIntegrationTest {
   private CreateDeviceService createDeviceService;
 
   @Autowired
+  private ChannelIdService channelIdService;
+
+  @Autowired
   private DevicesRepositoryMock devicesRepository;
+
+  @Autowired
+  private DeviceChannelIdRepositoryMock deviceChannelIdRepository;
 
   @Autowired
   private Clock clock;
@@ -40,6 +48,7 @@ public class DeviceUseCasesIntegrationTest {
   @AfterEach
   void tearDown() {
     devicesRepository.reset();
+    deviceChannelIdRepository.reset();
   }
 
   @Test
@@ -59,6 +68,7 @@ public class DeviceUseCasesIntegrationTest {
     assertEquals("Device A", device.getName());
     assertEquals(DeviceState.NEW, device.getState());
     assertEquals(LocalDateTime.now(clock), device.getCreatedAt());
+    assertTrue(channelIdService.findByDeviceId(deviceId).isPresent());
   }
 
   @Test
@@ -72,9 +82,11 @@ public class DeviceUseCasesIntegrationTest {
     assertEquals(2, devices.size());
     Device device1 = devices.stream().filter(device -> device.getId() == deviceId1).findFirst().orElse(null);
     assertNewDevice(device1, "Device A");
+    assertTrue(channelIdService.findByDeviceId(deviceId1).isPresent());
 
     Device device2 = devices.stream().filter(device -> device.getId() == deviceId2).findFirst().orElse(null);
     assertNewDevice(device2, "Device B");
+    assertTrue(channelIdService.findByDeviceId(deviceId2).isPresent());
   }
 
   @Test
@@ -98,6 +110,14 @@ public class DeviceUseCasesIntegrationTest {
     assertTrue(result.isPresent());
     assertEquals(id, result.get().getId());
     assertEquals("Device B", result.get().getName());
+  }
+
+  @Test
+  void shouldFindChannelIdForGivenDeviceIdOrReturnEmpty() {
+    channelIdService.generateNewDeviceChannelId(1L);
+
+    assertTrue(channelIdService.findByDeviceId(1L).isPresent());
+    assertTrue(channelIdService.findByDeviceId(2L).isEmpty());
   }
 
   private void assertNewDevice(Device device, String expectedName) {
