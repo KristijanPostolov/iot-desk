@@ -11,7 +11,7 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 
 @SpringBootConfiguration
-@Import(DeviceDomainConfiguration.class)
+@Import({DeviceDomainConfiguration.class, UserDomainConfiguration.class})
 @ComponentScan(basePackageClasses = PersistenceMockComponents.class)
 public class IntegrationTestConfiguration {
 

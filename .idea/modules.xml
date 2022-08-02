@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/iot-desk-integration-tests/iot-desk-integration-tests.iml" filepath="$PROJECT_DIR$/iot-desk-integration-tests/iot-desk-integration-tests.iml" />
       <module fileurl="file://$PROJECT_DIR$/iot-desk-persistence-mock/iot-desk-persistence-mock.iml" filepath="$PROJECT_DIR$/iot-desk-persistence-mock/iot-desk-persistence-mock.iml" />
       <module fileurl="file://$PROJECT_DIR$/iot-desk-server/iot-desk-server.iml" filepath="$PROJECT_DIR$/iot-desk-server/iot-desk-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iot-desk-user-domain/iot-desk-user-domain.iml" filepath="$PROJECT_DIR$/iot-desk-user-domain/iot-desk-user-domain.iml" />
     </modules>
   </component>
 </project>
