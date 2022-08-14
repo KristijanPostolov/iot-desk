@@ -50,6 +50,7 @@ class MqttPayloadValidatorAndMapperTest {
       Arguments.of("1:23:", false), // trailing ':' within a parameter
       Arguments.of(",1:25", false), // empty parameter
       Arguments.of("1:25,", false), // trailing comma
+      Arguments.of("1:25,1:45.5", false), // multiple values for same anchor
       Arguments.of("1:25,2:57.4,5:024.45", true) // valid
     );
   }

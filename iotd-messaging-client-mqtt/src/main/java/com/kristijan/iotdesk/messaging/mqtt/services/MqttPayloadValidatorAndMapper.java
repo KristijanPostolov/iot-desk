@@ -5,7 +5,9 @@ import com.kristijan.iotdesk.messaging.mqtt.models.MappingResult;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class MqttPayloadValidatorAndMapper {
@@ -35,8 +37,9 @@ public class MqttPayloadValidatorAndMapper {
     if (message.length() > MAX_LENGTH || message.isBlank() || message.endsWith(PARAMETERS_SEPARATOR)) {
       return false;
     }
-    String[] parts = message.split(PARAMETERS_SEPARATOR);
-    for (String parameter : parts) {
+    String[] parameters = message.split(PARAMETERS_SEPARATOR);
+    Set<Integer> anchors = new HashSet<>();
+    for (String parameter : parameters) {
       if (parameter.isBlank() || parameter.endsWith(VALUE_SEPARATOR)) {
         return false;
       }
@@ -45,12 +48,13 @@ public class MqttPayloadValidatorAndMapper {
         return false;
       }
       try {
-        Integer.parseInt(parameterParts[0]);
+        int anchor = Integer.parseInt(parameterParts[0]);
         Double.parseDouble(parameterParts[1]);
+        anchors.add(anchor);
       } catch (NumberFormatException ex) {
         return false;
       }
     }
-    return true;
+    return anchors.size() == parameters.length;
   }
 }
