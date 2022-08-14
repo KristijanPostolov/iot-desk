@@ -18,12 +18,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
             <groupId>com.kristijan.iot.desk</groupId>
             <artifactId>iotd-device-domain</artifactId>
         </dependency>
