@@ -5,6 +5,7 @@ import com.kristijan.iotdesk.application.dtos.ChannelIdDto;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
+import com.kristijan.iotdesk.application.dtos.DeviceParameterDto;
 import com.kristijan.iotdesk.application.exceptions.NotFoundException;
 import com.kristijan.iotdesk.application.services.DevicesApplicationService;
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
@@ -100,15 +101,23 @@ public class DeviceControllerIntegrationTest {
   @Test
   @SneakyThrows
   void shouldFindDeviceById() {
-    when(devicesApplicationService.getDeviceById(1)).thenReturn(
-      new DeviceDetailsDto(1L, "d1", DeviceState.NEW, ZonedDateTime.parse("2022-07-24T16:00:00Z")));
+    List<DeviceParameterDto> parameterDtos = List.of(
+      new DeviceParameterDto(11, 1, "Param A"),
+      new DeviceParameterDto(12, 2, "Param B"));
+    DeviceDetailsDto dto = new DeviceDetailsDto(1L, "d1", DeviceState.NEW,
+      ZonedDateTime.parse("2022-07-24T16:00:00Z"), parameterDtos);
+    when(devicesApplicationService.getDeviceById(1)).thenReturn(dto);
 
     MockHttpServletRequestBuilder request = get(DEVICES_API + "/1");
 
-    String expectedJson = "{\"id\": 1, \"name\": \"d1\", \"state\": \"NEW\", \"createdAt\": \"2022-07-24T16:00:00Z\"}";
+    String expectedJson = "{\"id\": 1, \"name\": \"d1\", \"state\": \"NEW\", \"createdAt\": \"2022-07-24T16:00:00Z\"," +
+      "\"parameters\": [" +
+      "{\"id\": 11, \"anchor\": 1, \"name\": \"Param A\"}," +
+      "{\"id\": 12, \"anchor\": 2, \"name\": \"Param B\"}" +
+      "]}";
     mockMvc.perform(request)
       .andExpect(status().isOk())
-      .andExpect(content().json(expectedJson));
+      .andExpect(content().json(expectedJson, true));
   }
 
   @Test

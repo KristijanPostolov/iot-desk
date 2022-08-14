@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,7 +50,8 @@ public class DeviceControllerTest {
 
   @Test
   void shouldFindDeviceById() {
-    DeviceDetailsDto dto = new DeviceDetailsDto(1L, "d1", DeviceState.NEW, ZonedDateTime.now());
+    DeviceDetailsDto dto = new DeviceDetailsDto(1L, "d1", DeviceState.NEW, ZonedDateTime.now(),
+      Collections.emptyList());
     when(devicesApplicationServiceMock.getDeviceById(1)).thenReturn(dto);
 
     DeviceDetailsDto result = deviceController.getDeviceById(1L);

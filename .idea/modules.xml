@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/iot-desk.iml" filepath="$PROJECT_DIR$/.idea/iot-desk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iot-desk.iml" filepath="$PROJECT_DIR$/iot-desk.iml" />
       <module fileurl="file://$PROJECT_DIR$/iotd-application/iotd-application.iml" filepath="$PROJECT_DIR$/iotd-application/iotd-application.iml" />
       <module fileurl="file://$PROJECT_DIR$/iotd-device-domain/iotd-device-domain.iml" filepath="$PROJECT_DIR$/iotd-device-domain/iotd-device-domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/iotd-messaging-client-mqtt/iotd-messaging-client-mqtt.iml" filepath="$PROJECT_DIR$/iotd-messaging-client-mqtt/iotd-messaging-client-mqtt.iml" />

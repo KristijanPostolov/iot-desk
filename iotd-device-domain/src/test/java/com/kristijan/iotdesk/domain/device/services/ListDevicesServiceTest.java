@@ -1,6 +1,7 @@
 package com.kristijan.iotdesk.domain.device.services;
 
 import com.kristijan.iotdesk.domain.device.models.Device;
+import com.kristijan.iotdesk.domain.device.models.DeviceParameter;
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
 import com.kristijan.iotdesk.domain.device.repositories.DevicesRepository;
 import org.junit.jupiter.api.Test;
@@ -56,9 +57,9 @@ public class ListDevicesServiceTest {
     List<Device> devices = listDevicesService.getAllDevices();
 
     assertEquals(3, devices.size());
-    assertDeviceModel(devices.get(0), 1L, "d1");
-    assertDeviceModel(devices.get(1), 2L, "d2");
-    assertDeviceModel(devices.get(2), 3L, "d3");
+    assertDeviceModel(devices.get(0), 1L, "d1", DeviceState.NEW);
+    assertDeviceModel(devices.get(1), 2L, "d2", DeviceState.NEW);
+    assertDeviceModel(devices.get(2), 3L, "d3", DeviceState.NEW);
   }
 
   @Test
@@ -69,13 +70,18 @@ public class ListDevicesServiceTest {
 
   @Test
   void shouldReturnDeviceForGivenId() {
-    Device existingDevice = createDevice(2L, "d2", LocalDateTime.MIN);
+    Device existingDevice = createDevice(2L, "d2", DeviceState.ACTIVE, LocalDateTime.MIN);
+    DeviceParameter deviceParameter = new DeviceParameter(2L, 1, "Parameter 1");
+    existingDevice.getParameters().add(deviceParameter);
     when(devicesRepositoryMock.findById(2)).thenReturn(Optional.of(existingDevice));
 
     Optional<Device> result = listDevicesService.findById(2);
 
     assertTrue(result.isPresent());
-    assertDeviceModel(result.get(), 2L, "d2");
+    Device device = result.get();
+    assertDeviceModel(device, 2L, "d2", DeviceState.ACTIVE);
+    assertEquals(1, device.getParameters().size());
+    assertTrue(device.getParameters().contains(deviceParameter));
     assertEquals(LocalDateTime.MIN, result.get().getCreatedAt());
   }
 
@@ -94,18 +100,18 @@ public class ListDevicesServiceTest {
     assertEquals("d2", result.get().getName());
   }
 
-  void assertDeviceModel(Device device, Long id, String name) {
+  void assertDeviceModel(Device device, Long id, String name, DeviceState state) {
     assertEquals(id, device.getId());
     assertEquals(name, device.getName());
-    assertEquals(DeviceState.NEW, device.getState());
+    assertEquals(state, device.getState());
   }
 
   private Device createDevice(Long id, String name) {
-    return createDevice(id, name, null);
+    return createDevice(id, name, DeviceState.NEW, null);
   }
 
-  private Device createDevice(Long id, String name, LocalDateTime createdAt) {
-    Device device = new Device(name, DeviceState.NEW);
+  private Device createDevice(Long id, String name, DeviceState state, LocalDateTime createdAt) {
+    Device device = new Device(name, state);
     device.setId(id);
     device.setCreatedAt(createdAt);
     return device;

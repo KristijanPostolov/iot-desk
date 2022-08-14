@@ -4,9 +4,11 @@ import com.kristijan.iotdesk.application.dtos.ChannelIdDto;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
+import com.kristijan.iotdesk.application.dtos.DeviceParameterDto;
 import com.kristijan.iotdesk.application.exceptions.NotFoundException;
 import com.kristijan.iotdesk.domain.device.models.Device;
 import com.kristijan.iotdesk.domain.device.models.DeviceChannelId;
+import com.kristijan.iotdesk.domain.device.models.DeviceParameter;
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
 import com.kristijan.iotdesk.domain.device.services.ChannelIdService;
 import com.kristijan.iotdesk.domain.device.services.ListDevicesService;
@@ -24,6 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -58,15 +61,15 @@ public class DevicesApplicationServiceTest {
   @Test
   void shouldMapDevicesToDeviceDtos() {
     List<Device> existingDevices =
-      List.of(createDevice(1L, "d1"),
-        createDevice(2L, "d2"),
-        createDevice(3L, "d3"));
+      List.of(createDevice(1L, "d1", DeviceState.NEW, null),
+        createDevice(2L, "d2", DeviceState.ACTIVE, null),
+        createDevice(3L, "d3", DeviceState.NEW, null));
     when(listDevicesServiceMock.getAllDevices()).thenReturn(existingDevices);
     List<DeviceDto> result = devicesApplicationService.getAllDevices();
 
     assertEquals(3, result.size());
     assertDeviceDto(result.get(0), 1, "d1", DeviceState.NEW);
-    assertDeviceDto(result.get(1), 2, "d2", DeviceState.NEW);
+    assertDeviceDto(result.get(1), 2, "d2", DeviceState.ACTIVE);
     assertDeviceDto(result.get(2), 3, "d3", DeviceState.NEW);
   }
 
@@ -92,16 +95,21 @@ public class DevicesApplicationServiceTest {
   @Test
   void shouldFindDeviceByIdAndConvertToDeviceDetailsDto() {
     LocalDateTime now = LocalDateTime.now(clock);
-    when(listDevicesServiceMock.findById(1))
-      .thenReturn(Optional.of(createDevice(1L, "d1", now)));
-    when(listDevicesServiceMock.findById(2))
-      .thenReturn(Optional.of(createDevice(2L, "d2", now)));
+    Device device = createDevice(2L, "d2", DeviceState.ACTIVE, now);
+    device.getParameters().add(createDeviceParameter(11, 2L, 1, "Param B"));
+    device.getParameters().add(createDeviceParameter(12, 2L, 2, "Param A"));
+    device.getParameters().add(createDeviceParameter(13, 2L, 3, "Param C"));
+    when(listDevicesServiceMock.findById(2)).thenReturn(Optional.of(device));
 
-    DeviceDetailsDto result1 = devicesApplicationService.getDeviceById(1);
-    assertDeviceDetailsDto(result1, 1, "d1", DeviceState.NEW, ZonedDateTime.of(now, clock.getZone()));
+    DeviceDetailsDto result = devicesApplicationService.getDeviceById(2);
 
-    DeviceDetailsDto result2 = devicesApplicationService.getDeviceById(2);
-    assertDeviceDetailsDto(result2, 2, "d2", DeviceState.NEW, ZonedDateTime.of(now, clock.getZone()));
+    assertDeviceDto(result, 2, "d2", DeviceState.ACTIVE);
+    assertEquals(ZonedDateTime.of(now, clock.getZone()), result.getCreatedAt());
+    List<DeviceParameterDto> deviceParameters = result.getParameters();
+    assertEquals(3, deviceParameters.size());
+    assertDeviceParameterDto(deviceParameters.get(0), 12, 2, "Param A");
+    assertDeviceParameterDto(deviceParameters.get(1), 11, 1, "Param B");
+    assertDeviceParameterDto(deviceParameters.get(2), 13, 3, "Param C");
   }
 
   void assertDeviceDto(DeviceDto dto, long id, String name, DeviceState state) {
@@ -110,20 +118,24 @@ public class DevicesApplicationServiceTest {
     assertEquals(state, dto.getState());
   }
 
-  void assertDeviceDetailsDto(DeviceDetailsDto dto, long id, String name, DeviceState state, ZonedDateTime createdAt) {
-    assertDeviceDto(dto, id, name, state);
-    assertEquals(createdAt, dto.getCreatedAt());
+  void assertDeviceParameterDto(DeviceParameterDto dto, long expectedId, int expectedAnchor, String expectedName) {
+    assertNotNull(dto);
+    assertEquals(expectedId, dto.getId());
+    assertEquals(expectedAnchor, dto.getAnchor());
+    assertEquals(expectedName, dto.getName());
   }
 
-  private Device createDevice(Long id, String d1, LocalDateTime createdAt) {
-    Device device = new Device(d1, DeviceState.NEW);
+  private Device createDevice(Long id, String name, DeviceState state, LocalDateTime createdAt) {
+    Device device = new Device(name, state);
     device.setId(id);
     device.setCreatedAt(createdAt);
     return device;
   }
 
-  private Device createDevice(Long id, String name) {
-    return createDevice(id, name, null);
+  private DeviceParameter createDeviceParameter(long id, long deviceId, int anchor, String name) {
+    DeviceParameter parameter = new DeviceParameter(deviceId, anchor, name);
+    parameter.setId(id);
+    return parameter;
   }
 
   @Test
