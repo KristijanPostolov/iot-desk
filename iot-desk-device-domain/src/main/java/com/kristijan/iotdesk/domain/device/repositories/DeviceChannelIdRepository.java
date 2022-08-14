@@ -12,4 +12,6 @@ public interface DeviceChannelIdRepository {
   void save(DeviceChannelId deviceChannelId);
 
   Optional<DeviceChannelId> findByDeviceId(long deviceId);
+
+  Optional<DeviceChannelId> findByChannelId(String channelId);
 }

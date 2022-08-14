@@ -7,8 +7,8 @@ import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.exceptions.NotFoundException;
 import com.kristijan.iotdesk.domain.device.models.Device;
 import com.kristijan.iotdesk.domain.device.services.ChannelIdService;
-import com.kristijan.iotdesk.domain.device.services.CreateDeviceService;
 import com.kristijan.iotdesk.domain.device.services.ListDevicesService;
+import com.kristijan.iotdesk.domain.device.services.ManageDevicesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class DevicesApplicationService {
 
   private final ListDevicesService listDevicesService;
-  private final CreateDeviceService createDeviceService;
+  private final ManageDevicesService manageDevicesService;
   private final ChannelIdService channelIdService;
   private final Clock clock;
 
@@ -33,7 +33,7 @@ public class DevicesApplicationService {
   }
 
   public long createNewDevice(CreateDeviceDto createDeviceDto) {
-    return createDeviceService.createNewDevice(createDeviceDto.getName());
+    return manageDevicesService.createNewDevice(createDeviceDto.getName());
   }
 
   public DeviceDetailsDto getDeviceById(long id) {

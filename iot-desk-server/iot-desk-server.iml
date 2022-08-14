@@ -48,6 +48,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-web:5.3.18" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.18" level="project" />
     <orderEntry type="module" module-name="iot-desk-messaging-client-mqtt" />
+    <orderEntry type="module" module-name="iot-desk-snapshots-domain" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.18" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.18" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.18" level="project" />

@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/iot-desk-messaging-client-mqtt/iot-desk-messaging-client-mqtt.iml" filepath="$PROJECT_DIR$/iot-desk-messaging-client-mqtt/iot-desk-messaging-client-mqtt.iml" />
       <module fileurl="file://$PROJECT_DIR$/iot-desk-persistence-mock/iot-desk-persistence-mock.iml" filepath="$PROJECT_DIR$/iot-desk-persistence-mock/iot-desk-persistence-mock.iml" />
       <module fileurl="file://$PROJECT_DIR$/iot-desk-server/iot-desk-server.iml" filepath="$PROJECT_DIR$/iot-desk-server/iot-desk-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iot-desk-snapshots-domain/iot-desk-snapshots-domain.iml" filepath="$PROJECT_DIR$/iot-desk-snapshots-domain/iot-desk-snapshots-domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/iot-desk-user-domain/iot-desk-user-domain.iml" filepath="$PROJECT_DIR$/iot-desk-user-domain/iot-desk-user-domain.iml" />
     </modules>
   </component>

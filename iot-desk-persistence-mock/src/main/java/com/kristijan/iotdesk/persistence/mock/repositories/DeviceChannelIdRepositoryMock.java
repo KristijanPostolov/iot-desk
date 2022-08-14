@@ -23,6 +23,13 @@ public class DeviceChannelIdRepositoryMock implements DeviceChannelIdRepository 
     return Optional.ofNullable(deviceChannelIdMap.get(deviceId));
   }
 
+  @Override
+  public Optional<DeviceChannelId> findByChannelId(String channelId) {
+    return deviceChannelIdMap.values().stream()
+      .filter(entry -> entry.getChannelId().equals(channelId))
+      .findFirst();
+  }
+
   public void reset() {
     deviceChannelIdMap.clear();
   }

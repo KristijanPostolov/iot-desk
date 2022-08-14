@@ -11,6 +11,7 @@
         <module name="iot-desk-messaging-client-mqtt" />
         <module name="iot-desk-integration-tests" />
         <module name="iot-desk-user-domain" />
+        <module name="iot-desk-snapshots-domain" />
         <module name="iot-desk-application" />
         <module name="iot-desk-persistence-mock" />
         <module name="iot-desk-server" />
@@ -24,6 +25,7 @@
       <module name="iot-desk-messaging-client-mqtt" target="11" />
       <module name="iot-desk-persistence-mock" target="11" />
       <module name="iot-desk-server" target="11" />
+      <module name="iot-desk-snapshots-domain" target="11" />
       <module name="iot-desk-user-domain" target="11" />
       <module name="iot-server" target="11" />
     </bytecodeTargetLevel>
@@ -36,6 +38,7 @@
       <module name="iot-desk-messaging-client-mqtt" options="-parameters" />
       <module name="iot-desk-persistence-mock" options="-parameters" />
       <module name="iot-desk-server" options="-parameters" />
+      <module name="iot-desk-snapshots-domain" options="-parameters" />
       <module name="iot-desk-user-domain" options="-parameters" />
       <module name="iot-server" options="-parameters" />
     </option>

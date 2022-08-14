@@ -52,7 +52,7 @@ public class ChannelIdServiceTest {
   }
 
   @Test
-  void shouldReturnEmptyWhenChannelIdDoesNotExist() {
+  void shouldReturnEmptyWhenDeviceIdDoesNotExist() {
     Optional<DeviceChannelId> result = channelIdService.findByDeviceId(2L);
 
     assertTrue(result.isEmpty());
@@ -69,4 +69,24 @@ public class ChannelIdServiceTest {
     assertEquals(2L, result.get().getDeviceId());
     assertEquals("channelId2", result.get().getChannelId());
   }
+
+  @Test
+  void shouldReturnEmptyWhenChannelIdDoesNotExist() {
+    Optional<DeviceChannelId> result = channelIdService.findByChannelId("nonExisting");
+
+    assertTrue(result.isEmpty());
+  }
+
+  @Test
+  void shouldReturnDeviceChannelIdForGivenChannelId() {
+    when(deviceChannelIdRepository.findByChannelId("channelId3"))
+      .thenReturn(Optional.of(new DeviceChannelId(3L, "channelId3")));
+
+    Optional<DeviceChannelId> result = channelIdService.findByChannelId("channelId3");
+
+    assertTrue(result.isPresent());
+    assertEquals(3L, result.get().getDeviceId());
+    assertEquals("channelId3", result.get().getChannelId());
+  }
+
 }

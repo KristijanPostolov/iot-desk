@@ -26,6 +26,7 @@
         <module>iot-desk-integration-tests</module>
         <module>iot-desk-user-domain</module>
         <module>iot-desk-messaging-client-mqtt</module>
+        <module>iot-desk-snapshots-domain</module>
     </modules>
 
     <properties>
@@ -38,6 +39,11 @@
             <dependency>
                 <groupId>com.kristijan.iot.desk</groupId>
                 <artifactId>iot-desk-device-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kristijan.iot.desk</groupId>
+                <artifactId>iot-desk-snapshots-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

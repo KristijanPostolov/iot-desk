@@ -9,8 +9,8 @@ import com.kristijan.iotdesk.domain.device.models.Device;
 import com.kristijan.iotdesk.domain.device.models.DeviceChannelId;
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
 import com.kristijan.iotdesk.domain.device.services.ChannelIdService;
-import com.kristijan.iotdesk.domain.device.services.CreateDeviceService;
 import com.kristijan.iotdesk.domain.device.services.ListDevicesService;
+import com.kristijan.iotdesk.domain.device.services.ManageDevicesService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,7 +37,7 @@ public class DevicesApplicationServiceTest {
   private ListDevicesService listDevicesServiceMock;
 
   @Mock
-  private CreateDeviceService createDeviceServiceMock;
+  private ManageDevicesService manageDevicesServiceMock;
 
   @Mock
   private ChannelIdService channelIdServiceMock;
@@ -46,7 +46,7 @@ public class DevicesApplicationServiceTest {
 
   @BeforeEach
   void setUp() {
-    devicesApplicationService = new DevicesApplicationService(listDevicesServiceMock, createDeviceServiceMock,
+    devicesApplicationService = new DevicesApplicationService(listDevicesServiceMock, manageDevicesServiceMock,
       channelIdServiceMock, clock);
   }
 
@@ -73,9 +73,9 @@ public class DevicesApplicationServiceTest {
   @Test
   void shouldReturnIdForEachDevice() {
     CreateDeviceDto dto1 = new CreateDeviceDto("New Device 1");
-    when(createDeviceServiceMock.createNewDevice(eq(dto1.getName()))).thenReturn(5L);
+    when(manageDevicesServiceMock.createNewDevice(eq(dto1.getName()))).thenReturn(5L);
     CreateDeviceDto dto2 = new CreateDeviceDto("New Device 2");
-    when(createDeviceServiceMock.createNewDevice(eq(dto2.getName()))).thenReturn(6L);
+    when(manageDevicesServiceMock.createNewDevice(eq(dto2.getName()))).thenReturn(6L);
 
     long result1 = devicesApplicationService.createNewDevice(dto1);
     long result2 = devicesApplicationService.createNewDevice(dto2);

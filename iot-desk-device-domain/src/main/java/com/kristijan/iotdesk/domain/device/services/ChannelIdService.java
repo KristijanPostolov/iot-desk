@@ -33,4 +33,8 @@ public class ChannelIdService {
     return deviceChannelIdRepository.findByDeviceId(deviceId);
   }
 
+  public Optional<DeviceChannelId> findByChannelId(String channelId) {
+    return deviceChannelIdRepository.findByChannelId(channelId);
+  }
+
 }
