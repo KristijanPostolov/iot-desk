@@ -9,12 +9,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="iotd-messaging-client-mqtt" />
         <module name="iotd-persistence-mock" />
-        <module name="iotd-application" />
         <module name="iotd-snapshots-domain" />
-        <module name="iotd-device-domain" />
+        <module name="iotd-application" />
         <module name="iotd-user-domain" />
-        <module name="iotd-server" />
+        <module name="iotd-device-domain" />
         <module name="iotd-persistence-integration-tests" />
+        <module name="iotd-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
