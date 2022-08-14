@@ -1,7 +1,7 @@
 package com.kristijan.iotdesk.messaging.mqtt.services;
 
 import com.kristijan.iotdesk.domain.snapshots.models.AnchorSnapshot;
-import com.kristijan.iotdesk.messaging.mqtt.models.MappingResult;
+import com.kristijan.iotdesk.messaging.mqtt.models.ParsingResult;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,16 +20,16 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
-class MqttPayloadValidatorAndMapperTest {
+class MqttPayloadValidatorAndParserTest {
 
   @InjectMocks
-  private MqttPayloadValidatorAndMapper mqttPayloadValidatorAndMapper;
+  private MqttPayloadValidatorAndParser mqttPayloadValidatorAndParser;
 
 
   @ParameterizedTest
   @MethodSource("validationTestCases")
   void testValidation(String payload, boolean expectedValid) {
-    MappingResult result = mqttPayloadValidatorAndMapper.mapPayload(payload.getBytes(StandardCharsets.UTF_8));
+    ParsingResult result = mqttPayloadValidatorAndParser.parsePayload(payload.getBytes(StandardCharsets.UTF_8));
 
     assertEquals(expectedValid, result.isValid());
   }
@@ -59,7 +59,7 @@ class MqttPayloadValidatorAndMapperTest {
   void shouldReturnInvalidMappingResultWhenValidationFails() {
     byte[] payload = "invalidPayload".getBytes(StandardCharsets.UTF_8);
 
-    MappingResult result = mqttPayloadValidatorAndMapper.mapPayload(payload);
+    ParsingResult result = mqttPayloadValidatorAndParser.parsePayload(payload);
 
     assertFalse(result.isValid());
   }
@@ -68,7 +68,7 @@ class MqttPayloadValidatorAndMapperTest {
   void shouldReturnMappedModel() {
     byte[] payload = "3:4.56,1:99,4:123.456789".getBytes(StandardCharsets.UTF_8);
 
-    MappingResult result = mqttPayloadValidatorAndMapper.mapPayload(payload);
+    ParsingResult result = mqttPayloadValidatorAndParser.parsePayload(payload);
 
     assertTrue(result.isValid());
     List<AnchorSnapshot> snapshots = result.getAnchorSnapshots();

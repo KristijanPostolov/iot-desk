@@ -10,11 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class MappingResultTest {
+class ParsingResultTest {
 
   @Test
   void shouldReturnInvalid() {
-    MappingResult result = MappingResult.invalid();
+    ParsingResult result = ParsingResult.invalid();
 
     assertFalse(result.isValid());
     assertNull(result.getAnchorSnapshots());
@@ -24,7 +24,7 @@ class MappingResultTest {
   void shouldReturnValid() {
     List<AnchorSnapshot> list = List.of(new AnchorSnapshot(1, 2));
 
-    MappingResult result = MappingResult.of(list);
+    ParsingResult result = ParsingResult.of(list);
 
     assertTrue(result.isValid());
     assertEquals(list, result.getAnchorSnapshots());

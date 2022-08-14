@@ -4,7 +4,7 @@ import com.kristijan.iotdesk.domain.snapshots.models.AnchorSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.models.DeviceSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.services.AddDeviceSnapshotService;
 import com.kristijan.iotdesk.domain.snapshots.services.DeviceMessagingErrorHandler;
-import com.kristijan.iotdesk.messaging.mqtt.models.MappingResult;
+import com.kristijan.iotdesk.messaging.mqtt.models.ParsingResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +35,7 @@ class DeviceSnapshotHandlerTest {
   private DeviceMessagingErrorHandler deviceMessagingErrorHandler;
 
   @Mock
-  private MqttPayloadValidatorAndMapper mqttPayloadValidatorAndMapper;
+  private MqttPayloadValidatorAndParser mqttPayloadValidatorAndParser;
 
   @Mock
   private AddDeviceSnapshotService addDeviceSnapshotService;
@@ -45,13 +45,13 @@ class DeviceSnapshotHandlerTest {
 
   @BeforeEach
   void setUp() {
-    deviceSnapshotHandler = new DeviceSnapshotHandler(deviceMessagingErrorHandler, mqttPayloadValidatorAndMapper,
+    deviceSnapshotHandler = new DeviceSnapshotHandler(deviceMessagingErrorHandler, mqttPayloadValidatorAndParser,
       addDeviceSnapshotService, clock);
   }
 
   @Test
   void shouldReturnFalseForPayloadValidationError() {
-    when(mqttPayloadValidatorAndMapper.mapPayload(any())).thenReturn(MappingResult.invalid());
+    when(mqttPayloadValidatorAndParser.parsePayload(any())).thenReturn(ParsingResult.invalid());
 
     boolean result = deviceSnapshotHandler.handleSnapshot("channelId1", new byte[0]);
 
@@ -61,8 +61,8 @@ class DeviceSnapshotHandlerTest {
 
   @Test
   void shouldReturnFalseIfAddingIsNotSuccessful() {
-    when(mqttPayloadValidatorAndMapper.mapPayload(any())).thenReturn(
-      MappingResult.of(Collections.emptyList()));
+    when(mqttPayloadValidatorAndParser.parsePayload(any())).thenReturn(
+      ParsingResult.of(Collections.emptyList()));
 
     boolean result = deviceSnapshotHandler.handleSnapshot("channelId1", new byte[0]);
 
@@ -75,8 +75,8 @@ class DeviceSnapshotHandlerTest {
       new AnchorSnapshot(1, 1.2),
       new AnchorSnapshot(2, 123456),
       new AnchorSnapshot(3, 123.456789));
-    when(mqttPayloadValidatorAndMapper.mapPayload(any())).thenReturn(
-      MappingResult.of(anchorSnapshots));
+    when(mqttPayloadValidatorAndParser.parsePayload(any())).thenReturn(
+      ParsingResult.of(anchorSnapshots));
     when(addDeviceSnapshotService.addDeviceSnapshot(any())).thenReturn(true);
 
     boolean result = deviceSnapshotHandler.handleSnapshot("channelId1", new byte[0]);

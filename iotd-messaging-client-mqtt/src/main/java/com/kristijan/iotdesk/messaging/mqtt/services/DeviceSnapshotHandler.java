@@ -4,7 +4,7 @@ import com.kristijan.iotdesk.domain.snapshots.models.AnchorSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.models.DeviceSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.services.AddDeviceSnapshotService;
 import com.kristijan.iotdesk.domain.snapshots.services.DeviceMessagingErrorHandler;
-import com.kristijan.iotdesk.messaging.mqtt.models.MappingResult;
+import com.kristijan.iotdesk.messaging.mqtt.models.ParsingResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import java.util.List;
 public class DeviceSnapshotHandler {
 
   private final DeviceMessagingErrorHandler deviceMessagingErrorHandler;
-  private final MqttPayloadValidatorAndMapper mqttPayloadValidatorAndMapper;
+  private final MqttPayloadValidatorAndParser mqttPayloadValidatorAndParser;
   private final AddDeviceSnapshotService addDeviceSnapshotService;
   private final Clock clock;
 
@@ -29,13 +29,13 @@ public class DeviceSnapshotHandler {
    * @return true if snapshot was handled successfully.
    */
   public boolean handleSnapshot(String channelId, byte[] payload) {
-    MappingResult mappingResult = mqttPayloadValidatorAndMapper.mapPayload(payload);
-    if (!mappingResult.isValid()) {
+    ParsingResult parsingResult = mqttPayloadValidatorAndParser.parsePayload(payload);
+    if (!parsingResult.isValid()) {
       deviceMessagingErrorHandler.invalidPayload(channelId);
       return false;
     }
 
-    List<AnchorSnapshot> anchorSnapshots = mappingResult.getAnchorSnapshots();
+    List<AnchorSnapshot> anchorSnapshots = parsingResult.getAnchorSnapshots();
     DeviceSnapshot deviceSnapshot = new DeviceSnapshot(channelId, LocalDateTime.now(clock), anchorSnapshots);
     return addDeviceSnapshotService.addDeviceSnapshot(deviceSnapshot);
   }

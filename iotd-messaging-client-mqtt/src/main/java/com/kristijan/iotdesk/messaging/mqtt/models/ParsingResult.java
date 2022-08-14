@@ -9,16 +9,16 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class MappingResult {
+public class ParsingResult {
 
   private final boolean valid;
   private final List<AnchorSnapshot> anchorSnapshots;
 
-  public static MappingResult invalid() {
-    return new MappingResult(false, null);
+  public static ParsingResult invalid() {
+    return new ParsingResult(false, null);
   }
 
-  public static MappingResult of(List<AnchorSnapshot> anchorSnapshots) {
-    return new MappingResult(true, anchorSnapshots);
+  public static ParsingResult of(List<AnchorSnapshot> anchorSnapshots) {
+    return new ParsingResult(true, anchorSnapshots);
   }
 }
