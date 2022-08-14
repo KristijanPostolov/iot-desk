@@ -1,5 +1,6 @@
 package com.kristijan.iotdesk.messaging.mqtt.services;
 
+import com.kristijan.iotdesk.domain.device.exceptions.DomainException;
 import com.kristijan.iotdesk.domain.snapshots.models.AnchorSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.models.DeviceSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.services.AddDeviceSnapshotService;
@@ -60,6 +61,19 @@ class DeviceSnapshotHandlerTest {
   }
 
   @Test
+  void shouldReturnFalseOnDomainError() {
+    when(mqttPayloadValidatorAndParser.parsePayload(any())).thenReturn(
+      ParsingResult.of(Collections.emptyList()));
+    DomainException exception = new DomainException("error");
+    when(addDeviceSnapshotService.addDeviceSnapshot(any())).thenThrow(exception);
+
+    boolean result = deviceSnapshotHandler.handleSnapshot("channelId1", new byte[0]);
+
+    assertFalse(result);
+    verify(deviceMessagingErrorHandler).handleDomainException("channelId1", exception);
+  }
+
+  @Test
   void shouldReturnFalseIfAddingIsNotSuccessful() {
     when(mqttPayloadValidatorAndParser.parsePayload(any())).thenReturn(
       ParsingResult.of(Collections.emptyList()));
@@ -89,5 +103,4 @@ class DeviceSnapshotHandlerTest {
     assertEquals(now, deviceSnapshot.getTimestamp());
     assertEquals(anchorSnapshots, deviceSnapshot.getAnchorSnapshots());
   }
-
 }

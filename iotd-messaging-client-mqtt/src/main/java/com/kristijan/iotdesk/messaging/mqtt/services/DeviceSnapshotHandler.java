@@ -37,7 +37,12 @@ public class DeviceSnapshotHandler {
 
     List<AnchorSnapshot> anchorSnapshots = parsingResult.getAnchorSnapshots();
     DeviceSnapshot deviceSnapshot = new DeviceSnapshot(channelId, LocalDateTime.now(clock), anchorSnapshots);
-    return addDeviceSnapshotService.addDeviceSnapshot(deviceSnapshot);
+    try {
+      return addDeviceSnapshotService.addDeviceSnapshot(deviceSnapshot);
+    } catch (Exception ex) {
+      deviceMessagingErrorHandler.handleDomainException(channelId, ex);
+      return false;
+    }
   }
 
 }

@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -58,6 +59,7 @@ public class ManageDevicesService {
           throw new DomainException("Trying to activate device: " + id + ", but state is: " + device.getState());
         }
         device.setState(DeviceState.ACTIVE);
+        log.info("Activating device with id: " + id);
         return devicesRepository.updateStatus(device);
       })
       .orElseThrow(() -> new DomainException("Trying to activate non existing device: " + id));
@@ -68,11 +70,17 @@ public class ManageDevicesService {
       .map(device -> {
         Set<DeviceParameter> deviceParameters = createNewParameterModels(device, parameterAnchors);
         if (!deviceParameters.isEmpty()) {
+          logCreationOfParameters(deviceId, deviceParameters);
           return devicesRepository.saveParameters(device, deviceParameters);
         }
         return device;
       })
       .orElseThrow(() -> new DomainException("Creating parameters for non existing device: " + deviceId));
+  }
+
+  private void logCreationOfParameters(long deviceId, Set<DeviceParameter> deviceParameters) {
+    List<Integer> anchors = deviceParameters.stream().map(DeviceParameter::getAnchor).collect(Collectors.toList());
+    log.info("Creating new device parameters for device id: " + deviceId + ", anchors: " + anchors);
   }
 
   private Set<DeviceParameter> createNewParameterModels(Device device, Set<Integer> parameterAnchors) {
