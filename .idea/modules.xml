@@ -3,14 +3,14 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/iot-desk.iml" filepath="$PROJECT_DIR$/.idea/iot-desk.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iot-desk-application/iot-desk-application.iml" filepath="$PROJECT_DIR$/iot-desk-application/iot-desk-application.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iot-desk-device-domain/iot-desk-device-domain.iml" filepath="$PROJECT_DIR$/iot-desk-device-domain/iot-desk-device-domain.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iot-desk-integration-tests/iot-desk-integration-tests.iml" filepath="$PROJECT_DIR$/iot-desk-integration-tests/iot-desk-integration-tests.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iot-desk-messaging-client-mqtt/iot-desk-messaging-client-mqtt.iml" filepath="$PROJECT_DIR$/iot-desk-messaging-client-mqtt/iot-desk-messaging-client-mqtt.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iot-desk-persistence-mock/iot-desk-persistence-mock.iml" filepath="$PROJECT_DIR$/iot-desk-persistence-mock/iot-desk-persistence-mock.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iot-desk-server/iot-desk-server.iml" filepath="$PROJECT_DIR$/iot-desk-server/iot-desk-server.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iot-desk-snapshots-domain/iot-desk-snapshots-domain.iml" filepath="$PROJECT_DIR$/iot-desk-snapshots-domain/iot-desk-snapshots-domain.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iot-desk-user-domain/iot-desk-user-domain.iml" filepath="$PROJECT_DIR$/iot-desk-user-domain/iot-desk-user-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iot-desk-application/iotd-application.iml" filepath="$PROJECT_DIR$/iot-desk-application/iotd-application.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iot-desk-device-domain/iotd-device-domain.iml" filepath="$PROJECT_DIR$/iot-desk-device-domain/iotd-device-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iot-desk-messaging-client-mqtt/iotd-messaging-client-mqtt.iml" filepath="$PROJECT_DIR$/iot-desk-messaging-client-mqtt/iotd-messaging-client-mqtt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iot-desk-integration-tests/iotd-persistence-integration-tests.iml" filepath="$PROJECT_DIR$/iot-desk-integration-tests/iotd-persistence-integration-tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iot-desk-persistence-mock/iotd-persistence-mock.iml" filepath="$PROJECT_DIR$/iot-desk-persistence-mock/iotd-persistence-mock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iot-desk-server/iotd-server.iml" filepath="$PROJECT_DIR$/iot-desk-server/iotd-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iot-desk-snapshots-domain/iotd-snapshots-domain.iml" filepath="$PROJECT_DIR$/iot-desk-snapshots-domain/iotd-snapshots-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iot-desk-user-domain/iotd-user-domain.iml" filepath="$PROJECT_DIR$/iot-desk-user-domain/iotd-user-domain.iml" />
     </modules>
   </component>
 </project>

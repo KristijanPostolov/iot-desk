@@ -7,40 +7,40 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="iot-desk-device-domain" />
-        <module name="iot-desk-messaging-client-mqtt" />
-        <module name="iot-desk-integration-tests" />
-        <module name="iot-desk-user-domain" />
-        <module name="iot-desk-snapshots-domain" />
-        <module name="iot-desk-application" />
-        <module name="iot-desk-persistence-mock" />
-        <module name="iot-desk-server" />
+        <module name="iotd-messaging-client-mqtt" />
+        <module name="iotd-persistence-mock" />
+        <module name="iotd-application" />
+        <module name="iotd-snapshots-domain" />
+        <module name="iotd-device-domain" />
+        <module name="iotd-user-domain" />
+        <module name="iotd-server" />
+        <module name="iotd-persistence-integration-tests" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="iot-desk" target="11" />
-      <module name="iot-desk-application" target="11" />
-      <module name="iot-desk-device-domain" target="11" />
-      <module name="iot-desk-integration-tests" target="11" />
-      <module name="iot-desk-messaging-client-mqtt" target="11" />
-      <module name="iot-desk-persistence-mock" target="11" />
-      <module name="iot-desk-server" target="11" />
-      <module name="iot-desk-snapshots-domain" target="11" />
-      <module name="iot-desk-user-domain" target="11" />
       <module name="iot-server" target="11" />
+      <module name="iotd-application" target="11" />
+      <module name="iotd-device-domain" target="11" />
+      <module name="iotd-messaging-client-mqtt" target="11" />
+      <module name="iotd-persistence-integration-tests" target="11" />
+      <module name="iotd-persistence-mock" target="11" />
+      <module name="iotd-server" target="11" />
+      <module name="iotd-snapshots-domain" target="11" />
+      <module name="iotd-user-domain" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="iot-desk-application" options="-parameters" />
-      <module name="iot-desk-device-domain" options="-parameters" />
-      <module name="iot-desk-integration-tests" options="-parameters" />
-      <module name="iot-desk-messaging-client-mqtt" options="-parameters" />
-      <module name="iot-desk-persistence-mock" options="-parameters" />
-      <module name="iot-desk-server" options="-parameters" />
-      <module name="iot-desk-snapshots-domain" options="-parameters" />
-      <module name="iot-desk-user-domain" options="-parameters" />
       <module name="iot-server" options="-parameters" />
+      <module name="iotd-application" options="-parameters" />
+      <module name="iotd-device-domain" options="-parameters" />
+      <module name="iotd-messaging-client-mqtt" options="-parameters" />
+      <module name="iotd-persistence-integration-tests" options="-parameters" />
+      <module name="iotd-persistence-mock" options="-parameters" />
+      <module name="iotd-server" options="-parameters" />
+      <module name="iotd-snapshots-domain" options="-parameters" />
+      <module name="iotd-user-domain" options="-parameters" />
     </option>
   </component>
 </project>

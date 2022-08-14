@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="IotServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-    <module name="iot-desk-server" />
+    <module name="iotd-server" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.kristijan.iotdesk.server.*" />

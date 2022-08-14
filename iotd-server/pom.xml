@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>iot-desk-server</artifactId>
+    <artifactId>iotd-server</artifactId>
     <packaging>jar</packaging>
 
     <description>Web Application for iot device management</description>
@@ -22,17 +22,17 @@
     <dependencies>
         <dependency>
             <groupId>com.kristijan.iot.desk</groupId>
-            <artifactId>iot-desk-application</artifactId>
+            <artifactId>iotd-application</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.kristijan.iot.desk</groupId>
-            <artifactId>iot-desk-messaging-client-mqtt</artifactId>
+            <artifactId>iotd-messaging-client-mqtt</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.kristijan.iot.desk</groupId>
-            <artifactId>iot-desk-persistence-mock</artifactId>
+            <artifactId>iotd-persistence-mock</artifactId>
         </dependency>
 
         <dependency>

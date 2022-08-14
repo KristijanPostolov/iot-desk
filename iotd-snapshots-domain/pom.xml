@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>iot-desk-snapshots-domain</artifactId>
+    <artifactId>iotd-snapshots-domain</artifactId>
     <packaging>jar</packaging>
 
     <description>Snapshots domain</description>
@@ -38,7 +38,7 @@
 
         <dependency>
             <groupId>com.kristijan.iot.desk</groupId>
-            <artifactId>iot-desk-device-domain</artifactId>
+            <artifactId>iotd-device-domain</artifactId>
         </dependency>
 
         <dependency>

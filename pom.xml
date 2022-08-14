@@ -19,14 +19,14 @@
     <description>Iot-desk - iot device management service</description>
 
     <modules>
-        <module>iot-desk-server</module>
-        <module>iot-desk-device-domain</module>
-        <module>iot-desk-application</module>
-        <module>iot-desk-persistence-mock</module>
-        <module>iot-desk-integration-tests</module>
-        <module>iot-desk-user-domain</module>
-        <module>iot-desk-messaging-client-mqtt</module>
-        <module>iot-desk-snapshots-domain</module>
+        <module>iotd-server</module>
+        <module>iotd-device-domain</module>
+        <module>iotd-application</module>
+        <module>iotd-persistence-mock</module>
+        <module>iotd-persistence-integration-tests</module>
+        <module>iotd-user-domain</module>
+        <module>iotd-messaging-client-mqtt</module>
+        <module>iotd-snapshots-domain</module>
     </modules>
 
     <properties>
@@ -38,32 +38,32 @@
         <dependencies>
             <dependency>
                 <groupId>com.kristijan.iot.desk</groupId>
-                <artifactId>iot-desk-device-domain</artifactId>
+                <artifactId>iotd-device-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.kristijan.iot.desk</groupId>
-                <artifactId>iot-desk-snapshots-domain</artifactId>
+                <artifactId>iotd-snapshots-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.kristijan.iot.desk</groupId>
-                <artifactId>iot-desk-user-domain</artifactId>
+                <artifactId>iotd-user-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.kristijan.iot.desk</groupId>
-                <artifactId>iot-desk-application</artifactId>
+                <artifactId>iotd-application</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.kristijan.iot.desk</groupId>
-                <artifactId>iot-desk-messaging-client-mqtt</artifactId>
+                <artifactId>iotd-messaging-client-mqtt</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.kristijan.iot.desk</groupId>
-                <artifactId>iot-desk-persistence-mock</artifactId>
+                <artifactId>iotd-persistence-mock</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

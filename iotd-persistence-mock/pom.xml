@@ -9,10 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>iot-desk-user-domain</artifactId>
-    <packaging>jar</packaging>
-
-    <description>User domain</description>
+    <artifactId>iotd-persistence-mock</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -21,14 +18,24 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.kristijan.iot.desk</groupId>
+            <artifactId>iotd-device-domain</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.kristijan.iot.desk</groupId>
+            <artifactId>iotd-user-domain</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -42,4 +49,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 </project>
