@@ -13,7 +13,7 @@ import java.time.ZoneOffset;
 import java.util.UUID;
 
 @SpringBootConfiguration
-@Import({DeviceDomainConfiguration.class, UserDomainConfiguration.class})
+@Import({DeviceDomainConfiguration.class, UserDomainConfiguration.class, SnapshotsDomainConfiguration.class})
 @ComponentScan(basePackageClasses = PersistenceMockComponents.class)
 public class IntegrationTestConfiguration {
 

@@ -1,4 +1,4 @@
-package com.kristijan.iotdesk.server.config;
+package com.kristijan.iotdesk.integration.tests;
 
 import com.kristijan.iotdesk.domain.device.services.ChannelIdService;
 import com.kristijan.iotdesk.domain.device.services.ListDevicesService;
@@ -7,14 +7,9 @@ import com.kristijan.iotdesk.domain.snapshots.repositories.ParameterSnapshotRepo
 import com.kristijan.iotdesk.domain.snapshots.services.AddDeviceSnapshotService;
 import com.kristijan.iotdesk.domain.snapshots.services.DeviceMessagingErrorHandler;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.time.Clock;
 
-/**
- * Spring java configuration for snapshots domain module.
- */
-@Configuration
 public class SnapshotsDomainConfiguration {
 
   @Bean
@@ -32,4 +27,5 @@ public class SnapshotsDomainConfiguration {
     return new AddDeviceSnapshotService(deviceMessagingErrorHandler, channelIdService, listDevicesService,
       manageDevicesService, parameterSnapshotRepository, clock);
   }
+
 }

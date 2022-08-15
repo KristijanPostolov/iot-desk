@@ -17,10 +17,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.kristijan.iot.desk</groupId>
-            <artifactId>iotd-device-domain</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>com.kristijan.iot.desk</groupId>
