@@ -1,8 +1,6 @@
 package com.kristijan.iotdesk.application.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kristijan.iotdesk.application.dtos.ChannelIdDto;
-import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceParameterDto;
@@ -29,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
+@WebMvcTest(controllers = DeviceController.class)
 public class DeviceControllerIntegrationTest {
 
   public static final String DEVICES_API = "/api/v1/devices";
@@ -39,9 +37,6 @@ public class DeviceControllerIntegrationTest {
 
   @MockBean
   private DevicesApplicationService devicesApplicationService;
-
-  @Autowired
-  private ObjectMapper objectMapper;
 
   @Test
   @SneakyThrows
@@ -74,11 +69,10 @@ public class DeviceControllerIntegrationTest {
   @Test
   @SneakyThrows
   void shouldCreateNewDevice() {
-    CreateDeviceDto dto = new CreateDeviceDto("New Device");
     when(devicesApplicationService.createNewDevice(any())).thenReturn(1L);
 
     MockHttpServletRequestBuilder request = post(DEVICES_API)
-      .content(asJsonString(dto))
+      .content("{\"name\": \"New Device\"}")
       .contentType(MediaType.APPLICATION_JSON);
 
     mockMvc.perform(request)
@@ -143,10 +137,5 @@ public class DeviceControllerIntegrationTest {
 
     mockMvc.perform(request)
       .andExpect(status().isNotFound());
-  }
-
-  @SneakyThrows
-  private String asJsonString(Object obj) {
-    return objectMapper.writeValueAsString(obj);
   }
 }

@@ -11,6 +11,7 @@ import com.kristijan.iotdesk.domain.snapshots.models.AnchorSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.models.DeviceSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.models.ParameterSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.services.AddDeviceSnapshotService;
+import com.kristijan.iotdesk.domain.snapshots.services.QuerySnapshotsService;
 import com.kristijan.iotdesk.integration.tests.IntegrationTestConfiguration;
 import com.kristijan.iotdesk.persistence.mock.repositories.DevicesRepositoryMock;
 import com.kristijan.iotdesk.persistence.mock.repositories.ParameterSnapshotRepositoryMock;
@@ -21,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +35,9 @@ public class SnapshotUseCaseIntegrationTest {
 
   @Autowired
   private AddDeviceSnapshotService addDeviceSnapshotService;
+
+  @Autowired
+  private QuerySnapshotsService querySnapshotsService;
 
   @Autowired
   private ManageDevicesService manageDevicesService;
@@ -87,6 +92,29 @@ public class SnapshotUseCaseIntegrationTest {
     assertEquals(3.56, parameterSnapshots2.get(0).getValue());
 
     assertNotEquals(parameterSnapshots1.get(0).getId(), parameterSnapshots2.get(0).getId());
+  }
+
+  @Test
+  void shouldQueryByParameterIdAndTimeRange() {
+    ZonedDateTime now = ZonedDateTime.now(clock);
+    ParameterSnapshot snapshot1 = new ParameterSnapshot(1L, now.plusMinutes(10), 1.2);
+    ParameterSnapshot snapshot2 = new ParameterSnapshot(3L, now.plusMinutes(2), 2.3); // different parameter
+    ParameterSnapshot snapshot3 = new ParameterSnapshot(1L, now.plusMinutes(5), 3.4);
+    ParameterSnapshot snapshot4 = new ParameterSnapshot(1L, now.plusMinutes(50), 4.5); // out of time range
+    parameterSnapshotRepository.saveParameterSnapshots(List.of(snapshot1, snapshot2, snapshot3, snapshot4));
+
+    List<ParameterSnapshot> result = querySnapshotsService.getSnapshotsInTimeRange(1L,
+      now.plusMinutes(-1), now.plusMinutes(15));
+
+    assertEquals(2, result.size());
+    // order is important
+    assertEqualSnapshots(snapshot3, result.get(0));
+    assertEqualSnapshots(snapshot1, result.get(1));
+  }
+
+  private void assertEqualSnapshots(ParameterSnapshot expected, ParameterSnapshot actual) {
+    assertEquals(expected.getTimestamp(), actual.getTimestamp());
+    assertEquals(expected.getValue(), actual.getValue());
   }
 
   private long getParameterIdByAnchor(Set<DeviceParameter> parameters, int anchor) {

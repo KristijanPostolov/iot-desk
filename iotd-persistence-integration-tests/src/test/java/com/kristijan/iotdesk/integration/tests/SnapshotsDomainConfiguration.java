@@ -6,6 +6,7 @@ import com.kristijan.iotdesk.domain.device.services.ManageDevicesService;
 import com.kristijan.iotdesk.domain.snapshots.repositories.ParameterSnapshotRepository;
 import com.kristijan.iotdesk.domain.snapshots.services.AddDeviceSnapshotService;
 import com.kristijan.iotdesk.domain.snapshots.services.DeviceMessagingErrorHandler;
+import com.kristijan.iotdesk.domain.snapshots.services.QuerySnapshotsService;
 import org.springframework.context.annotation.Bean;
 
 import java.time.Clock;
@@ -26,6 +27,11 @@ public class SnapshotsDomainConfiguration {
                                                            Clock clock) {
     return new AddDeviceSnapshotService(deviceMessagingErrorHandler, channelIdService, listDevicesService,
       manageDevicesService, parameterSnapshotRepository, clock);
+  }
+
+  @Bean
+  public QuerySnapshotsService querySnapshotsService(ParameterSnapshotRepository parameterSnapshotRepository) {
+    return new QuerySnapshotsService(parameterSnapshotRepository);
   }
 
 }

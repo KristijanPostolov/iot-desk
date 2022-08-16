@@ -21,6 +21,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Service that provides methods for adding device snapshots, which contain one or many parameter snapshots.
+ */
 @RequiredArgsConstructor
 public class AddDeviceSnapshotService {
 
