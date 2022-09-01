@@ -1,0 +1,1 @@
+docker-compose -f ./mosquitto-docker-compose.yml up -d
