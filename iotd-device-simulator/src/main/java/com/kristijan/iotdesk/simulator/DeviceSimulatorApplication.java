@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,6 +22,7 @@ import java.util.Random;
 public class DeviceSimulatorApplication implements CommandLineRunner {
 
   private static final Random random = new Random();
+  private static final String persistencePath = System.getProperty("user.dir") + "\\iotd-device-simulator\\_clients";
 
   private final SimulatorConfiguration simulatorConfiguration;
 
@@ -57,7 +59,7 @@ public class DeviceSimulatorApplication implements CommandLineRunner {
   @SneakyThrows
   private MqttClient getMqttClient(String channelId) {
     MqttClient client = new MqttClient(simulatorConfiguration.getBrokerUrl(),
-      simulatorConfiguration.getClientIdPrefix() + channelId);
+      simulatorConfiguration.getClientIdPrefix() + channelId, new MqttDefaultFilePersistence(persistencePath));
     client.connect();
     return client;
   }

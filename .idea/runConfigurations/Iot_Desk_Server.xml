@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="IotServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+  <configuration default="false" name="Iot Desk Server" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="iotd-server" />
     <extension name="coverage">
       <pattern>
