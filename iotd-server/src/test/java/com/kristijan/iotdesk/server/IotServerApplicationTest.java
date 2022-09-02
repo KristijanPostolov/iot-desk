@@ -10,7 +10,7 @@ import java.time.ZoneOffset;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-class IotServerApplicationTest {
+class IotServerApplicationTest extends MqttContainerTest {
 
   @Autowired
   private Clock clock;

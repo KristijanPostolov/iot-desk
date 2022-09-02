@@ -32,6 +32,9 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+
+        <eclipse-paho.version>1.2.1</eclipse-paho.version>
+        <testcontainers.version>1.17.3</testcontainers.version>
     </properties>
 
     <dependencies>
@@ -82,6 +85,25 @@
                 <groupId>com.kristijan.iot.desk</groupId>
                 <artifactId>iotd-persistence-mock</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.paho</groupId>
+                <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+                <version>${eclipse-paho.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers</artifactId>
+                <version>${testcontainers.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${testcontainers.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
