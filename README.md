@@ -1,5 +1,7 @@
 # IOT-Desk
 
+![Build status](https://github.com/KristijanPostolov/iot-desk/actions/workflows/maven.yml/badge.svg?branch=main)
+
 ## Description
 Application for management of IoT devices. The main functionality is to view sensor data and 
 manage actuators.
