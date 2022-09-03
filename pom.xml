@@ -28,6 +28,7 @@
         <module>iotd-messaging-client-mqtt</module>
         <module>iotd-snapshots-domain</module>
         <module>iotd-device-simulator</module>
+        <module>iotd-e2e</module>
     </modules>
 
     <properties>

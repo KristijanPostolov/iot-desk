@@ -2,11 +2,13 @@ package com.kristijan.iotdesk.application.dtos;
 
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class DeviceDetailsDto extends DeviceDto {
 
   private ZonedDateTime createdAt;

@@ -10,6 +10,7 @@
         <module name="iotd-device-simulator" />
         <module name="iotd-messaging-client-mqtt" />
         <module name="iotd-persistence-mock" />
+        <module name="iotd-e2e" />
         <module name="iotd-snapshots-domain" />
         <module name="iotd-application" />
         <module name="iotd-user-domain" />
@@ -24,6 +25,7 @@
       <module name="iotd-application" target="11" />
       <module name="iotd-device-domain" target="11" />
       <module name="iotd-device-simulator" target="11" />
+      <module name="iotd-e2e" target="11" />
       <module name="iotd-messaging-client-mqtt" target="11" />
       <module name="iotd-persistence-integration-tests" target="11" />
       <module name="iotd-persistence-mock" target="11" />
@@ -38,6 +40,7 @@
       <module name="iotd-application" options="-parameters" />
       <module name="iotd-device-domain" options="-parameters" />
       <module name="iotd-device-simulator" options="-parameters" />
+      <module name="iotd-e2e" options="-parameters" />
       <module name="iotd-messaging-client-mqtt" options="-parameters" />
       <module name="iotd-persistence-integration-tests" options="-parameters" />
       <module name="iotd-persistence-mock" options="-parameters" />

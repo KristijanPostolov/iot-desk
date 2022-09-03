@@ -1,11 +1,15 @@
 package com.kristijan.iotdesk.application.dtos;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
 
-@Value
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ParameterSnapshotDto {
-  ZonedDateTime timestamp;
-  double value;
+  private ZonedDateTime timestamp;
+  private double value;
 }
