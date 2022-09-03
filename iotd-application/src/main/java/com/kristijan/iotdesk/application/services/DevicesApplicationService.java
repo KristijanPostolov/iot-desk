@@ -51,7 +51,7 @@ public class DevicesApplicationService {
       .map(this::mapToDeviceParameterDto)
       .sorted(Comparator.comparing(DeviceParameterDto::getName))
       .collect(Collectors.toList());
-    return new DeviceDetailsDto(device.getId(), device.getName(), device.getState(), zonedCreatedAt, parameters);
+    return new DeviceDetailsDto(0L, device.getName(), device.getState(), zonedCreatedAt, parameters);
   }
 
   private DeviceParameterDto mapToDeviceParameterDto(DeviceParameter deviceParameter) {
