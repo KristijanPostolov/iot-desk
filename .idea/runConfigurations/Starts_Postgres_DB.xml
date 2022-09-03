@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Starts Postgres DB" type="PowerShellRunType" factoryName="PowerShell" scriptUrl="C:\data\projects\finki\iot-desk\iotd-persistence-jpa\docker\postgres-start.ps1" workingDirectory="C:\data\projects\finki\iot-desk\iotd-persistence-jpa\docker" executablePath="$PROJECT_DIR$/../../../../WINDOWS/System32/WindowsPowerShell/v1.0/powershell.exe">
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="iotd-persistence-jpa" />
         <module name="iotd-device-simulator" />
         <module name="iotd-messaging-client-mqtt" />
         <module name="iotd-persistence-mock" />
@@ -28,6 +29,7 @@
       <module name="iotd-e2e" target="11" />
       <module name="iotd-messaging-client-mqtt" target="11" />
       <module name="iotd-persistence-integration-tests" target="11" />
+      <module name="iotd-persistence-jpa" target="11" />
       <module name="iotd-persistence-mock" target="11" />
       <module name="iotd-server" target="11" />
       <module name="iotd-snapshots-domain" target="11" />
@@ -43,6 +45,7 @@
       <module name="iotd-e2e" options="-parameters" />
       <module name="iotd-messaging-client-mqtt" options="-parameters" />
       <module name="iotd-persistence-integration-tests" options="-parameters" />
+      <module name="iotd-persistence-jpa" options="-parameters" />
       <module name="iotd-persistence-mock" options="-parameters" />
       <module name="iotd-server" options="-parameters" />
       <module name="iotd-snapshots-domain" options="-parameters" />

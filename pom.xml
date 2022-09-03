@@ -29,6 +29,7 @@
         <module>iotd-snapshots-domain</module>
         <module>iotd-device-simulator</module>
         <module>iotd-e2e</module>
+        <module>iotd-persistence-jpa</module>
     </modules>
 
     <properties>
