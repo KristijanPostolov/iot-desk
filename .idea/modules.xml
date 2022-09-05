@@ -10,7 +10,6 @@
       <module fileurl="file://$PROJECT_DIR$/iotd-messaging-client-mqtt/iotd-messaging-client-mqtt.iml" filepath="$PROJECT_DIR$/iotd-messaging-client-mqtt/iotd-messaging-client-mqtt.iml" />
       <module fileurl="file://$PROJECT_DIR$/iotd-persistence-integration-tests/iotd-persistence-integration-tests.iml" filepath="$PROJECT_DIR$/iotd-persistence-integration-tests/iotd-persistence-integration-tests.iml" />
       <module fileurl="file://$PROJECT_DIR$/iotd-persistence-jpa/iotd-persistence-jpa.iml" filepath="$PROJECT_DIR$/iotd-persistence-jpa/iotd-persistence-jpa.iml" />
-      <module fileurl="file://$PROJECT_DIR$/iotd-persistence-mock/iotd-persistence-mock.iml" filepath="$PROJECT_DIR$/iotd-persistence-mock/iotd-persistence-mock.iml" />
       <module fileurl="file://$PROJECT_DIR$/iotd-server/iotd-server.iml" filepath="$PROJECT_DIR$/iotd-server/iotd-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/iotd-snapshots-domain/iotd-snapshots-domain.iml" filepath="$PROJECT_DIR$/iotd-snapshots-domain/iotd-snapshots-domain.iml" />
       <module fileurl="file://$PROJECT_DIR$/iotd-user-domain/iotd-user-domain.iml" filepath="$PROJECT_DIR$/iotd-user-domain/iotd-user-domain.iml" />

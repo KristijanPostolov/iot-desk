@@ -22,7 +22,6 @@
         <module>iotd-server</module>
         <module>iotd-device-domain</module>
         <module>iotd-application</module>
-        <module>iotd-persistence-mock</module>
         <module>iotd-persistence-integration-tests</module>
         <module>iotd-user-domain</module>
         <module>iotd-messaging-client-mqtt</module>
@@ -82,11 +81,6 @@
             <dependency>
                 <groupId>com.kristijan.iot.desk</groupId>
                 <artifactId>iotd-messaging-client-mqtt</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.kristijan.iot.desk</groupId>
-                <artifactId>iotd-persistence-mock</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

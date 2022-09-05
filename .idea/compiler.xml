@@ -10,7 +10,6 @@
         <module name="iotd-persistence-jpa" />
         <module name="iotd-device-simulator" />
         <module name="iotd-messaging-client-mqtt" />
-        <module name="iotd-persistence-mock" />
         <module name="iotd-e2e" />
         <module name="iotd-snapshots-domain" />
         <module name="iotd-application" />
