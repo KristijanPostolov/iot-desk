@@ -7,13 +7,11 @@ import com.kristijan.iotdesk.domain.device.models.DeviceState;
 import com.kristijan.iotdesk.domain.device.services.ChannelIdService;
 import com.kristijan.iotdesk.domain.device.services.ListDevicesService;
 import com.kristijan.iotdesk.domain.device.services.ManageDevicesService;
-import com.kristijan.iotdesk.integration.tests.IntegrationTestConfiguration;
-import com.kristijan.iotdesk.persistence.mock.repositories.DeviceChannelIdRepositoryMock;
-import com.kristijan.iotdesk.persistence.mock.repositories.DevicesRepositoryMock;
-import org.junit.jupiter.api.AfterEach;
+import com.kristijan.iotdesk.integration.tests.PostgresContainerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -28,8 +26,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-@SpringBootTest(classes = IntegrationTestConfiguration.class)
-public class DeviceUseCasesIntegrationTest {
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class DeviceUseCasesIntegrationTest extends PostgresContainerTest {
 
   @Autowired
   private ListDevicesService listDevicesService;
@@ -41,19 +40,7 @@ public class DeviceUseCasesIntegrationTest {
   private ChannelIdService channelIdService;
 
   @Autowired
-  private DevicesRepositoryMock devicesRepository;
-
-  @Autowired
-  private DeviceChannelIdRepositoryMock deviceChannelIdRepository;
-
-  @Autowired
   private Clock clock;
-
-  @AfterEach
-  void tearDown() {
-    devicesRepository.reset();
-    deviceChannelIdRepository.reset();
-  }
 
   @Test
   void shouldGetEmptyListWhenNoDevicesPresent() {

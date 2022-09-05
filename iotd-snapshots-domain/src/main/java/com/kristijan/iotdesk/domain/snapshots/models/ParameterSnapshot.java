@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 @RequiredArgsConstructor
 public class ParameterSnapshot {
   @Setter
-  private long id;
+  private Long id;
 
   private final long parameterId;
   private final ZonedDateTime timestamp;

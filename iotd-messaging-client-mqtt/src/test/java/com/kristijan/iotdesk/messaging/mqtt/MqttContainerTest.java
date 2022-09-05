@@ -1,22 +1,24 @@
-package com.kristijan.iotdesk.server;
+package com.kristijan.iotdesk.messaging.mqtt;
 
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import org.testcontainers.utility.MountableFile;
 
-@Testcontainers
+@SuppressWarnings("rawtypes")
 public abstract class MqttContainerTest {
 
   private static final int MOSQUITTO_PORT = 1883;
 
-  @Container
-  protected static GenericContainer mqttContainer = new GenericContainer(DockerImageName.parse("eclipse-mosquitto:2.0.15"))
-    .withCopyFileToContainer(MountableFile.forClasspathResource("mosquitto.conf"), "/mosquitto/config/mosquitto.conf")
-    .withExposedPorts(MOSQUITTO_PORT);
+  protected static final GenericContainer mqttContainer;
+
+  static {
+    mqttContainer = new GenericContainer(DockerImageName.parse("eclipse-mosquitto:2.0.15"))
+      .withCopyFileToContainer(MountableFile.forClasspathResource("mosquitto.conf"), "/mosquitto/config/mosquitto.conf")
+      .withExposedPorts(MOSQUITTO_PORT);
+    mqttContainer.start();
+  }
 
   @DynamicPropertySource
   static void registerMqttProperties(DynamicPropertyRegistry registry) {

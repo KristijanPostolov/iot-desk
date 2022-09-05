@@ -1,8 +1,9 @@
 package com.kristijan.iotdesk.integration.tests;
 
 import com.kristijan.iotdesk.domain.device.ports.ChannelIdGenerator;
-import com.kristijan.iotdesk.persistence.mock.PersistenceMockComponents;
+import com.kristijan.iotdesk.jpa.PersistenceJpaComponents;
 import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
@@ -14,7 +15,8 @@ import java.util.UUID;
 
 @SpringBootConfiguration
 @Import({DeviceDomainConfiguration.class, UserDomainConfiguration.class, SnapshotsDomainConfiguration.class})
-@ComponentScan(basePackageClasses = PersistenceMockComponents.class)
+@ComponentScan(basePackageClasses = PersistenceJpaComponents.class)
+@EnableAutoConfiguration
 public class IntegrationTestConfiguration {
 
   @Bean

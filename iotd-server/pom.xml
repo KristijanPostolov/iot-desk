@@ -32,7 +32,7 @@
 
         <dependency>
             <groupId>com.kristijan.iot.desk</groupId>
-            <artifactId>iotd-persistence-mock</artifactId>
+            <artifactId>iotd-persistence-jpa</artifactId>
         </dependency>
 
         <dependency>

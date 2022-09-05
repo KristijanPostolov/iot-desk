@@ -14,7 +14,7 @@ import java.util.Set;
 public class Device {
 
   @Setter
-  private long id;
+  private Long id;
 
   private String name;
 

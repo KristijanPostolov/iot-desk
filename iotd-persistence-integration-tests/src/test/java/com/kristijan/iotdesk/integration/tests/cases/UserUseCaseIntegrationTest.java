@@ -2,35 +2,31 @@ package com.kristijan.iotdesk.integration.tests.cases;
 
 import com.kristijan.iotdesk.domain.user.models.User;
 import com.kristijan.iotdesk.domain.user.services.UserService;
-import com.kristijan.iotdesk.integration.tests.IntegrationTestConfiguration;
-import com.kristijan.iotdesk.persistence.mock.repositories.UserRepositoryMock;
-import org.junit.jupiter.api.AfterEach;
+import com.kristijan.iotdesk.integration.tests.PostgresContainerTest;
+import com.kristijan.iotdesk.jpa.repositories.UserRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest(classes = IntegrationTestConfiguration.class)
-public class UserUseCaseIntegrationTest {
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class UserUseCaseIntegrationTest extends PostgresContainerTest {
 
   @Autowired
   private UserService userService;
 
   @Autowired
-  private UserRepositoryMock userRepositoryMock;
-
-  @AfterEach
-  void tearDown() {
-    userRepositoryMock.reset();
-  }
+  private UserRepositoryImpl userRepository;
 
   @Test
   void shouldReturnEmptyWhenUserDoesNotExist() {
-    userRepositoryMock.saveUser(new User("user1", "asdfg123"));
+    userRepository.save(new User("user1", "asdfg123"));
 
     Optional<User> result = userService.findByUsername("user2");
 
@@ -39,9 +35,9 @@ public class UserUseCaseIntegrationTest {
 
   @Test
   void shouldReturnUserByUsername() {
-    userRepositoryMock.saveUser(new User("user1", "asdfg123"));
-    userRepositoryMock.saveUser(new User("user2", "password1"));
-    userRepositoryMock.saveUser(new User("user3", "123123"));
+    userRepository.save(new User("user1", "asdfg123"));
+    userRepository.save(new User("user2", "password1"));
+    userRepository.save(new User("user3", "123123"));
 
     Optional<User> result = userService.findByUsername("user2");
 

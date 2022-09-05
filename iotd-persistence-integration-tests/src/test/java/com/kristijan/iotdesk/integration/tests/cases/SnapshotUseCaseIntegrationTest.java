@@ -12,13 +12,12 @@ import com.kristijan.iotdesk.domain.snapshots.models.DeviceSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.models.ParameterSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.services.AddDeviceSnapshotService;
 import com.kristijan.iotdesk.domain.snapshots.services.QuerySnapshotsService;
-import com.kristijan.iotdesk.integration.tests.IntegrationTestConfiguration;
-import com.kristijan.iotdesk.persistence.mock.repositories.DevicesRepositoryMock;
-import com.kristijan.iotdesk.persistence.mock.repositories.ParameterSnapshotRepositoryMock;
-import org.junit.jupiter.api.AfterEach;
+import com.kristijan.iotdesk.integration.tests.PostgresContainerTest;
+import com.kristijan.iotdesk.jpa.repositories.ParameterSnapshotRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -30,8 +29,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(classes = IntegrationTestConfiguration.class)
-public class SnapshotUseCaseIntegrationTest {
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class SnapshotUseCaseIntegrationTest extends PostgresContainerTest {
 
   @Autowired
   private AddDeviceSnapshotService addDeviceSnapshotService;
@@ -49,19 +49,10 @@ public class SnapshotUseCaseIntegrationTest {
   private ChannelIdService channelIdService;
 
   @Autowired
-  private DevicesRepositoryMock devicesRepository;
-
-  @Autowired
-  private ParameterSnapshotRepositoryMock parameterSnapshotRepository;
+  private ParameterSnapshotRepositoryImpl parameterSnapshotRepository;
 
   @Autowired
   private Clock clock;
-
-  @AfterEach
-  void tearDown() {
-    devicesRepository.reset();
-    parameterSnapshotRepository.reset();
-  }
 
   @Test
   void shouldSetupDeviceParametersAndSaveSnapshots() {
@@ -81,13 +72,13 @@ public class SnapshotUseCaseIntegrationTest {
 
     // check that value for anchor 1 was saved
     long deviceParam1 = getParameterIdByAnchor(parameters, 1);
-    List<ParameterSnapshot> parameterSnapshots1 = parameterSnapshotRepository.getByParameterId(deviceParam1);
+    List<ParameterSnapshot> parameterSnapshots1 = parameterSnapshotRepository.findByParameterId(deviceParam1);
     assertEquals(1, parameterSnapshots1.size());
     assertEquals(5.5, parameterSnapshots1.get(0).getValue());
 
     // check that value for anchor 2 was saved
     long deviceParam2 = getParameterIdByAnchor(parameters, 2);
-    List<ParameterSnapshot> parameterSnapshots2 = parameterSnapshotRepository.getByParameterId(deviceParam2);
+    List<ParameterSnapshot> parameterSnapshots2 = parameterSnapshotRepository.findByParameterId(deviceParam2);
     assertEquals(1, parameterSnapshots2.size());
     assertEquals(3.56, parameterSnapshots2.get(0).getValue());
 

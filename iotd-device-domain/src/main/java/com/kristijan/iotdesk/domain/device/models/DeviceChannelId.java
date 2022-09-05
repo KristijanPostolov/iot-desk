@@ -10,6 +10,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class DeviceChannelId {
 
-  private long deviceId;
+  private Long deviceId;
   private String channelId;
 }

@@ -4,6 +4,7 @@ import com.kristijan.iotdesk.domain.snapshots.models.AnchorSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.models.DeviceSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.services.AddDeviceSnapshotService;
 import com.kristijan.iotdesk.domain.snapshots.services.DeviceMessagingErrorHandler;
+import com.kristijan.iotdesk.messaging.mqtt.MqttContainerTest;
 import com.kristijan.iotdesk.messaging.mqtt.MqttIntegrationTestConfig;
 import lombok.SneakyThrows;
 import org.eclipse.paho.client.mqttv3.MqttClient;

@@ -9,12 +9,14 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Transactional
 public class DeviceSnapshotHandler {
 
   private static final String TOPIC_FILTER = "devices/+/snapshots";

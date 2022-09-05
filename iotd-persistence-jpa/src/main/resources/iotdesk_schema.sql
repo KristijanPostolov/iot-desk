@@ -8,10 +8,11 @@ create table device
 
 create table device_channel_id
 (
-    device_id  bigserial not null,
-    channel_id UUID      not null,
-    primary key (device_id, channel_id),
-    constraint fk__device_channel_id__device foreign key (device_id) references device (id)
+    id         bigserial primary key,
+    device_id  bigserial   not null,
+    channel_id varchar(36) not null,
+    constraint fk__device_channel_id__device foreign key (device_id) references device (id),
+    constraint unique__device_id unique (device_id)
 );
 
 create table device_parameter
@@ -31,5 +32,10 @@ create table parameter_snapshot
     value           double precision
 );
 
-
+create table user_Account
+(
+    id       bigserial primary key,
+    username varchar(50),
+    password varchar(255)
+);
 
