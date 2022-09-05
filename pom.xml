@@ -29,6 +29,7 @@
         <module>iotd-device-simulator</module>
         <module>iotd-e2e</module>
         <module>iotd-persistence-jpa</module>
+        <module>iotd-frontend</module>
     </modules>
 
     <properties>
@@ -37,6 +38,9 @@
 
         <eclipse-paho.version>1.2.1</eclipse-paho.version>
         <testcontainers.version>1.17.3</testcontainers.version>
+
+        <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
+        <maven-dependency-plugin.version>3.3.0</maven-dependency-plugin.version>
     </properties>
 
     <dependencies>
@@ -89,6 +93,32 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.kristijan.iot.desk</groupId>
+                <artifactId>iotd-device-simulator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kristijan.iot.desk</groupId>
+                <artifactId>iotd-e2e</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kristijan.iot.desk</groupId>
+                <artifactId>iotd-frontend</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kristijan.iot.desk</groupId>
+                <artifactId>iotd-persistence-integration-tests</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kristijan.iot.desk</groupId>
+                <artifactId>iotd-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.eclipse.paho</groupId>
                 <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
                 <version>${eclipse-paho.version}</version>
@@ -108,5 +138,22 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>${exec-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${maven-dependency-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

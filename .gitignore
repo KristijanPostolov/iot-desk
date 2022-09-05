@@ -18,3 +18,8 @@ buildNumber.properties
 !.idea/runConfigurations
 *.iml
 *.lck
+
+## Frontend ##
+iotd-frontend/node_modules
+iotd-frontend/dist
+iotd-frontend/.angular
