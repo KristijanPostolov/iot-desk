@@ -51,7 +51,7 @@ public class DeviceSnapshotHandlerIntegrationTest extends MqttContainerTest {
     verify(addDeviceSnapshotService).addDeviceSnapshot(captor.capture());
     DeviceSnapshot deviceSnapshot = captor.getValue();
     assertEquals(channelId, deviceSnapshot.getChannelId());
-    assertEquals(MqttIntegrationTestConfig.NOW.toLocalDateTime(), deviceSnapshot.getTimestamp());
+    assertEquals(MqttIntegrationTestConfig.NOW, deviceSnapshot.getTimestamp());
     assertAnchorSnapshot(deviceSnapshot.getAnchorSnapshots().get(0), 1, 1.5);
     assertAnchorSnapshot(deviceSnapshot.getAnchorSnapshots().get(1), 2, 55);
   }

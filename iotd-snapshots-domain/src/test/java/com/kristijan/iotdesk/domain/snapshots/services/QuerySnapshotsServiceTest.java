@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,8 +28,8 @@ class QuerySnapshotsServiceTest {
 
   @Test
   void shouldReturnEmptyListWhenRepositoryReturnsNull() {
-    ZonedDateTime from = ZonedDateTime.parse("2022-08-16T21:30:00Z");
-    ZonedDateTime to = ZonedDateTime.parse("2022-08-16T23:30:00Z");
+    LocalDateTime from = LocalDateTime.parse("2022-08-16T21:30:00");
+    LocalDateTime to = LocalDateTime.parse("2022-08-16T23:30:00");
     when(parameterSnapshotRepository.findByParameterIdAndTimeRangeOrderedAscending(1L, from, to))
       .thenReturn(null);
 
@@ -42,8 +42,8 @@ class QuerySnapshotsServiceTest {
 
   @Test
   void shouldReturnListOfSnapshots() {
-    ZonedDateTime from = ZonedDateTime.parse("2022-08-16T21:30:00Z");
-    ZonedDateTime to = ZonedDateTime.parse("2022-08-16T23:30:00Z");
+    LocalDateTime from = LocalDateTime.parse("2022-08-16T21:30:00");
+    LocalDateTime to = LocalDateTime.parse("2022-08-16T23:30:00");
     ParameterSnapshot snapshot1 = new ParameterSnapshot(1L, from.plusMinutes(1), 1.23);
     ParameterSnapshot snapshot2 = new ParameterSnapshot(1L, from.plusMinutes(3), 3.45);
     ParameterSnapshot snapshot3 = new ParameterSnapshot(1L, from.plusMinutes(10), 2.6);

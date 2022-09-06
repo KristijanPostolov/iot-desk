@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "parameter_snapshot")
@@ -27,12 +27,12 @@ public class ParameterSnapshotEntity {
   private Long parameterId;
 
   @Column(name = "value_timestamp")
-  private ZonedDateTime valueTimestamp;
+  private LocalDateTime valueTimestamp;
 
   @Column(name = "value")
   private Double value;
 
-  public ParameterSnapshotEntity(Long parameterId, ZonedDateTime valueTimestamp, Double value) {
+  public ParameterSnapshotEntity(Long parameterId, LocalDateTime valueTimestamp, Double value) {
     this.parameterId = parameterId;
     this.valueTimestamp = valueTimestamp;
     this.value = value;

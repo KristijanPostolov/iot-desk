@@ -112,13 +112,4 @@ class DeviceSnapshotHandlerTest {
     assertEquals(anchorSnapshots, deviceSnapshot.getAnchorSnapshots());
   }
 
-//  @Test
-//  @SneakyThrows
-//  void shouldThrowIfTopicSubscriptionFails() {
-//    doThrow(new MqttException(MqttException.REASON_CODE_BROKER_UNAVAILABLE))
-//      .when(mqttClient).subscribe(anyString(), any());
-//
-//    assertThrows(RuntimeException.class, () -> new DeviceSnapshotHandler(deviceMessagingErrorHandler,
-//      mqttPayloadValidatorAndParser, addDeviceSnapshotService, clock, mqttClient));
-//  }
 }

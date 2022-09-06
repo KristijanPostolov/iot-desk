@@ -2,7 +2,7 @@ package com.kristijan.iotdesk.domain.snapshots.repositories;
 
 import com.kristijan.iotdesk.domain.snapshots.models.ParameterSnapshot;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -11,6 +11,6 @@ import java.util.List;
 public interface ParameterSnapshotRepository {
   void saveParameterSnapshots(List<ParameterSnapshot> parameterSnapshots);
 
-  List<ParameterSnapshot> findByParameterIdAndTimeRangeOrderedAscending(long parameterId, ZonedDateTime beginRange,
-                                                                        ZonedDateTime endRange);
+  List<ParameterSnapshot> findByParameterIdAndTimeRangeOrderedAscending(long parameterId, LocalDateTime beginRange,
+                                                                        LocalDateTime endRange);
 }

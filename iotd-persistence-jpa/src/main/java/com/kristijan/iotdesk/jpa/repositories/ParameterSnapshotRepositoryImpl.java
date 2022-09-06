@@ -7,7 +7,7 @@ import com.kristijan.iotdesk.jpa.models.ParameterSnapshotEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,8 +27,11 @@ public class ParameterSnapshotRepositoryImpl implements ParameterSnapshotReposit
 
   @Override
   public List<ParameterSnapshot> findByParameterIdAndTimeRangeOrderedAscending(long parameterId,
-                                                                               ZonedDateTime beginRange,
-                                                                               ZonedDateTime endRange) {
+                                                                               LocalDateTime beginRange,
+                                                                               LocalDateTime endRange) {
+
+
+
     return repository.findByParameterIdAndValueTimestampBetweenOrderByValueTimestamp(parameterId, beginRange, endRange)
       .stream()
       .map(this::mapParameterSnapshot)

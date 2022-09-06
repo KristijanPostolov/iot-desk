@@ -19,8 +19,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Clock;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -57,8 +57,8 @@ class AddDeviceSnapshotServiceTest {
   @Mock
   private ParameterSnapshotRepository parameterSnapshotRepository;
 
-  private final ZonedDateTime now = ZonedDateTime.of(2022, 8, 15, 21, 20, 1, 0, ZoneOffset.UTC);
-  private final Clock clock = Clock.fixed(now.toInstant(), now.getZone());
+  private final LocalDateTime now = LocalDateTime.parse("2022-08-15T21:20:01");
+  private final Clock clock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
 
   @BeforeEach
   void setUp() {
@@ -97,7 +97,7 @@ class AddDeviceSnapshotServiceTest {
     List<AnchorSnapshot> anchorSnapshots =
       List.of(new AnchorSnapshot(1, 2), new AnchorSnapshot(3,3.4));
     boolean result = addDeviceSnapshotService.addDeviceSnapshot(
-      new DeviceSnapshot("channelId2", now.toLocalDateTime(), anchorSnapshots));
+      new DeviceSnapshot("channelId2", now, anchorSnapshots));
 
     assertTrue(result);
     verify(manageDevicesService).activateDevice(2L);
@@ -116,7 +116,7 @@ class AddDeviceSnapshotServiceTest {
     List<AnchorSnapshot> anchorSnapshots =
       List.of(new AnchorSnapshot(1, 2), new AnchorSnapshot(3,3.4));
     boolean result = addDeviceSnapshotService.addDeviceSnapshot(
-      new DeviceSnapshot("channelId2", now.toLocalDateTime(), anchorSnapshots));
+      new DeviceSnapshot("channelId2", now, anchorSnapshots));
 
     assertTrue(result);
     verify(manageDevicesService, times(0)).activateDevice(anyLong());
@@ -134,7 +134,7 @@ class AddDeviceSnapshotServiceTest {
     when(listDevicesService.findById(2L)).thenReturn(Optional.of(device));
     when(manageDevicesService.updateDeviceParameters(anyLong(), any())).thenReturn(device);
 
-    DeviceSnapshot snapshot = new DeviceSnapshot("channelId2", now.toLocalDateTime(),
+    DeviceSnapshot snapshot = new DeviceSnapshot("channelId2", now,
       List.of(new AnchorSnapshot(1, 2), new AnchorSnapshot(3,3.4)));
     boolean result = addDeviceSnapshotService.addDeviceSnapshot(snapshot);
 
@@ -168,7 +168,7 @@ class AddDeviceSnapshotServiceTest {
   }
 
   private void assertParameterSnapshot(ParameterSnapshot snapshot, long expectedParameterId,
-                                       ZonedDateTime expectedTimestamp, double expectedValue) {
+                                       LocalDateTime expectedTimestamp, double expectedValue) {
     assertNotNull(snapshot);
     assertEquals(expectedParameterId, snapshot.getParameterId());
     assertEquals(expectedTimestamp, snapshot.getTimestamp());

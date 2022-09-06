@@ -21,7 +21,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -87,7 +86,7 @@ public class SnapshotUseCaseIntegrationTest extends PostgresContainerTest {
 
   @Test
   void shouldQueryByParameterIdAndTimeRange() {
-    ZonedDateTime now = ZonedDateTime.now(clock);
+    LocalDateTime now = LocalDateTime.now(clock);
     ParameterSnapshot snapshot1 = new ParameterSnapshot(1L, now.plusMinutes(10), 1.2);
     ParameterSnapshot snapshot2 = new ParameterSnapshot(3L, now.plusMinutes(2), 2.3); // different parameter
     ParameterSnapshot snapshot3 = new ParameterSnapshot(1L, now.plusMinutes(5), 3.4);

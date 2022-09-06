@@ -14,7 +14,7 @@ import com.kristijan.iotdesk.domain.snapshots.repositories.ParameterSnapshotRepo
 import lombok.RequiredArgsConstructor;
 
 import java.time.Clock;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -60,7 +60,7 @@ public class AddDeviceSnapshotService {
 
   private List<ParameterSnapshot> createParameterSnapshots(DeviceSnapshot deviceSnapshot, Device device) {
     Map<Integer, Long> paramIdsByAnchor = getParameterIdsByAnchors(device);
-    ZonedDateTime timestamp = ZonedDateTime.of(deviceSnapshot.getTimestamp(), clock.getZone());
+    LocalDateTime timestamp = deviceSnapshot.getTimestamp();
 
     return deviceSnapshot.getAnchorSnapshots().stream()
       .map(anchorSnapshot -> {

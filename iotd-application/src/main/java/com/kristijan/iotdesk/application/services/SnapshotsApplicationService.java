@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,15 +19,22 @@ import java.util.stream.Collectors;
 public class SnapshotsApplicationService {
 
   private final QuerySnapshotsService querySnapshotsService;
+  private final Clock clock;
 
   public List<ParameterSnapshotDto> getParameterSnapshots(long parameterId, ZonedDateTime beginRange,
                                                           ZonedDateTime endRange) {
-    return querySnapshotsService.getSnapshotsInTimeRange(parameterId, beginRange, endRange).stream()
+    return querySnapshotsService.getSnapshotsInTimeRange(parameterId, toLocal(beginRange), toLocal(endRange))
+      .stream()
       .map(this::mapParameterSnapshotToDto)
       .collect(Collectors.toList());
   }
 
+  private LocalDateTime toLocal(ZonedDateTime timestamp) {
+    return LocalDateTime.ofInstant(timestamp.toInstant(), clock.getZone());
+  }
+
   private ParameterSnapshotDto mapParameterSnapshotToDto(ParameterSnapshot parameterSnapshot) {
-    return new ParameterSnapshotDto(parameterSnapshot.getTimestamp(), parameterSnapshot.getValue());
+    ZonedDateTime timestamp = parameterSnapshot.getTimestamp().atZone(clock.getZone());
+    return new ParameterSnapshotDto(timestamp, parameterSnapshot.getValue());
   }
 }

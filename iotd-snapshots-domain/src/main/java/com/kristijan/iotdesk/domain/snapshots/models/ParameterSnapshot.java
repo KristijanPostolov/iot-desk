@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 
 @Getter
 @RequiredArgsConstructor
@@ -13,6 +13,6 @@ public class ParameterSnapshot {
   private Long id;
 
   private final long parameterId;
-  private final ZonedDateTime timestamp;
+  private final LocalDateTime timestamp;
   private final Double value;
 }
