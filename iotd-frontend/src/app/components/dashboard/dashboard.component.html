@@ -1,0 +1,17 @@
+<div>
+    <h1>Devices</h1>
+
+    <div>
+        <input type="text" placeholder="Search devices by name..."/>
+    </div>
+    <div>
+        <button>+ Create new device</button>
+    </div>
+
+    <div *ngIf="devices">
+        <ul id="devices-list">
+            <li *ngFor="let device of devices">Id: {{device.id}}; Name: {{device.name}}; State: {{device.state}}
+                <a routerLink="/devices/{{device.id}}">View details</a></li>
+        </ul>
+    </div>
+</div>
