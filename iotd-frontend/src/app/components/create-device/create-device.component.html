@@ -1,0 +1,10 @@
+<div>
+    <h1>Creating new device</h1>
+    <div>
+        <label for="deviceName">Device name: </label>
+        <input id="deviceName" type="text" [maxLength]="50" [(ngModel)]="deviceName" placeholder="Home assistant...">
+    </div>
+    <div>
+        <button (click)="onCreate()" [disabled]="!deviceName">Create</button>
+    </div>
+</div>

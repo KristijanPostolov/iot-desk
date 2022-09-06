@@ -2,6 +2,7 @@ package com.kristijan.iotdesk.application.services;
 
 import com.kristijan.iotdesk.application.dtos.ChannelIdDto;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
+import com.kristijan.iotdesk.application.dtos.CreateDeviceResponseDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceParameterDto;
@@ -37,8 +38,9 @@ public class DevicesApplicationService {
       .collect(Collectors.toList());
   }
 
-  public long createNewDevice(CreateDeviceDto createDeviceDto) {
-    return manageDevicesService.createNewDevice(createDeviceDto.getName());
+  public CreateDeviceResponseDto createNewDevice(CreateDeviceDto createDeviceDto) {
+    long id = manageDevicesService.createNewDevice(createDeviceDto.getName());
+    return new CreateDeviceResponseDto(id);
   }
 
   public DeviceDetailsDto getDeviceById(long id) {

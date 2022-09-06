@@ -2,11 +2,11 @@ package com.kristijan.iotdesk.e2e.services;
 
 import com.kristijan.iotdesk.application.dtos.ChannelIdDto;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
+import com.kristijan.iotdesk.application.dtos.CreateDeviceResponseDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.ParameterSnapshotDto;
 import com.kristijan.iotdesk.e2e.config.E2ETestProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -50,11 +50,10 @@ public class IotDeskServerApi {
 
   public Long createNewDevice() {
     String deviceName = "Test_" + UUID.randomUUID();
-    ResponseEntity<Void> newDeviceResponse = restTemplate.postForEntity(url("/devices"),
-      new CreateDeviceDto(deviceName), Void.class);
-    String location = newDeviceResponse.getHeaders().getOrEmpty(HttpHeaders.LOCATION).get(0);
-    String[] parts = location.split("/");
-    return Long.parseLong(parts[parts.length - 1]);
+    CreateDeviceResponseDto newDeviceResponse = restTemplate.postForObject(url("/devices"),
+      new CreateDeviceDto(deviceName), CreateDeviceResponseDto.class);
+    assertNotNull(newDeviceResponse);
+    return newDeviceResponse.getId();
   }
 
   private String url(String path) {

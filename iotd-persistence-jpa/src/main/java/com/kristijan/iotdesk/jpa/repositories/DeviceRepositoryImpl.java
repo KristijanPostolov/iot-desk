@@ -90,7 +90,7 @@ public class DeviceRepositoryImpl implements DevicesRepository {
   private DeviceParameterEntity mapDeviceParameter(DeviceParameter parameter, DeviceEntity deviceEntity) {
     DeviceParameterEntity entity = new DeviceParameterEntity(deviceEntity, parameter.getAnchor(),
       parameter.getName());
-    parameter.setId(parameter.getId());
+    entity.setId(parameter.getId());
     return entity;
   }
 }

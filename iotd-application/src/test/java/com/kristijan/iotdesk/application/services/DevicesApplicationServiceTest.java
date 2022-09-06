@@ -2,6 +2,7 @@ package com.kristijan.iotdesk.application.services;
 
 import com.kristijan.iotdesk.application.dtos.ChannelIdDto;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
+import com.kristijan.iotdesk.application.dtos.CreateDeviceResponseDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceParameterDto;
@@ -80,11 +81,11 @@ public class DevicesApplicationServiceTest {
     CreateDeviceDto dto2 = new CreateDeviceDto("New Device 2");
     when(manageDevicesServiceMock.createNewDevice(eq(dto2.getName()))).thenReturn(6L);
 
-    long result1 = devicesApplicationService.createNewDevice(dto1);
-    long result2 = devicesApplicationService.createNewDevice(dto2);
+    CreateDeviceResponseDto result1 = devicesApplicationService.createNewDevice(dto1);
+    CreateDeviceResponseDto result2 = devicesApplicationService.createNewDevice(dto2);
 
-    assertEquals(5L, result1);
-    assertEquals(6L, result2);
+    assertEquals(5L, result1.getId());
+    assertEquals(6L, result2.getId());
   }
 
   @Test

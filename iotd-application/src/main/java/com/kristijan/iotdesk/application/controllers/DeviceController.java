@@ -2,6 +2,7 @@ package com.kristijan.iotdesk.application.controllers;
 
 import com.kristijan.iotdesk.application.dtos.ChannelIdDto;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
+import com.kristijan.iotdesk.application.dtos.CreateDeviceResponseDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.services.DevicesApplicationService;
@@ -30,9 +31,10 @@ public class DeviceController {
   }
 
   @PostMapping
-  public ResponseEntity<Void> createDevice(@RequestBody CreateDeviceDto createDeviceDto) {
-    long id = devicesApplicationService.createNewDevice(createDeviceDto);
-    return ResponseEntity.created(URI.create("/api/v1/devices/" + id)).build();
+  public ResponseEntity<CreateDeviceResponseDto> createDevice(@RequestBody CreateDeviceDto createDeviceDto) {
+    CreateDeviceResponseDto responseDto = devicesApplicationService.createNewDevice(createDeviceDto);
+    return ResponseEntity.created(URI.create("/api/v1/devices/" + responseDto.getId()))
+      .body(responseDto);
   }
 
   @GetMapping("/{id}")

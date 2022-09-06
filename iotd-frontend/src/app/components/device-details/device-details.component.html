@@ -1,4 +1,31 @@
 <section *ngIf="device">
+    <span *ngIf="displaySuccessfulCreation" style="color: green">Successfully created new device.</span>
     <h1>{{device.name}}</h1>
-    <pre>{{device | json}}</pre>
+
+    <div>
+        <h3>Device details</h3>
+        <p>Device state: {{device.state}}</p>
+        <p>Device creation timestamp: {{device.createdAt}}</p>
+        <p>
+            Channel id: <button (click)="fetchAndCopyChannelId()">Copy to clipboard</button>
+        </p>
+    </div>
+    <div *ngIf="device.parameters && device.parameters.length > 0">
+        <h3>Parameters</h3>
+        <p>This device has {{device.parameters.length}} parameters</p>
+
+        <div *ngFor="let parameter of device.parameters">
+            <h4>{{parameter.name}}</h4>
+            <p>Anchor: {{parameter.anchor}}</p>
+            <div *ngIf="parametersData.get(parameter.id)?.length">
+                <span>Snapshots:</span>
+                <ul>
+                    <li *ngFor="let snapshot of parametersData.get(parameter.id)">
+                        {{snapshot.timestamp}}: {{snapshot.value}}
+                    </li>
+                </ul>
+            </div>
+            <hr />
+        </div>
+    </div>
 </section>

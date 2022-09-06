@@ -2,6 +2,7 @@ package com.kristijan.iotdesk.application.controllers;
 
 import com.kristijan.iotdesk.application.dtos.ChannelIdDto;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
+import com.kristijan.iotdesk.application.dtos.CreateDeviceResponseDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.services.DevicesApplicationService;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
@@ -42,10 +44,13 @@ public class DeviceControllerTest {
   @Test
   void shouldCreateDevice() {
     CreateDeviceDto request = new CreateDeviceDto("New device");
+    CreateDeviceResponseDto response = new CreateDeviceResponseDto(2L);
+    when(devicesApplicationServiceMock.createNewDevice(request)).thenReturn(response);
 
-    deviceController.createDevice(request);
+    ResponseEntity<CreateDeviceResponseDto> result = deviceController.createDevice(request);
 
     verify(devicesApplicationServiceMock).createNewDevice(request);
+    assertEquals(response, result.getBody());
   }
 
   @Test

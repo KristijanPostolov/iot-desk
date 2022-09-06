@@ -1,6 +1,7 @@
 package com.kristijan.iotdesk.application.controllers;
 
 import com.kristijan.iotdesk.application.dtos.ChannelIdDto;
+import com.kristijan.iotdesk.application.dtos.CreateDeviceResponseDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceParameterDto;
@@ -69,14 +70,16 @@ public class DeviceControllerIntegrationTest {
   @Test
   @SneakyThrows
   void shouldCreateNewDevice() {
-    when(devicesApplicationService.createNewDevice(any())).thenReturn(1L);
+    when(devicesApplicationService.createNewDevice(any())).thenReturn(new CreateDeviceResponseDto(1L));
 
     MockHttpServletRequestBuilder request = post(DEVICES_API)
       .content("{\"name\": \"New Device\"}")
       .contentType(MediaType.APPLICATION_JSON);
 
+    String expectedJson = "{\"id\": 1}";
     mockMvc.perform(request)
       .andExpect(status().isCreated())
+      .andExpect(content().json(expectedJson))
       .andExpect(header().string("Location", DEVICES_API + "/1"));
   }
 
