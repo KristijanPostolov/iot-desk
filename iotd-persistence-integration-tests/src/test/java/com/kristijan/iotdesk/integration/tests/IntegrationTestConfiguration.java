@@ -1,6 +1,7 @@
 package com.kristijan.iotdesk.integration.tests;
 
 import com.kristijan.iotdesk.domain.device.ports.ChannelIdGenerator;
+import com.kristijan.iotdesk.domain.snapshots.ports.DeviceCommandSender;
 import com.kristijan.iotdesk.jpa.PersistenceJpaComponents;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -12,6 +13,8 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.UUID;
+
+import static org.mockito.Mockito.mock;
 
 @SpringBootConfiguration
 @Import({DeviceDomainConfiguration.class, UserDomainConfiguration.class, SnapshotsDomainConfiguration.class})
@@ -27,6 +30,11 @@ public class IntegrationTestConfiguration {
   @Bean
   public ChannelIdGenerator channelIdGenerator() {
     return () -> UUID.randomUUID().toString();
+  }
+
+  @Bean
+  public DeviceCommandSender deviceCommandSender() {
+    return mock(DeviceCommandSender.class);
   }
 
 }

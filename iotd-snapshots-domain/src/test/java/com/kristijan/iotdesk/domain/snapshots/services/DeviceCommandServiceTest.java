@@ -7,47 +7,66 @@ import com.kristijan.iotdesk.domain.device.models.DeviceChannelId;
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
 import com.kristijan.iotdesk.domain.device.services.ChannelIdService;
 import com.kristijan.iotdesk.domain.device.services.ListDevicesService;
+import com.kristijan.iotdesk.domain.snapshots.models.AcknowledgementStatus;
 import com.kristijan.iotdesk.domain.snapshots.models.CommandData;
 import com.kristijan.iotdesk.domain.snapshots.models.CommandRequest;
+import com.kristijan.iotdesk.domain.snapshots.models.DeviceCommand;
 import com.kristijan.iotdesk.domain.snapshots.ports.DeviceCommandSender;
+import com.kristijan.iotdesk.domain.snapshots.repositories.DeviceCommandRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class DeviceCommandServiceTest {
 
-  @InjectMocks
   private DeviceCommandService deviceCommandService;
 
   @Mock
-  private DeviceCommandSender deviceCommandSender;
-
-  @Mock
   private ListDevicesService listDevicesService;
-
   @Mock
   private ChannelIdService channelIdService;
+  @Mock
+  private DeviceCommandSender deviceCommandSender;
+  @Mock
+  private DeviceCommandRepository deviceCommandRepository;
+
+  private final LocalDateTime now = LocalDateTime.parse("2022-09-07T21:32:00");
+  private final Clock clock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
+
+  @BeforeEach
+  void setUp() {
+    deviceCommandService = new DeviceCommandService(listDevicesService, channelIdService, deviceCommandSender,
+      deviceCommandRepository, clock);
+  }
 
   @Test
   void shouldThrowOnNonExistingDevice() {
     assertThrows(DomainException.class, () ->
       deviceCommandService.postDeviceCommand(new CommandRequest(1L, "content")));
+
+    verify(deviceCommandSender, times(0)).sendCommandToDevice(any(), any());
+    verify(deviceCommandRepository, times(0)).save(any());
   }
 
   @Test
@@ -56,6 +75,9 @@ class DeviceCommandServiceTest {
 
     assertThrows(DomainException.class, () ->
       deviceCommandService.postDeviceCommand(new CommandRequest(1L, "content")));
+
+    verify(deviceCommandSender, times(0)).sendCommandToDevice(any(), any());
+    verify(deviceCommandRepository, times(0)).save(any());
   }
 
   @Test
@@ -64,6 +86,9 @@ class DeviceCommandServiceTest {
 
     assertThrows(DomainException.class, () ->
       deviceCommandService.postDeviceCommand(new CommandRequest(1L, "content")));
+
+    verify(deviceCommandSender, times(0)).sendCommandToDevice(any(), any());
+    verify(deviceCommandRepository, times(0)).save(any());
   }
 
   @Test
@@ -74,6 +99,8 @@ class DeviceCommandServiceTest {
 
     assertThrows(TransientDomainException.class, () ->
       deviceCommandService.postDeviceCommand(new CommandRequest(1L, "content")));
+
+    verify(deviceCommandRepository, times(0)).save(any());
   }
 
   @Test
@@ -91,4 +118,22 @@ class DeviceCommandServiceTest {
     assertEquals("commandContent", request.getContent());
   }
 
+  @Test
+  void shouldSaveCommandInRepository() {
+    when(listDevicesService.findById(2L)).thenReturn(Optional.of(new Device("Device 1", DeviceState.ACTIVE)));
+    when(channelIdService.findByDeviceId(2L)).thenReturn(Optional.of(new DeviceChannelId(2L, "channelId")));
+
+    deviceCommandService.postDeviceCommand(new CommandRequest(2L,"commandContent"));
+
+    ArgumentCaptor<DeviceCommand> deviceCommandCaptor = ArgumentCaptor.forClass(DeviceCommand.class);
+    verify(deviceCommandRepository).save(deviceCommandCaptor.capture());
+    DeviceCommand deviceCommand = deviceCommandCaptor.getValue();
+    assertNotNull(deviceCommand.getCommandId());
+    assertEquals(UUID.randomUUID().toString().length(), deviceCommand.getCommandId().length());
+    assertEquals("commandContent", deviceCommand.getContent());
+    assertEquals(2L, deviceCommand.getDeviceId());
+    assertEquals(now, deviceCommand.getSentAt());
+    assertEquals(AcknowledgementStatus.NO_ACK, deviceCommand.getAckStatus());
+    assertNull(deviceCommand.getAcknowledgedAt());
+  }
 }

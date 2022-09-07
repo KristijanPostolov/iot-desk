@@ -7,11 +7,16 @@ import com.kristijan.iotdesk.domain.device.models.DeviceChannelId;
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
 import com.kristijan.iotdesk.domain.device.services.ChannelIdService;
 import com.kristijan.iotdesk.domain.device.services.ListDevicesService;
+import com.kristijan.iotdesk.domain.snapshots.models.AcknowledgementStatus;
 import com.kristijan.iotdesk.domain.snapshots.models.CommandData;
 import com.kristijan.iotdesk.domain.snapshots.models.CommandRequest;
+import com.kristijan.iotdesk.domain.snapshots.models.DeviceCommand;
 import com.kristijan.iotdesk.domain.snapshots.ports.DeviceCommandSender;
+import com.kristijan.iotdesk.domain.snapshots.repositories.DeviceCommandRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -20,14 +25,25 @@ public class DeviceCommandService {
   private final ListDevicesService listDevicesService;
   private final ChannelIdService channelIdService;
   private final DeviceCommandSender deviceCommandSender;
+  private final DeviceCommandRepository deviceCommandRepository;
+  private final Clock clock;
 
   public void postDeviceCommand(CommandRequest commandRequest) {
     long deviceId = commandRequest.getDeviceId();
     checkDeviceState(deviceId);
     String channelId = getChannelId(deviceId);
     String commandId = generateCommandId();
+
+    DeviceCommand deviceCommand = new DeviceCommand(commandId, commandRequest.getContent(), deviceId,
+      LocalDateTime.now(clock), AcknowledgementStatus.NO_ACK);
+    sendToDevice(channelId, deviceCommand);
+    deviceCommandRepository.save(deviceCommand);
+  }
+
+  private void sendToDevice(String channelId, DeviceCommand deviceCommand) {
     try {
-      deviceCommandSender.sendCommandToDevice(channelId, new CommandData(commandId, commandRequest.getContent()));
+      CommandData commandData = new CommandData(deviceCommand.getCommandId(), deviceCommand.getContent());
+      deviceCommandSender.sendCommandToDevice(channelId, commandData);
     } catch (Exception e) {
       throw new TransientDomainException("Failed sending device message", e);
     }
