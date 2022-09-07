@@ -29,9 +29,6 @@ public class ParameterSnapshotRepositoryImpl implements ParameterSnapshotReposit
   public List<ParameterSnapshot> findByParameterIdAndTimeRangeOrderedAscending(long parameterId,
                                                                                LocalDateTime beginRange,
                                                                                LocalDateTime endRange) {
-
-
-
     return repository.findByParameterIdAndValueTimestampBetweenOrderByValueTimestamp(parameterId, beginRange, endRange)
       .stream()
       .map(this::mapParameterSnapshot)
