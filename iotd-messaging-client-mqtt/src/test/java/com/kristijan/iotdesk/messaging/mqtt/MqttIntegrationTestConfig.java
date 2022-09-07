@@ -1,5 +1,7 @@
 package com.kristijan.iotdesk.messaging.mqtt;
 
+import com.kristijan.iotdesk.domain.snapshots.services.AddDeviceSnapshotService;
+import com.kristijan.iotdesk.domain.snapshots.services.DeviceMessagingErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -30,4 +32,13 @@ public class MqttIntegrationTestConfig {
     return mock(PlatformTransactionManager.class);
   }
 
+  @Bean
+  public AddDeviceSnapshotService addDeviceSnapshotService() {
+    return mock(AddDeviceSnapshotService.class);
+  }
+
+  @Bean
+  public DeviceMessagingErrorHandler deviceMessagingErrorHandler() {
+    return mock(DeviceMessagingErrorHandler.class);
+  }
 }

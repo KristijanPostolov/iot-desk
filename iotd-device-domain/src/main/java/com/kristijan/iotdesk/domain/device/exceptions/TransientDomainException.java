@@ -8,4 +8,8 @@ public class TransientDomainException extends RuntimeException {
   public TransientDomainException(String message) {
     super(message);
   }
+
+  public TransientDomainException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }

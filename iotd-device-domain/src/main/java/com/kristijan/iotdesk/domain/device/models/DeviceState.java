@@ -20,6 +20,6 @@ public enum DeviceState {
     return Arrays.stream(values())
       .filter(state -> state.id == id)
       .findFirst()
-      .orElseThrow(() -> new IllegalArgumentException("Invalid if for DeviceState"));
+      .orElseThrow(() -> new IllegalArgumentException("Invalid id for DeviceState"));
   }
 }
