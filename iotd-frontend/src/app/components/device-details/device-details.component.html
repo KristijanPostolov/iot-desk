@@ -28,4 +28,24 @@
             <hr />
         </div>
     </div>
+    <div *ngIf="deviceCommands.length || device.state === 'ACTIVE'">
+        <h3>Commands</h3>
+        <div>
+            <div *ngIf="!creatingNewCommand">
+                <button (click)="openNewCommandComponent()">New command</button>
+            </div>
+            <div *ngIf="creatingNewCommand">
+                <app-send-command (send)="postNewCommand($event)" (cancel)="onCancelNewCommand()"></app-send-command>
+            </div>
+        </div>
+        <div *ngIf="deviceCommands?.length">
+            <ul>
+                <li *ngFor="let command of deviceCommands">
+                    {{command.commandId}}: content: "{{command.content}}", sent at {{command.sentAt}},
+                    ackStatus: {{command.ackStatus}}
+                    <span *ngIf="command.acknowledgedAt">, acknowledgedAt: {{command.acknowledgedAt}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
 </section>

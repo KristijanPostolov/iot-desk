@@ -9,13 +9,15 @@ import {DeviceDetailsComponent} from './components/device-details/device-details
 import {CommonModule} from "@angular/common";
 import {CreateDeviceComponent} from './components/create-device/create-device.component';
 import {FormsModule} from "@angular/forms";
+import {SendCommandComponent} from './components/send-command/send-command.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     DeviceDetailsComponent,
-    CreateDeviceComponent
+    CreateDeviceComponent,
+    SendCommandComponent
   ],
   imports: [
     CommonModule,
