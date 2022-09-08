@@ -19,6 +19,25 @@
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>skip-mqtt-test</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/DeviceSnapshotHandlerIntegrationTest.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>com.kristijan.iot.desk</groupId>
