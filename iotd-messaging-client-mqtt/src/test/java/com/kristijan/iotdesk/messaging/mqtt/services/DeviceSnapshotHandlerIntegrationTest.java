@@ -8,7 +8,6 @@ import com.kristijan.iotdesk.messaging.mqtt.MqttIntegrationTestConfig;
 import lombok.SneakyThrows;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = {MqttIntegrationTestConfig.class})
-@Disabled
 public class DeviceSnapshotHandlerIntegrationTest extends MqttContainerTest {
 
   @MockBean

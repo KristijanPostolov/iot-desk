@@ -27,7 +27,7 @@ public class MqttConfiguration {
     try {
       MqttConnectOptions connectOptions = new MqttConnectOptions();
       connectOptions.setCleanSession(cleanSession);
-      MqttClient mqttClient = new MqttClient(brokerUrl, clientId);
+      MqttClient mqttClient = new MqttClient(brokerUrl, clientId, null);
       mqttClient.connect(connectOptions);
 
       handlers.forEach(handler -> subscribeHandler(mqttClient, handler));
