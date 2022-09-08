@@ -5,8 +5,10 @@ import lombok.SneakyThrows;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.SettableListenableFuture;
 
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.Future;
 
 @Service
 @RequiredArgsConstructor
@@ -21,4 +23,10 @@ public class MqttApi {
     Thread.sleep(1000);
   }
 
+  @SneakyThrows
+  public Future<String> expectCommand(String topic) {
+    final SettableListenableFuture<String> future = new SettableListenableFuture<>();
+    mqttClient.subscribe(topic, (t, message) -> future.set(new String(message.getPayload())));
+    return future;
+  }
 }
