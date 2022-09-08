@@ -26,10 +26,9 @@ public class SnapshotsDomainConfiguration {
                                                            ChannelIdService channelIdService,
                                                            ListDevicesService listDevicesService,
                                                            ManageDevicesService manageDevicesService,
-                                                           ParameterSnapshotRepository parameterSnapshotRepository,
-                                                           Clock clock) {
+                                                           ParameterSnapshotRepository parameterSnapshotRepository) {
     return new AddDeviceSnapshotService(deviceMessagingErrorHandler, channelIdService, listDevicesService,
-      manageDevicesService, parameterSnapshotRepository, clock);
+      manageDevicesService, parameterSnapshotRepository);
   }
 
   @Bean

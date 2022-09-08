@@ -14,6 +14,7 @@ import com.kristijan.iotdesk.domain.snapshots.models.DeviceCommand;
 import com.kristijan.iotdesk.domain.snapshots.ports.DeviceCommandSender;
 import com.kristijan.iotdesk.domain.snapshots.repositories.DeviceCommandRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
+@Slf4j
 public class DeviceCommandService {
 
   private final ListDevicesService listDevicesService;
@@ -48,6 +50,8 @@ public class DeviceCommandService {
   private void sendToDevice(String channelId, DeviceCommand deviceCommand) {
     try {
       CommandData commandData = new CommandData(deviceCommand.getCommandId(), deviceCommand.getContent());
+      log.info("Sending command with id: " + deviceCommand.getCommandId() + ", to device: " +
+        deviceCommand.getDeviceId());
       deviceCommandSender.sendCommandToDevice(channelId, commandData);
     } catch (Exception e) {
       throw new TransientDomainException("Failed sending device message", e);

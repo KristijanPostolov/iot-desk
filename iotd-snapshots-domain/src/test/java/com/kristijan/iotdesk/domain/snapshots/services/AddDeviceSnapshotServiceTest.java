@@ -11,16 +11,14 @@ import com.kristijan.iotdesk.domain.snapshots.models.AnchorSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.models.DeviceSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.models.ParameterSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.repositories.ParameterSnapshotRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Clock;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +38,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class AddDeviceSnapshotServiceTest {
 
+  @InjectMocks
   private AddDeviceSnapshotService addDeviceSnapshotService;
 
   @Mock
@@ -58,13 +57,6 @@ class AddDeviceSnapshotServiceTest {
   private ParameterSnapshotRepository parameterSnapshotRepository;
 
   private final LocalDateTime now = LocalDateTime.parse("2022-08-15T21:20:01");
-  private final Clock clock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-
-  @BeforeEach
-  void setUp() {
-    addDeviceSnapshotService = new AddDeviceSnapshotService(deviceMessagingErrorHandler, channelIdService,
-      listDevicesService, manageDevicesService, parameterSnapshotRepository, clock);
-  }
 
   @Test
   void shouldHandleErrorForNonExistingChannelId() {

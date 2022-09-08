@@ -13,7 +13,6 @@ import com.kristijan.iotdesk.domain.snapshots.models.ParameterSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.repositories.ParameterSnapshotRepository;
 import lombok.RequiredArgsConstructor;
 
-import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +31,6 @@ public class AddDeviceSnapshotService {
   private final ListDevicesService listDevicesService;
   private final ManageDevicesService manageDevicesService;
   private final ParameterSnapshotRepository parameterSnapshotRepository;
-  private final Clock clock;
 
   public boolean addDeviceSnapshot(DeviceSnapshot deviceSnapshot) {
     String channelId = deviceSnapshot.getChannelId();
