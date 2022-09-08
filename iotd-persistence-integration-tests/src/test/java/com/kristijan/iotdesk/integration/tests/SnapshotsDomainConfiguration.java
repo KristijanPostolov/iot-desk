@@ -7,6 +7,7 @@ import com.kristijan.iotdesk.domain.snapshots.ports.DeviceCommandSender;
 import com.kristijan.iotdesk.domain.snapshots.repositories.DeviceCommandRepository;
 import com.kristijan.iotdesk.domain.snapshots.repositories.ParameterSnapshotRepository;
 import com.kristijan.iotdesk.domain.snapshots.services.AddDeviceSnapshotService;
+import com.kristijan.iotdesk.domain.snapshots.services.DeviceCommandAckService;
 import com.kristijan.iotdesk.domain.snapshots.services.DeviceCommandService;
 import com.kristijan.iotdesk.domain.snapshots.services.DeviceMessagingErrorHandler;
 import com.kristijan.iotdesk.domain.snapshots.services.QuerySnapshotsService;
@@ -43,6 +44,14 @@ public class SnapshotsDomainConfiguration {
                                                    DeviceCommandRepository deviceCommandRepository, Clock clock) {
     return new DeviceCommandService(listDevicesService, channelIdService, deviceCommandSender, deviceCommandRepository,
       clock);
+  }
+
+  @Bean
+  public DeviceCommandAckService deviceCommandAckService(ChannelIdService channelIdService,
+                                                         DeviceMessagingErrorHandler deviceMessagingErrorHandler,
+                                                         DeviceCommandRepository deviceCommandRepository,
+                                                         Clock clock) {
+    return new DeviceCommandAckService(channelIdService, deviceMessagingErrorHandler, deviceCommandRepository, clock);
   }
 
 }

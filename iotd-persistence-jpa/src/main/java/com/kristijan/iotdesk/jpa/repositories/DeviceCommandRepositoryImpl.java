@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +36,11 @@ public class DeviceCommandRepositoryImpl implements DeviceCommandRepository {
       .stream()
       .map(this::mapDeviceCommand)
       .collect(Collectors.toList());
+  }
+
+  @Override
+  public Optional<DeviceCommand> findByCommandId(String commandId) {
+    return deviceCommandRepositoryJpa.findByCommandId(commandId).map(this::mapDeviceCommand);
   }
 
   private DeviceCommandEntity mapDeviceCommand(DeviceCommand deviceCommand) {

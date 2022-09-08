@@ -69,7 +69,7 @@ class DeviceSnapshotHandlerTest {
 
     deviceSnapshotHandler.handleMqttMessage(TOPIC_NAME, new MqttMessage(new byte[0]));
 
-    verify(deviceMessagingErrorHandler).invalidPayload("channelId1");
+    verify(deviceMessagingErrorHandler).invalidSnapshotPayload("channelId1");
   }
 
   @Test
@@ -81,7 +81,7 @@ class DeviceSnapshotHandlerTest {
 
     deviceSnapshotHandler.handleMqttMessage(TOPIC_NAME, new MqttMessage(new byte[0]));
 
-    verify(deviceMessagingErrorHandler).handleDomainException("channelId1", exception);
+    verify(deviceMessagingErrorHandler).handleSnapshotDomainException("channelId1", exception);
   }
 
   @Test

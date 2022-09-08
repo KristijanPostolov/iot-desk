@@ -17,15 +17,15 @@ public class MqttSnapshotValidatorAndParser {
   private static final String VALUE_SEPARATOR = ":";
 
   public ParsingResult<List<AnchorSnapshot>> parsePayload(byte[] payload) {
-    if (!hasValidFormat(payload)) {
+    String message = new String(payload);
+    if (!hasValidFormat(message)) {
       return ParsingResult.invalid();
     }
-    List<AnchorSnapshot> anchorSnapshots = parseMessage(payload);
+    List<AnchorSnapshot> anchorSnapshots = parseMessage(message);
     return ParsingResult.of(anchorSnapshots);
   }
 
-  private List<AnchorSnapshot> parseMessage(byte[] payload) {
-    String message = new String(payload);
+  private List<AnchorSnapshot> parseMessage(String message) {
     String[] parameters = message.split(PARAMETERS_SEPARATOR);
 
     return Arrays.stream(parameters)
@@ -40,8 +40,7 @@ public class MqttSnapshotValidatorAndParser {
     return new AnchorSnapshot(anchor, value);
   }
 
-  private boolean hasValidFormat(byte[] payload) {
-    String message = new String(payload);
+  private boolean hasValidFormat(String message) {
     if (message.length() > MAX_LENGTH || message.isBlank() || message.endsWith(PARAMETERS_SEPARATOR)) {
       return false;
     }

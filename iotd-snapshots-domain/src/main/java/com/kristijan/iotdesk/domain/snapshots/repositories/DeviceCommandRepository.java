@@ -4,6 +4,7 @@ import com.kristijan.iotdesk.domain.snapshots.models.DeviceCommand;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Repository for adding and querying device commands.
@@ -19,4 +20,6 @@ public interface DeviceCommandRepository {
 
   List<DeviceCommand> findByDeviceIdAndSentAtTimeRangeOrderedAscending(Long deviceId, LocalDateTime beginRange,
                                                                        LocalDateTime endRange);
+
+  Optional<DeviceCommand> findByCommandId(String commandId);
 }

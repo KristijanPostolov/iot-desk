@@ -43,7 +43,7 @@ public class DeviceSnapshotHandler implements MqttMessageHandler {
   private void handleSnapshot(String channelId, byte[] payload) {
     ParsingResult<List<AnchorSnapshot>> parsingResult = mqttSnapshotValidatorAndParser.parsePayload(payload);
     if (!parsingResult.isValid()) {
-      deviceMessagingErrorHandler.invalidPayload(channelId);
+      deviceMessagingErrorHandler.invalidSnapshotPayload(channelId);
       return;
     }
 
@@ -52,7 +52,7 @@ public class DeviceSnapshotHandler implements MqttMessageHandler {
     try {
       addDeviceSnapshotService.addDeviceSnapshot(deviceSnapshot);
     } catch (Exception ex) {
-      deviceMessagingErrorHandler.handleDomainException(channelId, ex);
+      deviceMessagingErrorHandler.handleSnapshotDomainException(channelId, ex);
     }
   }
 }
