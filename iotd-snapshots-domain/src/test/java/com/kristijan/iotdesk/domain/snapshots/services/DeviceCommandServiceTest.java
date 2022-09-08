@@ -23,6 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
@@ -135,5 +137,31 @@ class DeviceCommandServiceTest {
     assertEquals(now, deviceCommand.getSentAt());
     assertEquals(AcknowledgementStatus.NO_ACK, deviceCommand.getAckStatus());
     assertNull(deviceCommand.getAcknowledgedAt());
+  }
+
+  @Test
+  void shouldReturnEmptyWhenQueryingDeviceWithNoCommands() {
+    LocalDateTime now = LocalDateTime.now();
+    List<DeviceCommand> results = deviceCommandService.getCommandsInTimeRange(1L, now, now.plusMinutes(10));
+
+    assertNotNull(results);
+    assertTrue(results.isEmpty());
+  }
+
+  @Test
+  void shouldReturnListOfCommandsInTimeRange() {
+    LocalDateTime now = LocalDateTime.now();
+    List<DeviceCommand> commands = List.of(
+      new DeviceCommand("commandId1", "content1", 1L, now.minusMinutes(10), AcknowledgementStatus.NO_ACK),
+      new DeviceCommand("commandId2", "content2", 1L, now.minusMinutes(5), AcknowledgementStatus.ACK_SUCCESSFUL)
+    );
+    when(deviceCommandRepository.findByDeviceIdAndSentAtTimeRangeOrderedAscending(1L, now, now.plusMinutes(10)))
+      .thenReturn(commands);
+
+    List<DeviceCommand> results = deviceCommandService.getCommandsInTimeRange(1L, now, now.plusMinutes(10));
+
+    assertEquals(2, results.size());
+    assertEquals(commands.get(0), results.get(0));
+    assertEquals(commands.get(1), results.get(1));
   }
 }

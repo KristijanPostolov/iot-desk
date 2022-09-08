@@ -27,6 +27,7 @@ public class DeviceCommandRepositoryImpl implements DeviceCommandRepository {
     deviceCommandRepositoryJpa.save(entity);
   }
 
+  @Override
   public List<DeviceCommand> findByDeviceIdAndSentAtTimeRangeOrderedAscending(Long deviceId, LocalDateTime beginRange,
                                                                               LocalDateTime endRange) {
     DeviceEntity deviceEntity = entityManager.getReference(DeviceEntity.class, deviceId);

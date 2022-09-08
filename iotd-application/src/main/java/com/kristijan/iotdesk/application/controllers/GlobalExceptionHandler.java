@@ -1,6 +1,7 @@
 package com.kristijan.iotdesk.application.controllers;
 
 import com.kristijan.iotdesk.application.exceptions.NotFoundException;
+import com.kristijan.iotdesk.domain.device.exceptions.DomainException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,4 +18,9 @@ public class GlobalExceptionHandler {
     log.warn(ex.getMessage());
   }
 
+  @ExceptionHandler(DomainException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  void handleDomainException(DomainException ex) {
+    log.warn(ex.getMessage(), ex);
+  }
 }

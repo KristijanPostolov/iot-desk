@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -38,6 +39,10 @@ public class DeviceCommandService {
       LocalDateTime.now(clock), AcknowledgementStatus.NO_ACK);
     sendToDevice(channelId, deviceCommand);
     deviceCommandRepository.save(deviceCommand);
+  }
+
+  public List<DeviceCommand> getCommandsInTimeRange(long deviceId, LocalDateTime beginRange, LocalDateTime endRange) {
+    return deviceCommandRepository.findByDeviceIdAndSentAtTimeRangeOrderedAscending(deviceId, beginRange, endRange);
   }
 
   private void sendToDevice(String channelId, DeviceCommand deviceCommand) {
