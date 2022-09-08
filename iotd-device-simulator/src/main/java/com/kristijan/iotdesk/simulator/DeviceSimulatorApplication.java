@@ -62,7 +62,7 @@ public class DeviceSimulatorApplication implements CommandLineRunner {
       simulatorConfiguration.getClientIdPrefix() + channelId, new MqttDefaultFilePersistence(persistencePath));
     client.connect();
 
-    String topic = "/devices/" + channelId + "/commands";
+    String topic = "devices/" + channelId + "/commands";
     client.subscribe(topic, this::handleCommand);
     System.out.println("Subscribed to topic: " + topic);
     return client;

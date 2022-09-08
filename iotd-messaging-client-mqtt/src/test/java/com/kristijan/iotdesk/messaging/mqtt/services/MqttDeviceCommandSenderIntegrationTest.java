@@ -30,7 +30,7 @@ class MqttDeviceCommandSenderIntegrationTest extends MqttContainerTest {
   void shouldSendDeviceCommandMessage() {
     CommandData commandData = new CommandData("commandId123", "commandMessage");
     final Semaphore callbackSemaphore = new Semaphore(0);
-    mqttClient.subscribe("/devices/channelId1/commands", ((topic, message) -> {
+    mqttClient.subscribe("devices/channelId1/commands", ((topic, message) -> {
       String payload = new String(message.getPayload());
       assertEquals("commandId123;commandMessage", payload);
       callbackSemaphore.release();

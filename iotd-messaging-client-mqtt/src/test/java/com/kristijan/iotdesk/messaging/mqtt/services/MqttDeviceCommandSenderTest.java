@@ -47,7 +47,7 @@ public class MqttDeviceCommandSenderTest {
     mqttDeviceCommandSender.sendCommandToDevice("channelId2", commandData);
 
     ArgumentCaptor<MqttMessage> messageCaptor = ArgumentCaptor.forClass(MqttMessage.class);
-    verify(mqttClient).publish(eq("/devices/channelId2/commands"), messageCaptor.capture());
+    verify(mqttClient).publish(eq("devices/channelId2/commands"), messageCaptor.capture());
     String payload = new String(messageCaptor.getValue().getPayload());
     assertEquals("commandId2;commandContent", payload);
   }

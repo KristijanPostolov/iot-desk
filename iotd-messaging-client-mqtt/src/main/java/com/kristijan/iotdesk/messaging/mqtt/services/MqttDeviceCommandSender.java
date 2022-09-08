@@ -30,6 +30,6 @@ public class MqttDeviceCommandSender implements DeviceCommandSender {
   }
 
   private String getTopic(String channelId) {
-    return "/devices/" + channelId + "/commands";
+    return "devices/" + channelId + "/commands";
   }
 }

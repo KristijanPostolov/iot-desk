@@ -36,12 +36,12 @@ public class DeviceCommandsTest {
     mqttApi.publishDeviceSnapshot(channelId, "1:1.3,2:5.5");
     Thread.sleep(1000);
 
-    Future<String> commandFuture1 = mqttApi.expectCommand("/devices/" + channelId + "/commands");
+    Future<String> commandFuture1 = mqttApi.expectCommand("devices/" + channelId + "/commands");
     serverApi.sendCommand(deviceId, "command1");
     String command1 = commandFuture1.get(1, TimeUnit.SECONDS);
     assertTrue(command1.endsWith(";command1"));
 
-    Future<String> commandFuture2 = mqttApi.expectCommand("/devices/" + channelId + "/commands");
+    Future<String> commandFuture2 = mqttApi.expectCommand("devices/" + channelId + "/commands");
     serverApi.sendCommand(deviceId, "command2");
     String command2 = commandFuture2.get(1, TimeUnit.SECONDS);
     assertTrue(command2.endsWith(";command2"));
