@@ -3,6 +3,7 @@ package com.kristijan.iotdesk.messaging.mqtt.services;
 import com.kristijan.iotdesk.domain.snapshots.models.AnchorSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.models.DeviceSnapshot;
 import com.kristijan.iotdesk.domain.snapshots.services.AddDeviceSnapshotService;
+import com.kristijan.iotdesk.domain.snapshots.services.DeviceMessagingErrorHandler;
 import com.kristijan.iotdesk.messaging.mqtt.MqttContainerTest;
 import com.kristijan.iotdesk.messaging.mqtt.MqttIntegrationTestConfig;
 import lombok.SneakyThrows;
@@ -26,6 +27,10 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = {MqttIntegrationTestConfig.class})
 public class DeviceSnapshotHandlerIntegrationTest extends MqttContainerTest {
+
+  // Build fails on github if this is removed, local build is not affected.
+  @MockBean
+  private DeviceMessagingErrorHandler deviceMessagingErrorHandler;
 
   @MockBean
   private AddDeviceSnapshotService addDeviceSnapshotService;
