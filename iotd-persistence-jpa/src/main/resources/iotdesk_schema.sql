@@ -32,6 +32,19 @@ create table parameter_snapshot
     value           double precision
 );
 
+create table device_command
+(
+    id              bigserial primary key,
+    command_id      varchar(36)  not null,
+    content         varchar(255) not null,
+    device_id       bigserial    not null,
+    sent_at         timestamp    not null,
+    acknowledged_at timestamp,
+    ack_status      smallint     not null,
+    constraint fk__device_command__device foreign key (device_id) references device (id),
+    constraint unique__command_id unique (command_id)
+);
+
 create table user_Account
 (
     id       bigserial primary key,
