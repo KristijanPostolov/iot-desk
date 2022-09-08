@@ -37,7 +37,7 @@ class DeviceSnapshotHandlerTest {
   private DeviceMessagingErrorHandler deviceMessagingErrorHandler;
 
   @Mock
-  private MqttPayloadValidatorAndParser mqttPayloadValidatorAndParser;
+  private MqttSnapshotValidatorAndParser mqttSnapshotValidatorAndParser;
 
   @Mock
   private AddDeviceSnapshotService addDeviceSnapshotService;
@@ -47,13 +47,13 @@ class DeviceSnapshotHandlerTest {
 
   @BeforeEach
   void setUp() {
-    deviceSnapshotHandler = new DeviceSnapshotHandler(deviceMessagingErrorHandler, mqttPayloadValidatorAndParser,
+    deviceSnapshotHandler = new DeviceSnapshotHandler(deviceMessagingErrorHandler, mqttSnapshotValidatorAndParser,
       addDeviceSnapshotService, clock);
   }
 
   @Test
   void shouldMapTopicToChannelId() {
-    when(mqttPayloadValidatorAndParser.parsePayload(any())).thenReturn(
+    when(mqttSnapshotValidatorAndParser.parsePayload(any())).thenReturn(
       ParsingResult.of(Collections.emptyList()));
     when(addDeviceSnapshotService.addDeviceSnapshot(any())).thenReturn(true);
 
@@ -65,7 +65,7 @@ class DeviceSnapshotHandlerTest {
 
   @Test
   void shouldHandlePayloadValidationError() {
-    when(mqttPayloadValidatorAndParser.parsePayload(any())).thenReturn(ParsingResult.invalid());
+    when(mqttSnapshotValidatorAndParser.parsePayload(any())).thenReturn(ParsingResult.invalid());
 
     deviceSnapshotHandler.handleMqttMessage(TOPIC_NAME, new MqttMessage(new byte[0]));
 
@@ -74,7 +74,7 @@ class DeviceSnapshotHandlerTest {
 
   @Test
   void shouldHandleDomainError() {
-    when(mqttPayloadValidatorAndParser.parsePayload(any())).thenReturn(
+    when(mqttSnapshotValidatorAndParser.parsePayload(any())).thenReturn(
       ParsingResult.of(Collections.emptyList()));
     DomainException exception = new DomainException("error");
     when(addDeviceSnapshotService.addDeviceSnapshot(any())).thenThrow(exception);
@@ -86,7 +86,7 @@ class DeviceSnapshotHandlerTest {
 
   @Test
   void shouldNotFailIfAddingSnapshotIsNotSuccessful() {
-    when(mqttPayloadValidatorAndParser.parsePayload(any())).thenReturn(
+    when(mqttSnapshotValidatorAndParser.parsePayload(any())).thenReturn(
       ParsingResult.of(Collections.emptyList()));
 
     deviceSnapshotHandler.handleMqttMessage(TOPIC_NAME, new MqttMessage(new byte[0]));
@@ -98,7 +98,7 @@ class DeviceSnapshotHandlerTest {
       new AnchorSnapshot(1, 1.2),
       new AnchorSnapshot(2, 123456),
       new AnchorSnapshot(3, 123.456789));
-    when(mqttPayloadValidatorAndParser.parsePayload(any())).thenReturn(
+    when(mqttSnapshotValidatorAndParser.parsePayload(any())).thenReturn(
       ParsingResult.of(anchorSnapshots));
     when(addDeviceSnapshotService.addDeviceSnapshot(any())).thenReturn(true);
 

@@ -14,19 +14,19 @@ class ParsingResultTest {
 
   @Test
   void shouldReturnInvalid() {
-    ParsingResult result = ParsingResult.invalid();
+    ParsingResult<String> result = ParsingResult.invalid();
 
     assertFalse(result.isValid());
-    assertNull(result.getAnchorSnapshots());
+    assertNull(result.getResult());
   }
 
   @Test
   void shouldReturnValid() {
     List<AnchorSnapshot> list = List.of(new AnchorSnapshot(1, 2));
 
-    ParsingResult result = ParsingResult.of(list);
+    ParsingResult<List<AnchorSnapshot>> result = ParsingResult.of(list);
 
     assertTrue(result.isValid());
-    assertEquals(list, result.getAnchorSnapshots());
+    assertEquals(list, result.getResult());
   }
 }

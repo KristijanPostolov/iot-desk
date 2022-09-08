@@ -11,12 +11,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class MqttPayloadValidatorAndParser {
+public class MqttSnapshotValidatorAndParser {
   private static final int MAX_LENGTH = 2000;
   private static final String PARAMETERS_SEPARATOR = ",";
   private static final String VALUE_SEPARATOR = ":";
 
-  public ParsingResult parsePayload(byte[] payload) {
+  public ParsingResult<List<AnchorSnapshot>> parsePayload(byte[] payload) {
     if (!hasValidFormat(payload)) {
       return ParsingResult.invalid();
     }

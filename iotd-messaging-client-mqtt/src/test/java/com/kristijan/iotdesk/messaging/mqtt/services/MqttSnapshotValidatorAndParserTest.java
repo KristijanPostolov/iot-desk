@@ -20,16 +20,17 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MockitoExtension.class)
-class MqttPayloadValidatorAndParserTest {
+class MqttSnapshotValidatorAndParserTest {
 
   @InjectMocks
-  private MqttPayloadValidatorAndParser mqttPayloadValidatorAndParser;
+  private MqttSnapshotValidatorAndParser mqttSnapshotValidatorAndParser;
 
 
   @ParameterizedTest
   @MethodSource("validationTestCases")
   void testValidation(String payload, boolean expectedValid) {
-    ParsingResult result = mqttPayloadValidatorAndParser.parsePayload(payload.getBytes(StandardCharsets.UTF_8));
+    ParsingResult<List<AnchorSnapshot>> result =
+      mqttSnapshotValidatorAndParser.parsePayload(payload.getBytes(StandardCharsets.UTF_8));
 
     assertEquals(expectedValid, result.isValid());
   }
@@ -59,7 +60,7 @@ class MqttPayloadValidatorAndParserTest {
   void shouldReturnInvalidMappingResultWhenValidationFails() {
     byte[] payload = "invalidPayload".getBytes(StandardCharsets.UTF_8);
 
-    ParsingResult result = mqttPayloadValidatorAndParser.parsePayload(payload);
+    ParsingResult<List<AnchorSnapshot>> result = mqttSnapshotValidatorAndParser.parsePayload(payload);
 
     assertFalse(result.isValid());
   }
@@ -68,10 +69,10 @@ class MqttPayloadValidatorAndParserTest {
   void shouldReturnMappedModel() {
     byte[] payload = "3:4.56,1:99,4:123.456789".getBytes(StandardCharsets.UTF_8);
 
-    ParsingResult result = mqttPayloadValidatorAndParser.parsePayload(payload);
+    ParsingResult<List<AnchorSnapshot>> result = mqttSnapshotValidatorAndParser.parsePayload(payload);
 
     assertTrue(result.isValid());
-    List<AnchorSnapshot> snapshots = result.getAnchorSnapshots();
+    List<AnchorSnapshot> snapshots = result.getResult();
     assertEquals(3, snapshots.size());
     assertParameterSnapshot(snapshots.get(0), 3, 4.56);
     assertParameterSnapshot(snapshots.get(1), 1, 99);

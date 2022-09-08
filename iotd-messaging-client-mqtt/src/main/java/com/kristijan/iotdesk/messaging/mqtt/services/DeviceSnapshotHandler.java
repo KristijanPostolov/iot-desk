@@ -25,7 +25,7 @@ public class DeviceSnapshotHandler implements MqttMessageHandler {
   private static final String SNAPSHOTS_TOPIC_FILTER = "devices/+/snapshots";
 
   private final DeviceMessagingErrorHandler deviceMessagingErrorHandler;
-  private final MqttPayloadValidatorAndParser mqttPayloadValidatorAndParser;
+  private final MqttSnapshotValidatorAndParser mqttSnapshotValidatorAndParser;
   private final AddDeviceSnapshotService addDeviceSnapshotService;
   private final Clock clock;
 
@@ -41,13 +41,13 @@ public class DeviceSnapshotHandler implements MqttMessageHandler {
   }
 
   private void handleSnapshot(String channelId, byte[] payload) {
-    ParsingResult parsingResult = mqttPayloadValidatorAndParser.parsePayload(payload);
+    ParsingResult<List<AnchorSnapshot>> parsingResult = mqttSnapshotValidatorAndParser.parsePayload(payload);
     if (!parsingResult.isValid()) {
       deviceMessagingErrorHandler.invalidPayload(channelId);
       return;
     }
 
-    List<AnchorSnapshot> anchorSnapshots = parsingResult.getAnchorSnapshots();
+    List<AnchorSnapshot> anchorSnapshots = parsingResult.getResult();
     DeviceSnapshot deviceSnapshot = new DeviceSnapshot(channelId, LocalDateTime.now(clock), anchorSnapshots);
     try {
       addDeviceSnapshotService.addDeviceSnapshot(deviceSnapshot);

@@ -1,24 +1,21 @@
 package com.kristijan.iotdesk.messaging.mqtt.models;
 
-import com.kristijan.iotdesk.domain.snapshots.models.AnchorSnapshot;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ParsingResult {
+public class ParsingResult<T> {
 
   private final boolean valid;
-  private final List<AnchorSnapshot> anchorSnapshots;
+  private final T result;
 
-  public static ParsingResult invalid() {
-    return new ParsingResult(false, null);
+  public static <T> ParsingResult<T> invalid() {
+    return new ParsingResult<>(false, null);
   }
 
-  public static ParsingResult of(List<AnchorSnapshot> anchorSnapshots) {
-    return new ParsingResult(true, anchorSnapshots);
+  public static <T> ParsingResult<T> of(T anchorSnapshots) {
+    return new ParsingResult<>(true, anchorSnapshots);
   }
 }
