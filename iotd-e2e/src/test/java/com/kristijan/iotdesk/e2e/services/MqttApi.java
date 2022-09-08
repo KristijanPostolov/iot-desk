@@ -29,4 +29,11 @@ public class MqttApi {
     mqttClient.subscribe(topic, (t, message) -> future.set(new String(message.getPayload())));
     return future;
   }
+
+  @SneakyThrows
+  public void publishCommandAcknowledgement(String channelId, String payload) {
+    mqttClient.publish("devices/" + channelId + "/acks",
+      new MqttMessage(payload.getBytes(StandardCharsets.UTF_8)));
+    Thread.sleep(1000);
+  }
 }

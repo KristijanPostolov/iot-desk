@@ -41,6 +41,7 @@ public class DeviceSimulatorApplication implements CommandLineRunner {
     int parameterNumber = Integer.parseInt(br.readLine());
 
     int messageNumber = 1;
+    //noinspection InfiniteLoopStatement
     while (true) {
       List<String> measurements = new ArrayList<>();
       for (int i = 1; i <= parameterNumber; i++) {
@@ -49,9 +50,10 @@ public class DeviceSimulatorApplication implements CommandLineRunner {
         }
       }
       String payload = String.join(",", measurements);
-      System.out.println("Sending mqtt message to topic: " + topic + ", with payload: " + payload);
+      System.out.println("Sending snapshot message to topic: " + topic + ", with payload: " + payload);
       mqttClient.publish(topic, new MqttMessage(payload.getBytes(StandardCharsets.UTF_8)));
       messageNumber++;
+      //noinspection BusyWait
       Thread.sleep(5000);
     }
   }
@@ -62,13 +64,22 @@ public class DeviceSimulatorApplication implements CommandLineRunner {
       simulatorConfiguration.getClientIdPrefix() + channelId, new MqttDefaultFilePersistence(persistencePath));
     client.connect();
 
-    String topic = "devices/" + channelId + "/commands";
-    client.subscribe(topic, this::handleCommand);
-    System.out.println("Subscribed to topic: " + topic);
+    String commandTopic = "devices/" + channelId + "/commands";
+    String acksTopic = "devices/" + channelId + "/acks";
+    client.subscribe(commandTopic, (t, message) -> handleCommand(client, acksTopic, message));
+    System.out.println("Subscribed to topic: " + commandTopic);
     return client;
   }
 
-  private void handleCommand(String topic, MqttMessage message) {
-    System.out.println("Received command: " + new String(message.getPayload()));
+  @SneakyThrows
+  private void handleCommand(MqttClient client, String acksTopic, MqttMessage message) {
+    String payload = new String(message.getPayload());
+    System.out.println("Received command: " + payload);
+    Thread.sleep(10000);
+    String commandId = payload.split(";")[0];
+    String successful = random.nextBoolean() ? "1" : "0";
+    String acknowledgement = commandId + ";" + successful;
+    System.out.println("Sending acknowledgement message to topic: " + acksTopic + ", with payload: " + acknowledgement);
+    client.publish(acksTopic, new MqttMessage(acknowledgement.getBytes(StandardCharsets.UTF_8)));
   }
 }

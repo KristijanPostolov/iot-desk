@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(classes = E2EConfiguration.class)
 @TestPropertySource(locations = "classpath:application-test.properties")
-public class DeviceRegistrationTest {
+public class DeviceRegistrationE2eTest {
 
   @Autowired
   private IotDeskServerApi serverApi;
