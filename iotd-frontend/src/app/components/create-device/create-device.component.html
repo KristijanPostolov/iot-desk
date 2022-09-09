@@ -1,10 +1,15 @@
 <div>
-    <h1>Creating new device</h1>
-    <div>
-        <label for="deviceName">Device name: </label>
-        <input id="deviceName" type="text" [maxLength]="50" [(ngModel)]="deviceName" placeholder="Home assistant...">
+    <h1 mat-dialog-title>Creating new device</h1>
+    <div mat-dialog-content>
+        <mat-form-field appearance="outline" class="dialog-input">
+            <mat-label>Device name</mat-label>
+            <input matInput maxlength="50" [(ngModel)]="deviceName">
+        </mat-form-field>
     </div>
-    <div>
-        <button (click)="onCreate()" [disabled]="!deviceName">Create</button>
+    <div mat-dialog-actions align="center">
+        <button mat-stroked-button [mat-dialog-close]="deviceName" [disabled]="!deviceName" color='primary'>
+            Create
+        </button>
+        <button mat-button (click)="onCancel()">Cancel</button>
     </div>
 </div>

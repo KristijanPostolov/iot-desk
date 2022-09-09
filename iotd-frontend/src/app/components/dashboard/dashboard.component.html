@@ -1,14 +1,24 @@
-<div>
-    <h1>Devices</h1>
-
-    <div>
-        <button routerLink="/newDevice">+ Create new device</button>
+<div class="main-div">
+    <div class="device-title">
+        <h1 class="mat-headline">Devices</h1>
     </div>
+    <div class="create-device">
+        <button (click)="openCreateDeviceDialog()" mat-raised-button color="primary">+ Create new device</button>
+    </div>
+    <div class="device-card-container" *ngIf="devices">
+        <mat-card *ngFor="let device of devices" class="device-card">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <mat-icon>settings_remote</mat-icon>
+                </div>
+                <mat-card-title>{{device.name}}</mat-card-title>
+                <mat-card-subtitle>Status: {{device.state}}</mat-card-subtitle>
+                <span class="actions-spacer"></span>
+                <button routerLink="/devices/{{device.id}}" mat-mini-fab aria-label="View details">
+                    <mat-icon>manage_search</mat-icon>
+                </button>
+            </mat-card-header>
+        </mat-card>
 
-    <div *ngIf="devices">
-        <ul id="devices-list">
-            <li *ngFor="let device of devices">Id: {{device.id}}; Name: {{device.name}}; State: {{device.state}}
-                <a routerLink="/devices/{{device.id}}">View details</a></li>
-        </ul>
     </div>
 </div>

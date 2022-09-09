@@ -1,28 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {DeviceService} from "../../services/device.service";
-import {CreateDeviceRequest} from "../../models/create-device-request";
-import {Router} from "@angular/router";
+import {Component} from '@angular/core';
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-create-device',
   templateUrl: './create-device.component.html',
   styleUrls: ['./create-device.component.css']
 })
-export class CreateDeviceComponent implements OnInit {
+export class CreateDeviceComponent {
 
   deviceName = "";
 
-  constructor(private deviceService: DeviceService, private router: Router) { }
+  constructor(public dialogRef: MatDialogRef<CreateDeviceComponent>) { }
 
-  ngOnInit(): void {
-  }
-
-  onCreate() {
-    const request = new CreateDeviceRequest(this.deviceName);
-    this.deviceService.createDevice(request)
-      .subscribe(response => {
-        this.router.navigateByUrl(`/devices/${response.id}`, { state: { afterCreation: true } });
-      })
+  onCancel() {
+    this.dialogRef.close();
   }
 
 }
