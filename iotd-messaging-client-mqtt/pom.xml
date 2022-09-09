@@ -30,6 +30,7 @@
                         <configuration>
                             <excludes>
                                 <exclude>**/DeviceSnapshotHandlerIntegrationTest.java</exclude>
+                                <exclude>**/DeviceCommandAckHandlerIntegrationTest.java</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
