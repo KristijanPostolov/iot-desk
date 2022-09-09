@@ -10,6 +10,7 @@ import {CommonModule} from "@angular/common";
 import {CreateDeviceComponent} from './components/create-device/create-device.component';
 import {FormsModule} from "@angular/forms";
 import {SendCommandComponent} from './components/send-command/send-command.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {SendCommandComponent} from './components/send-command/send-command.compo
     FormsModule,
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
