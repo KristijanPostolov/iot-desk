@@ -1,17 +1,30 @@
-<section *ngIf="device">
-    <span *ngIf="displaySuccessfulCreation" style="color: green">Successfully created new device.</span>
+<section *ngIf="device" class="device-details-page-container">
     <h1>{{device.name}}</h1>
 
     <div>
-        <h3>Device details</h3>
-        <p>Device state: {{device.state}}</p>
-        <p>Device creation timestamp: {{device.createdAt}}</p>
+        <h2>Device details</h2>
         <p>
-            Channel id: <button (click)="fetchAndCopyChannelId()">Copy to clipboard</button>
+            Device state:
+            <span matTooltip="{{statusTooltipText}}" matTooltipPosition="right"
+                  class="state-text" [ngClass]="'state-text-' + device.state.toLowerCase()">{{device.state}}</span>
+        </p>
+        <p>
+            Device creation timestamp:
+            <span class="created-at-text">
+                {{device.createdAt | date: 'dd MMM yyyy, HH:mm:ss'}}
+            </span>
+        </p>
+        <p>
+            Channel id:
+            <button mat-stroked-button color="primary" (click)="fetchAndCopyChannelId()">
+                <mat-icon>file_copy</mat-icon>
+                Copy channel id to clipboard
+            </button>
         </p>
     </div>
     <div *ngIf="device.parameters && device.parameters.length > 0">
-        <h3>Parameters</h3>
+        <hr />
+        <h2>Parameters</h2>
         <p>This device has {{device.parameters.length}} parameters</p>
 
         <div *ngFor="let parameter of device.parameters">
@@ -25,11 +38,11 @@
                     </li>
                 </ul>
             </div>
-            <hr />
         </div>
     </div>
     <div *ngIf="deviceCommands.length || device.state === 'ACTIVE'">
-        <h3>Commands</h3>
+        <hr />
+        <h2>Commands</h2>
         <div>
             <div *ngIf="!creatingNewCommand">
                 <button (click)="openNewCommandComponent()">New command</button>

@@ -1,0 +1,25 @@
+.device-details-page-container {
+    height: 90vh;
+    padding: 10px;
+}
+
+.state-text {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.state-text-new {
+    color: darkorange;
+}
+
+.state-text-active {
+    color: darkseagreen;
+}
+
+.created-at-text {
+    font-size: 1.5em;
+}
+
+.snackbar {
+    background-color: orangered;
+}

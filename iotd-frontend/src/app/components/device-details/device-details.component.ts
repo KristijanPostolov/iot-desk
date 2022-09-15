@@ -8,6 +8,7 @@ import {ParameterSnapshot} from "../../models/parameter-snapshot";
 import {CommandService} from "../../services/command.service";
 import {CreateCommand} from "../../models/create-command";
 import {DeviceCommand} from "../../models/device-command";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-device-details',
@@ -16,8 +17,15 @@ import {DeviceCommand} from "../../models/device-command";
 })
 export class DeviceDetailsComponent implements OnInit {
 
+  static statusTooltipTexts = new Map([
+    ["NEW", "Device is created, but no messages were received from it yet."],
+    ["ACTIVE", "Device is active, at least one message was received from it."]
+  ]);
+
   displaySuccessfulCreation = false;
   device?: DeviceDetails;
+  statusTooltipText?: string = '';
+
   parametersData = new Map<number, ParameterSnapshot[]>();
   deviceCommands: DeviceCommand[] = [];
 
@@ -25,16 +33,21 @@ export class DeviceDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, private deviceService: DeviceService,
               private clipboard: Clipboard, private parameterService: ParameterService,
-              private commandService: CommandService) {
+              private commandService: CommandService, private snackBar: MatSnackBar) {
     this.displaySuccessfulCreation = Boolean(
       this.router.getCurrentNavigation()?.extras.state?['afterCreation'] : false);
   }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.displaySuccessfulCreation) {
+      this.snackBar.open('Successfully created new device.', undefined,
+        { duration: 3000, verticalPosition: "top", panelClass: 'green-snackbar'})
+    }
     this.deviceService.getDeviceById(id)
       .subscribe(device => {
         this.device = device;
+        this.statusTooltipText = DeviceDetailsComponent.statusTooltipTexts.get(this.device.state);
         this.fetchParameterValues();
         this.fetchDeviceCommands()
       });
