@@ -1,0 +1,26 @@
+<div>
+    <h1 mat-dialog-title>Device parameters</h1>
+    <div mat-dialog-content class="parameters-list-container">
+        <div class="parameters-item" *ngFor="let parameter of parameters">
+            <div>
+                <mat-label>Anchor: {{parameter.anchor}}</mat-label>
+            </div>
+            <mat-form-field class="parameter-name-field" appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput maxlength="50" [(ngModel)]="parameter.name" [readonly]="false">
+                <button *ngIf="parameter.name !== parameter.oldName" (click)="onRevert(parameter)"
+                        matSuffix mat-icon-button [attr.aria-label]="'Undo'" matTooltip="Revert">
+                    <mat-icon>undo</mat-icon>
+                </button>
+            </mat-form-field>
+            <button (click)="onRename(parameter)" mat-stroked-button color="primary"
+                    [disabled]="!parameter.name || parameter.name === parameter.oldName">
+                <mat-icon>edit</mat-icon> Rename
+            </button>
+        </div>
+
+    </div>
+    <div mat-dialog-actions align="end">
+        <button mat-button (click)="onClose()">Close</button>
+    </div>
+</div>

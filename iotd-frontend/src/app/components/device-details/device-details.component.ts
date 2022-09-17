@@ -9,6 +9,9 @@ import {CommandService} from "../../services/command.service";
 import {CreateCommand} from "../../models/create-command";
 import {DeviceCommand} from "../../models/device-command";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatDialog} from "@angular/material/dialog";
+import {EditParametersComponent} from "../edit-parameters/edit-parameters.component";
+import {EditParametersData} from "../edit-parameters/edit-parameters-data";
 
 @Component({
   selector: 'app-device-details',
@@ -33,7 +36,8 @@ export class DeviceDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router, private deviceService: DeviceService,
               private clipboard: Clipboard, private parameterService: ParameterService,
-              private commandService: CommandService, private snackBar: MatSnackBar) {
+              private commandService: CommandService, private snackBar: MatSnackBar,
+              private dialog: MatDialog) {
     this.displaySuccessfulCreation = Boolean(
       this.router.getCurrentNavigation()?.extras.state?['afterCreation'] : false);
   }
@@ -102,5 +106,12 @@ export class DeviceDetailsComponent implements OnInit {
 
   reloadPage() {
     this.fetchDeviceDetails()
+  }
+
+  openEditParametersDialog() {
+    if (this.device) {
+      this.dialog.open(EditParametersComponent, { width: '60vw', autoFocus: "dialog",
+        data: new EditParametersData(this.device.id, this.device.parameters)});
+    }
   }
 }
