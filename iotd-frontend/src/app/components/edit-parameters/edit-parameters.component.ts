@@ -21,10 +21,6 @@ export class EditParametersComponent {
     });
   }
 
-  onClose() {
-    this.dialogRef.close();
-  }
-
   onRename(parameter: any) {
     parameter.oldName = parameter.name;
     this.snackBar.open('Renamed parameter with anchor ' + parameter.anchor + ' to "' + parameter.name + '"',

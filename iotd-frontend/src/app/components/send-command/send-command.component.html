@@ -1,9 +1,0 @@
-<div>
-    <div>
-        <input type="text" maxlength="255" [(ngModel)]="commandContent">
-    </div>
-    <div>
-        <button (click)="onSend()" [disabled]="!commandContent.length">Send</button>
-        <button (click)="onCancel()">Cancel</button>
-    </div>
-</div>

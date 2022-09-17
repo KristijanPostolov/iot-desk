@@ -1,0 +1,15 @@
+<div>
+    <h1 mat-dialog-title>Post command</h1>
+    <div mat-dialog-content>
+        <mat-form-field appearance="fill" class="dialog-input">
+            <mat-label>Command content</mat-label>
+            <textarea matInput cdkTextareaAutosize cdkAutosizeMaxRows="15" maxlength="255" required="required"
+                      [(ngModel)]="commandContent"></textarea>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button mat-stroked-button color="primary" (click)="onPost()" [disabled]="!commandContent.length">Post</button>
+        <button mat-button mat-dialog-close>Cancel</button>
+    </div>
+
+</div>

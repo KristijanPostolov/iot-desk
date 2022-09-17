@@ -1,18 +1,18 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {SendCommandComponent} from './send-command.component';
+import {PostCommandComponent} from './post-command.component';
 
 describe('SendCommandComponent', () => {
-  let component: SendCommandComponent;
-  let fixture: ComponentFixture<SendCommandComponent>;
+  let component: PostCommandComponent;
+  let fixture: ComponentFixture<PostCommandComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SendCommandComponent ]
+      declarations: [ PostCommandComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SendCommandComponent);
+    fixture = TestBed.createComponent(PostCommandComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

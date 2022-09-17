@@ -9,7 +9,7 @@ import {DeviceDetailsComponent} from './components/device-details/device-details
 import {CommonModule} from "@angular/common";
 import {CreateDeviceComponent} from './components/create-device/create-device.component';
 import {FormsModule} from "@angular/forms";
-import {SendCommandComponent} from './components/send-command/send-command.component';
+import {PostCommandComponent} from './components/send-command/post-command.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatButtonModule} from "@angular/material/button";
@@ -27,7 +27,7 @@ import {EditParametersComponent} from './components/edit-parameters/edit-paramet
     DashboardComponent,
     DeviceDetailsComponent,
     CreateDeviceComponent,
-    SendCommandComponent,
+    PostCommandComponent,
     EditParametersComponent
   ],
   imports: [

@@ -24,12 +24,12 @@
     background-color: orangered;
 }
 
-.device-title {
+.header-with-button {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
 }
 
-.reload-button {
+.header-with-button button {
     margin-left: 20px;
 }

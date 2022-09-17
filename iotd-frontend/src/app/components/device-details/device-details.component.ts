@@ -6,12 +6,12 @@ import {Clipboard} from "@angular/cdk/clipboard";
 import {ParameterService} from "../../services/parameter.service";
 import {ParameterSnapshot} from "../../models/parameter-snapshot";
 import {CommandService} from "../../services/command.service";
-import {CreateCommand} from "../../models/create-command";
 import {DeviceCommand} from "../../models/device-command";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {EditParametersComponent} from "../edit-parameters/edit-parameters.component";
 import {EditParametersData} from "../edit-parameters/edit-parameters-data";
+import {PostCommandComponent} from "../send-command/post-command.component";
 
 @Component({
   selector: 'app-device-details',
@@ -32,12 +32,9 @@ export class DeviceDetailsComponent implements OnInit {
   parametersData = new Map<number, ParameterSnapshot[]>();
   deviceCommands: DeviceCommand[] = [];
 
-  creatingNewCommand = false;
-
   constructor(private route: ActivatedRoute, private router: Router, private deviceService: DeviceService,
               private clipboard: Clipboard, private parameterService: ParameterService,
-              private commandService: CommandService, private snackBar: MatSnackBar,
-              private dialog: MatDialog) {
+              private commandService: CommandService, private snackBar: MatSnackBar, private dialog: MatDialog) {
     this.displaySuccessfulCreation = Boolean(
       this.router.getCurrentNavigation()?.extras.state?['afterCreation'] : false);
   }
@@ -90,22 +87,15 @@ export class DeviceDetailsComponent implements OnInit {
     }
   }
 
-  openNewCommandComponent() {
-    this.creatingNewCommand = true;
-  }
-
-  onCancelNewCommand() {
-    this.creatingNewCommand = false;
-  }
-
-  postNewCommand(command: string) {
-    this.creatingNewCommand = false;
-    this.commandService.postCommand(new CreateCommand(this.device!.id, command))
-      .subscribe(() => this.fetchDeviceDetails());
-  }
-
-  reloadPage() {
-    this.fetchDeviceDetails()
+  openPostCommandComponent() {
+    if (this.device) {
+      const dialogRef = this.dialog.open(PostCommandComponent, { width: '33vw', data: this.device.id});
+      dialogRef.afterClosed().subscribe(command => {
+        if (command) {
+          this.fetchDeviceDetails();
+        }
+      });
+    }
   }
 
   openEditParametersDialog() {

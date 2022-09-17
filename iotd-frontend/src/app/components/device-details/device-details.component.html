@@ -1,7 +1,7 @@
 <section *ngIf="device" class="device-details-page-container">
-    <div class="device-title">
+    <div class="header-with-button">
         <h1>{{device.name}}</h1>
-        <button class="reload-button" mat-stroked-button color="primary" (click)="reloadPage()">
+        <button mat-stroked-button color="primary" (click)="fetchDeviceDetails()">
             <mat-icon>refresh</mat-icon>
         </button>
     </div>
@@ -52,14 +52,12 @@
     </div>
     <div *ngIf="deviceCommands.length || device.state === 'ACTIVE'">
         <hr />
-        <h2>Commands</h2>
-        <div>
-            <div *ngIf="!creatingNewCommand">
-                <button (click)="openNewCommandComponent()">New command</button>
-            </div>
-            <div *ngIf="creatingNewCommand">
-                <app-send-command (send)="postNewCommand($event)" (cancel)="onCancelNewCommand()"></app-send-command>
-            </div>
+        <div class="header-with-button">
+            <h2>Commands</h2>
+            <button (click)="openPostCommandComponent()" mat-stroked-button color="primary">
+                <mat-icon>play_arrow</mat-icon>
+                Post command
+            </button>
         </div>
         <div *ngIf="deviceCommands?.length">
             <ul>

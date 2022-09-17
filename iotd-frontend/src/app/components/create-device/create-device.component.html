@@ -3,13 +3,13 @@
     <div mat-dialog-content>
         <mat-form-field appearance="outline" class="dialog-input">
             <mat-label>Device name</mat-label>
-            <input matInput maxlength="50" [(ngModel)]="deviceName">
+            <input matInput maxlength="50" required="required" [(ngModel)]="deviceName">
         </mat-form-field>
     </div>
     <div mat-dialog-actions align="center">
         <button mat-stroked-button [mat-dialog-close]="deviceName" [disabled]="!deviceName" color='primary'>
             Create
         </button>
-        <button mat-button (click)="onCancel()">Cancel</button>
+        <button mat-button mat-dialog-close>Cancel</button>
     </div>
 </div>

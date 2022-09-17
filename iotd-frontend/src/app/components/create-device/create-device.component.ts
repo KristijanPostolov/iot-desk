@@ -12,8 +12,4 @@ export class CreateDeviceComponent {
 
   constructor(public dialogRef: MatDialogRef<CreateDeviceComponent>) { }
 
-  onCancel() {
-    this.dialogRef.close();
-  }
-
 }
