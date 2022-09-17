@@ -36,18 +36,10 @@
                 <mat-icon>edit_note</mat-icon> Edit
             </button>
         </p>
-
-        <div *ngFor="let parameter of device.parameters">
-            <h4>{{parameter.name}}</h4>
-            <p>Anchor: {{parameter.anchor}}</p>
-            <div *ngIf="parametersData.get(parameter.id)?.length">
-                <span>Snapshots:</span>
-                <ul>
-                    <li *ngFor="let snapshot of parametersData.get(parameter.id)">
-                        {{snapshot.timestamp}}: {{snapshot.value}}
-                    </li>
-                </ul>
-            </div>
+        <div class="parameters-list-container">
+            <app-parameter-view class="parameter-item" *ngFor="let parameter of device.parameters"
+                                [parameter]="parameter" [parameterSnapshots]="parametersData.get(parameter.id)">
+            </app-parameter-view>
         </div>
     </div>
     <div *ngIf="deviceCommands.length || device.state === 'ACTIVE'">

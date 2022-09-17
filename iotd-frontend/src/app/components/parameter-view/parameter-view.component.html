@@ -1,0 +1,17 @@
+<div *ngIf="parameter">
+    <mat-card>
+        <mat-card-header>
+            <h4>{{parameter.name}} <i>(Anchor: {{parameter.anchor}})</i></h4>
+        </mat-card-header>
+        <mat-card-content>
+            <div *ngIf="parameterSnapshots">
+                <span>Snapshots:</span>
+                <ul>
+                    <li *ngFor="let snapshot of parameterSnapshots">
+                        {{snapshot.timestamp}}: {{snapshot.value}}
+                    </li>
+                </ul>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

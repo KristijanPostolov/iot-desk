@@ -33,3 +33,14 @@
 .header-with-button button {
     margin-left: 20px;
 }
+
+.parameters-list-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.parameter-item {
+    flex: 1;
+}

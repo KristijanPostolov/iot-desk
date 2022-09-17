@@ -20,6 +20,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {EditParametersComponent} from './components/edit-parameters/edit-parameters.component';
+import {ParameterViewComponent} from './components/parameter-view/parameter-view.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {EditParametersComponent} from './components/edit-parameters/edit-paramet
     DeviceDetailsComponent,
     CreateDeviceComponent,
     PostCommandComponent,
-    EditParametersComponent
+    EditParametersComponent,
+    ParameterViewComponent
   ],
   imports: [
     CommonModule,
