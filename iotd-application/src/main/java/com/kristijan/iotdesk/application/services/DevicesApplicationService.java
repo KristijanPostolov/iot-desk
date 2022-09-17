@@ -6,6 +6,7 @@ import com.kristijan.iotdesk.application.dtos.CreateDeviceResponseDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceParameterDto;
+import com.kristijan.iotdesk.application.dtos.ParameterRenameDto;
 import com.kristijan.iotdesk.application.exceptions.NotFoundException;
 import com.kristijan.iotdesk.domain.device.models.Device;
 import com.kristijan.iotdesk.domain.device.models.DeviceParameter;
@@ -66,5 +67,9 @@ public class DevicesApplicationService {
     return channelIdService.findByDeviceId(id)
       .map(deviceChannelId -> new ChannelIdDto(deviceChannelId.getChannelId()))
       .orElseThrow(() -> new NotFoundException("Channel id was not found for the device id"));
+  }
+
+  public void renameDeviceParameter(long deviceId, int anchor, ParameterRenameDto parameterRenameDto) {
+    manageDevicesService.renameDeviceParameter(deviceId, anchor, parameterRenameDto.getName());
   }
 }

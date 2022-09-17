@@ -6,6 +6,7 @@ import {DeviceDetails} from "../models/device-details";
 import {CreateDeviceRequest} from "../models/create-device-request";
 import {CreateDeviceResponse} from "../models/create-device-response";
 import {DeviceChannelId} from "../models/device-channel-id";
+import {ParameterRenameRequest} from "../models/parameter-rename-request";
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +29,9 @@ export class DeviceService {
 
   createDevice(request: CreateDeviceRequest) : Observable<CreateDeviceResponse> {
     return this.http.post<CreateDeviceResponse>('api/devices', request);
+  }
+
+  renameDeviceParameter(deviceId: number, anchor: number, request: ParameterRenameRequest) : Observable<any> {
+    return this.http.post(`api/devices/${deviceId}/parameters/${anchor}/rename`, request);
   }
 }

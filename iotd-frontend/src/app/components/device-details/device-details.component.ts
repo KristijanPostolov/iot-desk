@@ -52,6 +52,7 @@ export class DeviceDetailsComponent implements OnInit {
     this.deviceService.getDeviceById(id)
       .subscribe(device => {
         this.device = device;
+        this.device.parameters.sort((a, b) => a.anchor - b.anchor);
         this.statusTooltipText = DeviceDetailsComponent.statusTooltipTexts.get(this.device.state);
         this.fetchParameterValues();
         this.fetchDeviceCommands();
@@ -100,8 +101,11 @@ export class DeviceDetailsComponent implements OnInit {
 
   openEditParametersDialog() {
     if (this.device) {
-      this.dialog.open(EditParametersComponent, { width: '60vw', autoFocus: "dialog",
+      const dialogRef = this.dialog.open(EditParametersComponent, { width: '60vw', autoFocus: "dialog",
         data: new EditParametersData(this.device.id, this.device.parameters)});
+      dialogRef.afterClosed().subscribe(() => {
+        this.fetchDeviceDetails();
+      })
     }
   }
 }

@@ -186,6 +186,29 @@ public class DeviceUseCasesIntegrationTest extends PostgresContainerTest {
     assertEquals(2, device2.getParameters().size());
   }
 
+  @Test
+  void shouldRenameParameter() {
+    long deviceId = manageDevicesService.createNewDevice("testDevice 1");
+    manageDevicesService.updateDeviceParameters(deviceId, Set.of(1, 2, 3));
+
+    manageDevicesService.renameDeviceParameter(deviceId, 2, "Temperature");
+    manageDevicesService.renameDeviceParameter(deviceId, 3, "Light bulb");
+
+    Device device = listDevicesService.findById(deviceId).orElse(null);
+    assertNotNull(device);
+    assertEquals(3, device.getParameters().size());
+
+    DeviceParameter parameter2 =
+      device.getParameters().stream().filter(parameter -> parameter.getAnchor() == 2).findFirst().orElse(null);
+    assertNotNull(parameter2);
+    assertEquals("Temperature", parameter2.getName());
+
+    DeviceParameter parameter3 =
+      device.getParameters().stream().filter(parameter -> parameter.getAnchor() == 3).findFirst().orElse(null);
+    assertNotNull(parameter3);
+    assertEquals("Light bulb", parameter3.getName());
+  }
+
   private void assertNewDevice(Device device, String expectedName) {
     assertNotNull(device);
     assertEquals(expectedName, device.getName());

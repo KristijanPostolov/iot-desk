@@ -20,4 +20,6 @@ public interface DevicesRepository {
   Device updateStatus(Device device);
 
   Device saveParameters(Device device, Set<DeviceParameter> parameters);
+
+  void updateParameters(Device device);
 }

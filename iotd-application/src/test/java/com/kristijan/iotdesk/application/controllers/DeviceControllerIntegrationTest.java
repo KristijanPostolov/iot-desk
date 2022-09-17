@@ -5,11 +5,13 @@ import com.kristijan.iotdesk.application.dtos.CreateDeviceResponseDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceParameterDto;
+import com.kristijan.iotdesk.application.dtos.ParameterRenameDto;
 import com.kristijan.iotdesk.application.exceptions.NotFoundException;
 import com.kristijan.iotdesk.application.services.DevicesApplicationService;
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,7 +22,10 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -140,5 +145,20 @@ public class DeviceControllerIntegrationTest {
 
     mockMvc.perform(request)
       .andExpect(status().isNotFound());
+  }
+
+  @Test
+  @SneakyThrows
+  void shouldRenameDeviceParameter() {
+    MockHttpServletRequestBuilder request = post(DEVICES_API + "/2/parameters/1/rename")
+      .content("{\"name\": \"Parameter Name\"}")
+      .contentType(MediaType.APPLICATION_JSON);
+
+    mockMvc.perform(request)
+      .andExpect(status().isOk());
+
+    ArgumentCaptor<ParameterRenameDto> requestCaptor = ArgumentCaptor.forClass(ParameterRenameDto.class);
+    verify(devicesApplicationService).renameDeviceParameter(eq(2L), eq(1), requestCaptor.capture());
+    assertEquals("Parameter Name", requestCaptor.getValue().getName());
   }
 }

@@ -6,6 +6,7 @@ import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceResponseDto;
 import com.kristijan.iotdesk.application.dtos.DeviceCommandDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
+import com.kristijan.iotdesk.application.dtos.ParameterRenameDto;
 import com.kristijan.iotdesk.application.dtos.ParameterSnapshotDto;
 import com.kristijan.iotdesk.e2e.config.E2ETestProperties;
 import lombok.RequiredArgsConstructor;
@@ -77,6 +78,13 @@ public class IotDeskServerApi {
       DeviceCommandDto[].class, params);
     assertNotNull(result.getBody());
     return Arrays.asList(result.getBody());
+  }
+
+  public void renameParameter(long deviceId, int anchor, String name) {
+    ResponseEntity<Void> response = restTemplate.postForEntity(
+      url("/devices/" + deviceId + "/parameters/" + anchor + "/rename"),
+      new ParameterRenameDto(name), Void.class);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
   }
 
   private String url(String path) {

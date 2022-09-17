@@ -42,9 +42,7 @@ public class DeviceRepositoryImpl implements DevicesRepository {
 
   @Override
   public Device updateStatus(Device device) {
-    DeviceEntity entity = mapDevice(device);
-    entity = repository.save(entity);
-    return mapDevice(entity);
+    return update(device);
   }
 
   @Override
@@ -55,6 +53,17 @@ public class DeviceRepositoryImpl implements DevicesRepository {
       .collect(Collectors.toList());
     entity.getParameters().addAll(parameterEntities);
     return mapDevice(repository.save(entity));
+  }
+
+  @Override
+  public void updateParameters(Device device) {
+    update(device);
+  }
+
+  private Device update(Device device) {
+    DeviceEntity entity = mapDevice(device);
+    entity = repository.save(entity);
+    return mapDevice(entity);
   }
 
   private Device mapDevice(DeviceEntity entity) {

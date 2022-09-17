@@ -163,6 +163,38 @@ public class ManageDevicesServiceTest {
     verify(devicesRepository, times(0)).saveParameters(any(), any());
   }
 
+  @Test
+  void shouldThrowIfRenamingParameterForNonExistingDevice() {
+    assertThrows(DomainException.class, () -> manageDevicesService.renameDeviceParameter(1L, 1, "Name"));
+  }
+
+  @Test
+  void shouldThrowIfRenamingParameterForNonExistingAnchorForDevice() {
+    Device device = new Device("Device 2", DeviceState.ACTIVE);
+    device.getParameters().add(new DeviceParameter(2L, 1, "Parameter 1"));
+    when(devicesRepository.findById(2L)).thenReturn(Optional.of(device));
+
+    assertThrows(DomainException.class, () -> manageDevicesService.renameDeviceParameter(2L, 3, "Name"));
+  }
+
+  @Test
+  void shouldUpdateNameOfExistingParameter() {
+    Device device = new Device("Device 2", DeviceState.ACTIVE);
+    device.getParameters().add(new DeviceParameter(2L, 1, "Parameter 1"));
+    when(devicesRepository.findById(2L)).thenReturn(Optional.of(device));
+
+    manageDevicesService.renameDeviceParameter(2L, 1, "New name");
+
+    ArgumentCaptor<Device> deviceCaptor = ArgumentCaptor.forClass(Device.class);
+    verify(devicesRepository).updateParameters(deviceCaptor.capture());
+    Device savedDevice = deviceCaptor.getValue();
+    assertEquals(1, savedDevice.getParameters().size());
+    DeviceParameter savedParameter = savedDevice.getParameters().stream().findFirst().orElse(null);
+    assertNotNull(savedParameter);
+    assertEquals(1, savedParameter.getAnchor());
+    assertEquals("New name", savedParameter.getName());
+  }
+
   private void assertDeviceParameter(DeviceParameter parameter, long expectedDeviceId, int expectedAnchor,
                                      String expectedName) {
     assertNotNull(parameter);

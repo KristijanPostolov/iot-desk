@@ -63,4 +63,35 @@ public class DeviceRegistrationE2eTest {
     assertEquals(5.5, snapshots2.get(0).getValue());
   }
 
+  @Test
+  void editParameterName() {
+    Long deviceId = serverApi.createNewDevice();
+    String channelId = serverApi.getChannelId(deviceId);
+
+    mqttApi.publishDeviceSnapshot(channelId, "1:1.4,3:44.5");
+
+    DeviceDetailsDto device = serverApi.getDeviceDetails(deviceId);
+    assertEquals(2, device.getParameters().size());
+    DeviceParameterDto parameter3 = device.getParameters().stream()
+      .filter(param -> param.getAnchor() == 3)
+      .findFirst()
+      .orElse(null);
+    assertNotNull(parameter3);
+    assertEquals(3, parameter3.getAnchor());
+    assertEquals("Parameter 3", parameter3.getName());
+
+    // Rename parameter
+    serverApi.renameParameter(deviceId, 3, "Temperature");
+
+    // Reload parameter
+    device = serverApi.getDeviceDetails(deviceId);
+    assertEquals(2, device.getParameters().size());
+    parameter3 = device.getParameters().stream()
+      .filter(param -> param.getAnchor() == 3)
+      .findFirst()
+      .orElse(null);
+    assertNotNull(parameter3);
+    assertEquals(3, parameter3.getAnchor());
+    assertEquals("Temperature", parameter3.getName());
+  }
 }

@@ -5,6 +5,7 @@ import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceResponseDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
+import com.kristijan.iotdesk.application.dtos.ParameterRenameDto;
 import com.kristijan.iotdesk.application.services.DevicesApplicationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -45,5 +46,11 @@ public class DeviceController {
   @GetMapping("/{id}/channelId")
   public ChannelIdDto getChannelIdForDevice(@PathVariable Long id) {
     return devicesApplicationService.getChannelIdForDevice(id);
+  }
+
+  @PostMapping("/{deviceId}/parameters/{anchor}/rename")
+  public void renameDeviceParameter(@PathVariable Long deviceId, @PathVariable Integer anchor,
+                                    @RequestBody ParameterRenameDto parameterRenameDto) {
+    devicesApplicationService.renameDeviceParameter(deviceId, anchor, parameterRenameDto);
   }
 }

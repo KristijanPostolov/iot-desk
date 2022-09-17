@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -96,6 +97,28 @@ public class ManageDevicesService {
 
   private DeviceParameter mapToDeviceParameter(long deviceId, int anchor) {
     return new DeviceParameter(deviceId, anchor, DEFAULT_PARAMETER_NAME_PREFIX + anchor);
+  }
+
+  /**
+   * Renames the parameter defined by a device id and anchor.
+   *
+   * @param deviceId the device id for which we need to rename a parameter.
+   * @param anchor anchor of the parameter that needs to be updated.
+   * @param name the new name of the parameter.
+   */
+  public void renameDeviceParameter(long deviceId, int anchor, String name) {
+    Optional<Device> deviceOptional = devicesRepository.findById(deviceId);
+    Device device = deviceOptional
+      .orElseThrow(() -> new DomainException("Renaming parameter for non existing device id: " + deviceId));
+
+    DeviceParameter deviceParameter = device.getParameters().stream()
+      .filter(parameter -> parameter.getAnchor() == anchor)
+      .findFirst()
+      .orElseThrow(() -> new DomainException("Non existing anchor: " + anchor + ", for device id: " + device));
+    deviceParameter.setName(name);
+
+    log.info("Renaming parameter for device id: " + deviceId + ", with anchor: " + anchor + ", to: " + name);
+    devicesRepository.updateParameters(device);
   }
 
 }

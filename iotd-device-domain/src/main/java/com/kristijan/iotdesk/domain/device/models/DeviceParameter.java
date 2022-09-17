@@ -11,6 +11,7 @@ public class DeviceParameter {
   private final Long deviceId;
   private final int anchor;
 
+  @Setter
   private String name;
 
   public DeviceParameter(long deviceId, int anchor, String name) {

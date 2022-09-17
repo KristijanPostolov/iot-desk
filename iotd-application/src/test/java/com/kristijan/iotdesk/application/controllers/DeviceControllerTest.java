@@ -5,6 +5,7 @@ import com.kristijan.iotdesk.application.dtos.CreateDeviceDto;
 import com.kristijan.iotdesk.application.dtos.CreateDeviceResponseDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
+import com.kristijan.iotdesk.application.dtos.ParameterRenameDto;
 import com.kristijan.iotdesk.application.services.DevicesApplicationService;
 import com.kristijan.iotdesk.domain.device.models.DeviceState;
 import org.junit.jupiter.api.Test;
@@ -74,5 +75,14 @@ public class DeviceControllerTest {
 
     assertEquals(dto, result);
     verify(devicesApplicationServiceMock).getChannelIdForDevice(2L);
+  }
+
+  @Test
+  void shouldRenameParameter() {
+    ParameterRenameDto request = new ParameterRenameDto("Parameter New Name");
+
+    deviceController.renameDeviceParameter(1L, 2, request);
+
+    verify(devicesApplicationServiceMock).renameDeviceParameter(1L, 2, request);
   }
 }

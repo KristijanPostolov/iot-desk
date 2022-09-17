@@ -6,6 +6,7 @@ import com.kristijan.iotdesk.application.dtos.CreateDeviceResponseDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDetailsDto;
 import com.kristijan.iotdesk.application.dtos.DeviceDto;
 import com.kristijan.iotdesk.application.dtos.DeviceParameterDto;
+import com.kristijan.iotdesk.application.dtos.ParameterRenameDto;
 import com.kristijan.iotdesk.application.exceptions.NotFoundException;
 import com.kristijan.iotdesk.domain.device.models.Device;
 import com.kristijan.iotdesk.domain.device.models.DeviceChannelId;
@@ -30,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -152,5 +154,12 @@ public class DevicesApplicationServiceTest {
   @Test
   void shouldThrowIfChannelIdIsNotFound() {
     assertThrows(NotFoundException.class, () -> devicesApplicationService.getChannelIdForDevice(2L));
+  }
+
+  @Test
+  void shouldRenameParameter() {
+    devicesApplicationService.renameDeviceParameter(1L, 2, new ParameterRenameDto("New name"));
+
+    verify(manageDevicesServiceMock).renameDeviceParameter(1L, 2, "New name");
   }
 }
