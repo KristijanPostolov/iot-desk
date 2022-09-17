@@ -23,3 +23,13 @@
 .snackbar {
     background-color: orangered;
 }
+
+.device-title {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.reload-button {
+    margin-left: 20px;
+}

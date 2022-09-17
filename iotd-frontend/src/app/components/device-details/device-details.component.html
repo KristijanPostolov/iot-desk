@@ -1,5 +1,10 @@
 <section *ngIf="device" class="device-details-page-container">
-    <h1>{{device.name}}</h1>
+    <div class="device-title">
+        <h1>{{device.name}}</h1>
+        <button class="reload-button" mat-stroked-button color="primary" (click)="reloadPage()">
+            <mat-icon>refresh</mat-icon>
+        </button>
+    </div>
 
     <div>
         <h2>Device details</h2>

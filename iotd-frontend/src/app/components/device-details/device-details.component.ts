@@ -39,17 +39,21 @@ export class DeviceDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
     if (this.displaySuccessfulCreation) {
       this.snackBar.open('Successfully created new device.', undefined,
         { duration: 3000, verticalPosition: "top", panelClass: 'green-snackbar'})
     }
+    this.fetchDeviceDetails();
+  }
+
+  fetchDeviceDetails() {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
     this.deviceService.getDeviceById(id)
       .subscribe(device => {
         this.device = device;
         this.statusTooltipText = DeviceDetailsComponent.statusTooltipTexts.get(this.device.state);
         this.fetchParameterValues();
-        this.fetchDeviceCommands()
+        this.fetchDeviceCommands();
       });
   }
 
@@ -72,6 +76,16 @@ export class DeviceDetailsComponent implements OnInit {
     });
   }
 
+  fetchDeviceCommands() {
+    if (this.device) {
+      const now = new Date(Date.now());
+      const beginRange = new Date(now.getTime());
+      beginRange.setHours(beginRange.getHours() - 3);
+      this.commandService.getCommands(this.device.id, beginRange, now)
+        .subscribe(deviceCommands => this.deviceCommands = deviceCommands);
+    }
+  }
+
   openNewCommandComponent() {
     this.creatingNewCommand = true;
   }
@@ -83,16 +97,10 @@ export class DeviceDetailsComponent implements OnInit {
   postNewCommand(command: string) {
     this.creatingNewCommand = false;
     this.commandService.postCommand(new CreateCommand(this.device!.id, command))
-      .subscribe(() => this.fetchDeviceCommands());
+      .subscribe(() => this.fetchDeviceDetails());
   }
 
-  fetchDeviceCommands() {
-    if (this.device) {
-      const now = new Date(Date.now());
-      const beginRange = new Date(now.getTime());
-      beginRange.setHours(beginRange.getHours() - 3);
-      this.commandService.getCommands(this.device.id, beginRange, now)
-        .subscribe(deviceCommands => this.deviceCommands = deviceCommands);
-    }
+  reloadPage() {
+    this.fetchDeviceDetails()
   }
 }
