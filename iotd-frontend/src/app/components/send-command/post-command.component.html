@@ -8,7 +8,9 @@
         </mat-form-field>
     </div>
     <div mat-dialog-actions align="end">
-        <button mat-stroked-button color="primary" (click)="onPost()" [disabled]="!commandContent.length">Post</button>
+        <button mat-stroked-button color="primary" (click)="onPost()" [disabled]="!commandContent.length">
+            <mat-icon>play_arrow</mat-icon> Post
+        </button>
         <button mat-button mat-dialog-close>Cancel</button>
     </div>
 
