@@ -1,1 +1,1 @@
-docker-compose -f ./postgres-docker-compose.yml up -d
+docker run --name postgres_2 -e POSTGRES_PASSWORD=iotdesk -e POSTGRES_USER=iotdesk -p 5432:5432 -v /postgresql:/var/lib/postgreslq/data -d postgres:14.5

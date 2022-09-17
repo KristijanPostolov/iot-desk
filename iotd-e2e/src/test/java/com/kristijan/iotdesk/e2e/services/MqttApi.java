@@ -20,7 +20,7 @@ public class MqttApi {
   public void publishDeviceSnapshot(String channelId, String payload) {
     mqttClient.publish("devices/" + channelId + "/snapshots",
       new MqttMessage(payload.getBytes(StandardCharsets.UTF_8)));
-    Thread.sleep(1000);
+    Thread.sleep(2000);
   }
 
   @SneakyThrows
@@ -34,6 +34,6 @@ public class MqttApi {
   public void publishCommandAcknowledgement(String channelId, String payload) {
     mqttClient.publish("devices/" + channelId + "/acks",
       new MqttMessage(payload.getBytes(StandardCharsets.UTF_8)));
-    Thread.sleep(1000);
+    Thread.sleep(2000);
   }
 }
