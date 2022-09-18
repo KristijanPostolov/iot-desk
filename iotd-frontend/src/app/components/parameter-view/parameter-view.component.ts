@@ -15,9 +15,46 @@ export class ParameterViewComponent implements OnInit {
   @Input()
   parameterSnapshots: ParameterSnapshot[] | undefined;
 
-  constructor() { }
+  options: Object | undefined;
+
+  constructor() {
+  }
 
   ngOnInit(): void {
+    if (this.parameter && this.parameterSnapshots) {
+      const data = this.parameterSnapshots
+        .map(snapshot => ([Date.parse(snapshot.timestamp.toString()), snapshot.value]));
+
+      this.options = {
+        title: { text: this.parameter.name },
+        xAxis: {
+          type: 'datetime',
+          title: { text: 'Timestamp' }
+        },
+        yAxis: {
+          title: { text: 'Value' }
+        },
+        tooltip: {
+          pointFormat: 'Value: {point.y:.2f}'
+        },
+        plotOptions: {
+          series: {
+            marker: {
+              enabled: true,
+              radius: 3,
+              fillColor: '#06C'
+            }
+          }
+        },
+        legend: { enabled: false },
+        series: [
+          {
+            color: '#6CF',
+            data: data
+          }
+        ]
+      };
+    }
   }
 
 }

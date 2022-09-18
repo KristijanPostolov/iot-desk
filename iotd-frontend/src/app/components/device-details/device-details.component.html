@@ -16,7 +16,7 @@
         <p>
             Device creation timestamp:
             <span class="created-at-text">
-                {{device.createdAt | date: 'dd MMM yyyy, HH:mm:ss'}}
+                {{device.createdAt | date: 'dd MMM yyyy, HH:mm:ss zzzz'}}
             </span>
         </p>
         <p>
@@ -27,7 +27,7 @@
             </button>
         </p>
     </div>
-    <div *ngIf="device.parameters && device.parameters.length > 0">
+    <div *ngIf="device.parameters?.length">
         <hr />
         <h2>Parameters</h2>
         <p>
