@@ -3,8 +3,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {DeviceService} from "../../services/device.service";
 import {DeviceDetails} from "../../models/device-details";
 import {Clipboard} from "@angular/cdk/clipboard";
-import {ParameterService} from "../../services/parameter.service";
-import {ParameterSnapshot} from "../../models/parameter-snapshot";
 import {CommandService} from "../../services/command.service";
 import {DeviceCommand} from "../../models/device-command";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -12,6 +10,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {EditParametersComponent} from "../edit-parameters/edit-parameters.component";
 import {EditParametersData} from "../edit-parameters/edit-parameters-data";
 import {PostCommandComponent} from "../send-command/post-command.component";
+import {TimeRange} from "../../models/time-range";
 
 @Component({
   selector: 'app-device-details',
@@ -29,12 +28,14 @@ export class DeviceDetailsComponent implements OnInit {
   device?: DeviceDetails;
   statusTooltipText?: string = '';
 
-  parametersData = new Map<number, ParameterSnapshot[]>();
+  previewMinutes = 15;
+  previewRange: TimeRange | undefined;
+
   deviceCommands: DeviceCommand[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router, private deviceService: DeviceService,
-              private clipboard: Clipboard, private parameterService: ParameterService,
-              private commandService: CommandService, private snackBar: MatSnackBar, private dialog: MatDialog) {
+              private clipboard: Clipboard, private commandService: CommandService, private snackBar: MatSnackBar,
+              private dialog: MatDialog) {
     this.displaySuccessfulCreation = Boolean(
       this.router.getCurrentNavigation()?.extras.state?['afterCreation'] : false);
   }
@@ -54,7 +55,7 @@ export class DeviceDetailsComponent implements OnInit {
         this.device = device;
         this.device.parameters.sort((a, b) => a.anchor - b.anchor);
         this.statusTooltipText = DeviceDetailsComponent.statusTooltipTexts.get(this.device.state);
-        this.fetchParameterValues();
+        this.onPreviewHoursChanged();
         this.fetchDeviceCommands();
       });
   }
@@ -64,18 +65,6 @@ export class DeviceDetailsComponent implements OnInit {
       this.deviceService.getChannelId(this.device.id)
         .subscribe(deviceChannelId => this.clipboard.copy(deviceChannelId.channelId));
     }
-  }
-
-  fetchParameterValues() {
-    const now = new Date(Date.now());
-    const beginRange = new Date(now.getTime());
-    beginRange.setHours(beginRange.getHours() - 3);
-
-    this.device?.parameters.forEach(parameter => {
-      const id = parameter.id;
-      this.parameterService.getParameterValues(id, beginRange, now)
-        .subscribe(snapshots => this.parametersData.set(id, snapshots));
-    });
   }
 
   fetchDeviceCommands() {
@@ -107,5 +96,15 @@ export class DeviceDetailsComponent implements OnInit {
         this.fetchDeviceDetails();
       })
     }
+  }
+
+  onPreviewHoursChanged() {
+    if (this.previewMinutes < 1) {
+      this.previewMinutes = 1;
+    }
+    const now = new Date(Date.now());
+    const beginRange = new Date(now.getTime());
+    beginRange.setMinutes(beginRange.getMinutes() - this.previewMinutes);
+    this.previewRange = { beginRange: beginRange, endRange: now };
   }
 }

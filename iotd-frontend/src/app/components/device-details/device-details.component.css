@@ -44,3 +44,7 @@
 .parameter-item {
     flex: 1;
 }
+
+.hour-picker {
+    width: 60px;
+}

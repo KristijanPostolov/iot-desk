@@ -26,6 +26,13 @@
                 Copy channel id to clipboard
             </button>
         </p>
+        <p>
+            Preview data for last
+            <mat-form-field class="hour-picker" appearance="outline">
+                <input matInput type="number" min="1" [(ngModel)]="previewMinutes" (change)="onPreviewHoursChanged()">
+            </mat-form-field>
+            minutes
+        </p>
     </div>
     <div *ngIf="device.parameters?.length">
         <hr />
@@ -38,7 +45,7 @@
         </p>
         <div class="parameters-list-container">
             <app-parameter-view class="parameter-item" *ngFor="let parameter of device.parameters"
-                                [parameter]="parameter" [parameterSnapshots]="parametersData.get(parameter.id)">
+                                [parameter]="parameter" [previewRange]="previewRange">
             </app-parameter-view>
         </div>
     </div>
