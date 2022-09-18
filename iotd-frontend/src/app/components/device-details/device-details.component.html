@@ -58,14 +58,6 @@
                 Post command
             </button>
         </div>
-        <div *ngIf="deviceCommands?.length">
-            <ul>
-                <li *ngFor="let command of deviceCommands">
-                    {{command.commandId}}: content: "{{command.content}}", sent at {{command.sentAt}},
-                    ackStatus: {{command.ackStatus}}
-                    <span *ngIf="command.acknowledgedAt">, acknowledgedAt: {{command.acknowledgedAt}}</span>
-                </li>
-            </ul>
-        </div>
+        <app-commands-view [deviceId]="device.id" [previewRange]="previewRange"></app-commands-view>
     </div>
 </section>

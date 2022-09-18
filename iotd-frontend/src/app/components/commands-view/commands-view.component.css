@@ -1,0 +1,14 @@
+.commands-container {
+    display: flex;
+    gap: 10px;
+    width: 80vw;
+    flex-wrap: wrap;
+}
+
+.command-panel {
+    flex: 1
+}
+
+.full-width {
+    width: 100%;
+}

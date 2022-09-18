@@ -23,6 +23,7 @@ import {EditParametersComponent} from './components/edit-parameters/edit-paramet
 import {ParameterViewComponent} from './components/parameter-view/parameter-view.component';
 import {ChartModule} from "angular2-highcharts";
 import {HighchartsStatic} from "angular2-highcharts/dist/HighchartsService";
+import {CommandsViewComponent} from './components/commands-view/commands-view.component';
 
 declare var require: any;
 export function highchartsFactory() {
@@ -37,7 +38,8 @@ export function highchartsFactory() {
     CreateDeviceComponent,
     PostCommandComponent,
     EditParametersComponent,
-    ParameterViewComponent
+    ParameterViewComponent,
+    CommandsViewComponent
   ],
   imports: [
     CommonModule,

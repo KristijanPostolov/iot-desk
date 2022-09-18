@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {DeviceService} from "../../services/device.service";
 import {DeviceDetails} from "../../models/device-details";
 import {Clipboard} from "@angular/cdk/clipboard";
-import {CommandService} from "../../services/command.service";
 import {DeviceCommand} from "../../models/device-command";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
@@ -34,8 +33,7 @@ export class DeviceDetailsComponent implements OnInit {
   deviceCommands: DeviceCommand[] = [];
 
   constructor(private route: ActivatedRoute, private router: Router, private deviceService: DeviceService,
-              private clipboard: Clipboard, private commandService: CommandService, private snackBar: MatSnackBar,
-              private dialog: MatDialog) {
+              private clipboard: Clipboard, private snackBar: MatSnackBar, private dialog: MatDialog) {
     this.displaySuccessfulCreation = Boolean(
       this.router.getCurrentNavigation()?.extras.state?['afterCreation'] : false);
   }
@@ -56,7 +54,6 @@ export class DeviceDetailsComponent implements OnInit {
         this.device.parameters.sort((a, b) => a.anchor - b.anchor);
         this.statusTooltipText = DeviceDetailsComponent.statusTooltipTexts.get(this.device.state);
         this.onPreviewHoursChanged();
-        this.fetchDeviceCommands();
       });
   }
 
@@ -64,16 +61,6 @@ export class DeviceDetailsComponent implements OnInit {
     if (this.device) {
       this.deviceService.getChannelId(this.device.id)
         .subscribe(deviceChannelId => this.clipboard.copy(deviceChannelId.channelId));
-    }
-  }
-
-  fetchDeviceCommands() {
-    if (this.device) {
-      const now = new Date(Date.now());
-      const beginRange = new Date(now.getTime());
-      beginRange.setHours(beginRange.getHours() - 3);
-      this.commandService.getCommands(this.device.id, beginRange, now)
-        .subscribe(deviceCommands => this.deviceCommands = deviceCommands);
     }
   }
 
