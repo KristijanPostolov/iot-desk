@@ -2,6 +2,7 @@ package com.kristijan.iotdesk.messaging.mqtt.config;
 
 import com.kristijan.iotdesk.messaging.mqtt.exceptions.MqttRuntimeException;
 import com.kristijan.iotdesk.messaging.mqtt.services.MqttMessageHandler;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClientPersistence;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
@@ -20,6 +21,11 @@ public class MqttConfiguration {
 
   @Value("${mqtt.broker-url}")
   private String brokerUrl;
+  @Value("${mqtt.username:}")
+  private String username;
+  @Value("${mqtt.password:}")
+  private String password;
+
   @Value("${mqtt.client-id}")
   private String clientId;
   @Value("${mqtt.clean-session:false}")
@@ -32,6 +38,10 @@ public class MqttConfiguration {
     try {
       MqttConnectOptions connectOptions = new MqttConnectOptions();
       connectOptions.setCleanSession(cleanSession);
+      if (StringUtils.isNotBlank(username)) {
+        connectOptions.setUserName(username);
+        connectOptions.setPassword(password.toCharArray());
+      }
       MqttClientPersistence clientPersistence = usePersistence ? new MqttDefaultFilePersistence() : null;
       MqttClient mqttClient = new MqttClient(brokerUrl, clientId, clientPersistence);
       mqttClient.connect(connectOptions);

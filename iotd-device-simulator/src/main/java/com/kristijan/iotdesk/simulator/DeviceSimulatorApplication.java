@@ -2,7 +2,9 @@ package com.kristijan.iotdesk.simulator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 import org.springframework.boot.CommandLineRunner;
@@ -62,7 +64,14 @@ public class DeviceSimulatorApplication implements CommandLineRunner {
   private MqttClient getMqttClient(String channelId) {
     MqttClient client = new MqttClient(simulatorConfiguration.getBrokerUrl(),
       simulatorConfiguration.getClientIdPrefix() + channelId, new MqttDefaultFilePersistence(persistencePath));
-    client.connect();
+    MqttConnectOptions connectOptions = new MqttConnectOptions();
+    if (StringUtils.isNotBlank(simulatorConfiguration.getUsername())) {
+      connectOptions.setCleanSession(true);
+      connectOptions.setUserName(simulatorConfiguration.getUsername());
+      connectOptions.setPassword(simulatorConfiguration.getPassword().toCharArray());
+    }
+
+    client.connect(connectOptions);
 
     String commandTopic = "devices/" + channelId + "/commands";
     String acksTopic = "devices/" + channelId + "/acks";

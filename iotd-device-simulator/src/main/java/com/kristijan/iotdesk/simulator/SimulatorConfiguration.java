@@ -11,5 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "simulator")
 public class SimulatorConfiguration {
   private String brokerUrl;
+  private String username;
+  private String password;
   private String clientIdPrefix;
 }
